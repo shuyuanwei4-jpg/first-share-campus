@@ -1,0 +1,1245 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f2">
+  <meta name="description" content="五天校园故事。先认识钱，再用虚拟资金练一笔 A 股交易。">
+  <title>第一股 · 今日故事</title>
+  <style>@font-face { font-family: Bauhaus93; src: url('https://shuyuanwei4-jpg.github.io/wei-shuyuan-portfolio/assets/Bauhaus93.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: OPPOSans; src: url('https://shuyuanwei4-jpg.github.io/wei-shuyuan-portfolio/assets/OPPOSans-Light.ttf') format('truetype'); font-weight: 300; font-display: swap; }
+:root {
+  --paper: #f7f7f2; --ink: #111; --line: #111; --lime: #b9f227; --blue: #3155f5;
+  --accent: var(--blue); --muted: #555550; --panel: #fff; --orange: #ff6b35;
+  --display: Bauhaus93, Impact, sans-serif; --ease: cubic-bezier(.22, 1, .36, 1);
+  color: var(--ink); background: var(--paper); font-family: OPPOSans, 'Microsoft YaHei', 'PingFang SC', sans-serif; font-weight: 300;
+  -webkit-text-size-adjust: 100%;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; min-height: 100dvh; display: flex; flex-direction: column; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: default; }
+a { color: inherit; text-decoration: none; }
+button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid #2441dd; outline-offset: 4px; }
+[hidden] { display: none !important; }
+#content { width: min(1160px, calc(100% - 64px)); flex: 1; margin: 0 auto; padding: 37px 0 38px; outline: none; }
+.top { border-bottom: 2px solid var(--line); }
+.top-inner { width: min(1280px, calc(100% - 64px)); min-height: 66px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.wordmark { display: inline-flex; align-items: center; gap: 9px; font-weight: 800; font-size: 19px; line-height: 1; white-space: nowrap; }
+.wordmark small { display: block; margin-top: 3px; font: 12px/1 var(--display); }
+.brand-icon { display: flex; gap: 2px; align-items: end; justify-content: center; width: 33px; height: 33px; padding-bottom: 7px; background: var(--lime); border: 2px solid var(--line); border-radius: 0 11px 0 0; }
+.brand-icon i { width: 4px; height: 7px; background: var(--ink); }
+.brand-icon i:nth-child(2) { height: 11px; }
+.brand-icon i:nth-child(3) { height: 16px; }
+nav { display: flex; align-items: center; gap: 22px; font-size: 14px; }
+nav a { padding: 11px 1px; border-bottom: 2px solid transparent; white-space: nowrap; }
+nav a[aria-current], nav a:hover { border-color: currentColor; }
+nav a[aria-current] { font-weight: 700; }
+.story-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 20px; }
+.story-heading > div:first-child { min-width: 0; }
+.story-heading .day-display { font: 400 clamp(70px, 10vw, 139px)/.77 var(--display); letter-spacing: -.065em; margin: 0 0 10px; white-space: nowrap; }
+.day-display .dot { color: var(--blue); }
+.story-heading h1, .story-heading h2 { margin: 0; font-size: clamp(20px, 3vw, 32px); font-weight: 750; line-height: 1.28; letter-spacing: -.04em; }
+.step-control { min-width: 130px; color: var(--muted); font-size: 13px; text-align: right; white-space: nowrap; }
+.step-control strong { font-weight: 750; color: var(--ink); }
+.segments { display: flex; justify-content: end; gap: 4px; margin-top: 8px; }
+.segments i { display: block; width: clamp(18px, 3.2vw, 38px); height: 7px; border: 1px solid var(--line); background: #fff; }
+.segments i.visited { background: var(--lime); }
+.segments i.active { background: var(--blue); }
+.story-stage { display: grid; grid-template-columns: minmax(0, 1.11fr) minmax(0, 1fr); border: 2px solid var(--line); border-radius: 0 46px 0 0; isolation: isolate; overflow: hidden; background: #fff; }
+.story-stage.arrive { animation: page-in .42s var(--ease) both; }
+.story-art { position: relative; overflow: hidden; min-width: 0; min-height: 410px; margin: 0; display: grid; place-items: center; background-color: var(--art-color, var(--lime)); border-right: 2px solid var(--line); isolation: isolate; }
+.story-art::before { content: ''; z-index: -1; position: absolute; inset: 0; background-image: linear-gradient(#1112 1px, transparent 1px), linear-gradient(90deg, #1112 1px, transparent 1px); background-size: 28px 28px; mask-image: linear-gradient(130deg, #000, #0000 95%); }
+.story-art[data-art='wallet'], .story-art[data-art='phone'] { --art-color: #a7d7ea; }
+.story-art[data-art='time'], .story-art[data-art='market'] { --art-color: #8295fe; }
+.story-art[data-art='coffee'] { --art-color: #ff865d; }
+.story-art[data-art='receipt'] { --art-color: #eeb5d1; }
+.art-caption, .art-index { position: absolute; z-index: 2; padding: 4px 8px; font-size: 12px; font-weight: 750; white-space: nowrap; background: var(--paper); border: 1.5px solid var(--line); }
+.art-caption { left: 17px; top: 17px; }
+.art-index { right: 19px; bottom: 17px; font-family: var(--display); letter-spacing: .025em; }
+.art-shape { position: absolute; font: 35px/1 var(--display); }
+.art-shape.one { left: 15%; bottom: 20%; transform: rotate(-14deg); }
+.art-shape.two { top: 17%; right: 13%; transform: rotate(19deg); }
+.art-objects { position: relative; width: min(75%, 350px); height: 226px; display: grid; place-items: center; }
+.art-objects > * { grid-area: 1 / 1; }
+.visual-card { position: relative; width: 75%; min-height: 123px; display: grid; align-content: center; gap: 5px; padding: 13px 13px 12px; border: 2px solid var(--line); border-radius: 0 23px 0 0; background: var(--paper); box-shadow: 7px 7px 0 var(--ink); transform: translate(-9%, -11%) rotate(-10deg); }
+.visual-card::before { content: ''; position: absolute; inset: 5px; border: 1px solid #1114; border-radius: inherit; pointer-events: none; }
+.visual-card span { position: relative; font-size: clamp(12px, 1.4vw, 16px); font-weight: 750; }
+.visual-card b { position: relative; display: block; font: 400 clamp(42px, 6vw, 77px)/.91 var(--display); letter-spacing: -.075em; }
+.visual-card b.mixed { font: 800 clamp(28px, 4vw, 53px)/1.1 OPPOSans, 'Microsoft YaHei', sans-serif; letter-spacing: -.055em; }
+.visual-prop { position: relative; justify-self: end; align-self: end; width: 104px; height: 104px; right: 2%; bottom: 7%; display: grid; place-items: center; border: 2px solid var(--line); background: var(--prop, #ff6b35); border-radius: 50%; box-shadow: 5px 5px 0 var(--ink); transform: rotate(12deg); font: 40px/1 var(--display); }
+.visual-prop::before { content: ''; position: absolute; inset: 7px; border: 1px dashed var(--ink); border-radius: inherit; }
+.art-status { z-index: 3; position: absolute; left: 50%; bottom: 3%; min-width: 96px; max-width: calc(100% - 10px); padding: 7px 12px; border: 2px solid var(--line); background: var(--blue); color: white; box-shadow: 3px 3px 0 var(--ink); font-size: clamp(14px, 2.4vw, 21px); font-weight: 750; text-align: center; transform: translateX(-50%) rotate(-4deg); white-space: nowrap; }
+.art-status.toss { animation: stamp .6s cubic-bezier(.18, 1.6, .4, 1) both; }
+.story-art.changed .visual-prop { animation: prop-toss .65s var(--ease) both; }
+.story-art.changed::after { content: ''; position: absolute; z-index: 2; inset: -20%; pointer-events: none; background: linear-gradient(105deg, transparent 39%, #fff5 48%, transparent 58%); animation: light-sweep .72s var(--ease) both; }
+.prop-meal { width: 64px; height: 41px; position: relative; display: grid; place-items: center; border: 2px solid var(--ink); border-radius: 50%; background: #fff; transform: rotate(-7deg); }
+.prop-meal::before { content: ''; width: 49px; height: 29px; border: 1.5px solid var(--ink); border-radius: 50%; background: radial-gradient(circle at 33% 50%, #f7eddc 0 23%, transparent 25%), radial-gradient(circle at 65% 36%, #ffcf41 0 26%, transparent 28%), radial-gradient(circle at 63% 67%, #b9f227 0 23%, transparent 25%); }
+.prop-coffee { position: relative; width: 44px; height: 50px; border: 2px solid var(--ink); border-radius: 4px 4px 15px 15px; background: #f7f7f2; }
+.prop-coffee::before { content: ''; position: absolute; top: 8px; left: 100%; width: 15px; height: 20px; border: 2px solid var(--ink); border-left: 0; border-radius: 0 9px 9px 0; }
+.prop-coffee::after { content: ''; position: absolute; top: 20px; left: 12px; width: 14px; height: 14px; background: var(--lime); border: 1.5px solid var(--ink); border-radius: 50%; }
+.prop-clock { width: 56px; aspect-ratio: 1; position: relative; background: var(--paper); border: 2px solid var(--ink); border-radius: 50%; }
+.prop-clock::before { content: ''; position: absolute; top: 10px; left: 25px; width: 15px; height: 17px; border-bottom: 3px solid var(--ink); border-left: 3px solid var(--ink); border-radius: 1px; }
+.prop-phone { position: relative; width: 36px; height: 61px; border: 2px solid var(--ink); border-radius: 7px; background: var(--paper); }
+.prop-phone::before { content: ''; position: absolute; inset: 11px 5px; background: repeating-linear-gradient(to bottom, var(--blue) 0 3px, transparent 3px 8px); }
+.prop-phone::after { content: ''; position: absolute; left: 11px; bottom: 3px; width: 10px; height: 2px; background: var(--ink); }
+.prop-book { position: relative; width: 49px; height: 38px; border: 2px solid var(--ink); box-shadow: inset 5px 0 #111; background: var(--lime); transform: rotate(-17deg); }
+.prop-book::before { content: ''; position: absolute; left: 14px; right: 6px; top: 8px; height: 12px; border-block: 2px solid var(--ink); }
+.prop-receipt { position: relative; width: 37px; height: 55px; border: 2px solid var(--ink); background: var(--paper); }
+.prop-receipt::before { content: ''; position: absolute; inset: 7px 6px; background: repeating-linear-gradient(to bottom, #111 0 2px, transparent 2px 7px); }
+.story-copy { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: clamp(20px, 3.25vw, 47px); }
+.scene-title { margin: 0 0 9px; font-size: clamp(23px, 3.1vw, 39px); line-height: 1.17; letter-spacing: -.045em; font-weight: 800; }
+.scene-text { margin: 0 0 16px; max-width: 28em; color: #272723; font-size: clamp(15px, 1.7vw, 18px); line-height: 1.6; text-shadow: .18px 0 currentColor; }
+.choices { display: grid; gap: 8px; }
+.choice, .btn { border: 2px solid var(--line); border-radius: 0 14px 0 0; background: var(--paper); color: var(--ink); font-weight: 750; text-align: left; }
+.choice { width: 100%; min-height: 49px; display: grid; grid-template-columns: 27px minmax(0, 1fr) 18px; align-items: center; gap: 8px; padding: 8px 11px; font-size: 15px; line-height: 1.35; }
+.choice-key { display: grid; width: 23px; height: 23px; place-items: center; border: 1.5px solid var(--line); border-radius: 50%; font: 15px/1 var(--display); }
+.choice span:last-child, .btn span:last-child { transition: transform .31s var(--ease); }
+.choice[aria-pressed='true'] { background: var(--lime); box-shadow: 3px 3px 0 var(--ink); }
+.choice[aria-pressed='true'] span:last-child { transform: rotate(25deg); }
+.feedback { margin: 13px 0 0; padding: 8px 0 8px 11px; border-left: 4px solid var(--blue); font-size: 14px; line-height: 1.55; }
+.scene-next { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; gap: 10px; padding: 8px 13px; font-size: 14px; }
+.btn.primary { background: var(--lime); }
+.btn.secondary { background: var(--paper); }
+.btn:disabled { opacity: .46; }
+.story-back { min-height: 43px; padding: 5px 0; border: 0; background: transparent; font-size: 13px; font-weight: 700; }
+.under-stage { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-top: 7px; }
+.under-stage span { margin-left: auto; font-size: 12px; color: var(--muted); }
+.story-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.story-tile { display: grid; grid-template-columns: minmax(0, 1fr) 24px; gap: 8px; padding: 14px; background: #fff; border: 2px solid var(--line); border-radius: 0 27px 0 0; }
+.story-tile:nth-child(3n+2) { background: var(--lime); }
+.story-tile:nth-child(3n+3) { background: var(--blue); color: #fff; }
+.story-tile strong { font: 400 clamp(32px, 5vw, 58px)/.84 var(--display); letter-spacing: -.06em; }
+.story-tile h2 { margin: 14px 0 3px; font-size: 19px; }
+.story-tile p { margin: 0; font-size: 13px; }
+.story-tile > span { align-self: end; font-size: 22px; }
+.site-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; border-top: 2px solid var(--line); width: min(1160px, calc(100% - 64px)); padding: 14px 0 20px; margin: 0 auto; font-size: 12px; }
+.site-footer a { text-decoration: underline; text-underline-offset: 4px; }
+.site-footer > span { margin-left: auto; color: var(--muted); }
+.resource-card { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.resource-card a { text-decoration: underline; text-underline-offset: 5px; }
+.resources { max-width: 680px; }
+.resources h1 { margin: 0; font-size: 33px; }
+#content .sim-shell { --sim-lavender: #ebf6d1; }
+#content .sim-card, #content .sim-tip, #content .sim-account { border: 2px solid var(--ink); border-radius: 0 21px 0 0; }
+#content .sim-tip { background: var(--lime); color: var(--ink); }
+#content .sim-shell .sim-btn { border: 2px solid var(--line); border-radius: 0 13px 0 0; }
+#content .sim-shell .sim-btn.primary { color: var(--ink); background: var(--lime); }
+#content .sim-shell .sim-btn.primary:hover { background: #d2fb6e; }
+#content .sim-print strong, #content .sim-account strong { font-family: var(--display); font-weight: 400; }
+@media (hover: hover) {
+  .choice, .btn, .story-tile { transition: transform .34s var(--ease), box-shadow .34s var(--ease), background .2s; }
+  .choice:hover, .btn:hover:enabled, a.btn:hover, .story-tile:hover { transform: translate(-2px, -3px); box-shadow: 4px 4px var(--ink); }
+  .choice:hover span:last-child, .story-tile:hover > span { transform: translate(2px, -2px); }
+  .choice:active, .btn:active { transform: none; box-shadow: none; }
+}
+@keyframes page-in { from { opacity: .65; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+@keyframes stamp { from { opacity: 0; transform: translate(-50%, 12px) scale(.65) rotate(15deg); } to { opacity: 1; transform: translate(-50%, 0) scale(1) rotate(-4deg); } }
+@keyframes prop-toss { 0%,100% { transform: rotate(12deg); } 52% { transform: translateY(-20px) rotate(30deg); } }
+@keyframes light-sweep { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+@media (max-width: 720px) {
+  #content, .top-inner, .site-footer { width: calc(100% - 32px); }
+  #content { padding: 24px 0 25px; }
+  .top-inner { min-height: 58px; }
+  .wordmark { font-size: 16px; }
+  .wordmark small { font-size: 10px; }
+  nav { gap: 13px; font-size: 12px; }
+  .story-heading { margin-bottom: 12px; gap: 8px; }
+  .story-heading .day-display { font-size: clamp(54px, 12vw, 84px); margin-bottom: 7px; }
+  .story-heading h1, .story-heading h2 { font-size: clamp(16px, 4.6vw, 24px); }
+  .step-control { min-width: auto; font-size: 11px; }
+  .segments { margin-top: 4px; }
+  .segments i { height: 5px; width: 16px; }
+  .story-stage { grid-template-columns: minmax(0, 1fr); border-radius: 0 31px 0 0; }
+  .story-art { min-height: 195px; border-right: 0; border-bottom: 2px solid var(--line); }
+  .art-caption { left: 9px; top: 8px; font-size: 10px; }
+  .art-index { right: 8px; bottom: 7px; font-size: 10px; }
+  .art-objects { height: 170px; width: min(67%, 252px); }
+  .visual-card { min-height: 88px; gap: 3px; box-shadow: 5px 5px var(--ink); }
+  .visual-card b { font-size: clamp(37px, 10vw, 61px); }
+  .visual-card b.mixed { font-size: clamp(19px, 6.2vw, 42px); }
+  .visual-prop { width: 78px; height: 78px; bottom: 8%; font-size: 31px; }
+  .prop-meal, .prop-coffee, .prop-book, .prop-clock, .prop-phone, .prop-receipt { scale: .75; }
+  .art-shape { font-size: 23px; }
+  .story-copy { padding: 14px 13px; }
+  .scene-title { font-size: clamp(20px, 5.6vw, 31px); margin-bottom: 5px; }
+  .scene-text { margin-bottom: 10px; font-size: 14px; }
+  .choice { min-height: 44px; font-size: 14px; padding: 6px 8px; }
+  .feedback { margin-top: 10px; font-size: 13px; }
+  .scene-next { margin-top: 8px; }
+  .scene-next .btn { width: 100%; justify-content: space-between; }
+  .story-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+}
+@media (max-width: 350px) {
+  #content, .top-inner, .site-footer { width: calc(100% - 22px); }
+  .story-list { grid-template-columns: minmax(0, 1fr); }
+  .site-footer > span { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+.practice {
+  --practice-ink: var(--ink, #111);
+  --practice-paper: var(--paper, #f7f7f2);
+  --practice-blue: var(--blue, #3155f5);
+  --practice-lime: var(--lime, #b9f227);
+  color: var(--practice-ink);
+  width: min(100%, 39rem);
+  margin-inline: auto;
+}
+
+.practice * { box-sizing: border-box; }
+.practice-main { min-width: 0; }
+.practice-main h2 {
+  color: inherit;
+  margin: .45rem 0 .6rem;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  line-height: 1.12;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+.practice-main h2:focus { outline: 0; }
+.practice-kicker {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: .83rem;
+  font-weight: 700;
+}
+.practice-kicker span { color: var(--muted, #555); font-variant-numeric: tabular-nums; }
+.practice-description { margin: 0; font-size: 1rem; line-height: 1.65; }
+.practice-figure {
+  margin: 1.3rem 0 1rem;
+  border: 1px solid var(--practice-ink);
+  border-top-right-radius: 1.4rem;
+  background: var(--practice-paper);
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.practice-price-comparison { display: grid; grid-template-columns: 1fr 1fr; }
+.practice-price-comparison > div { display: grid; align-content: center; gap: .35rem; min-width: 0; min-height: 6.4rem; padding: .9rem 1.1rem; }
+.practice-price-comparison > div + div { background: var(--practice-lime); border-left: 1px solid var(--practice-ink); }
+.practice-price-comparison span { font-size: .82rem; font-weight: 700; }
+.practice-price-comparison strong { font-size: clamp(1.5rem, 5.5vw, 2.35rem); line-height: 1.1; }
+.practice-price-comparison small { font-family: inherit; font-size: .73rem; white-space: nowrap; }
+.practice-ledger { margin: 0; }
+.practice-ledger > div { display: flex; justify-content: space-between; align-items: center; gap: .7rem; padding: .63rem 1rem; }
+.practice-ledger > div + div { border-top: 1px solid var(--practice-ink); }
+.practice-ledger > div:last-child { background: var(--practice-lime); }
+.practice-ledger dt { font-size: .88rem; line-height: 1.35; }
+.practice-ledger dd { margin: 0; white-space: nowrap; font-size: 1.02rem; font-weight: 750; }
+.practice-ledger dd.practice-order-mark { font-size: .9rem; }
+.practice-profit { display: grid; grid-template-columns: 1fr 1fr; }
+.practice-profit span { display: flex; align-items: center; min-height: 3.6rem; padding: .6rem .8rem; font-size: .88rem; font-weight: 750; background: var(--practice-lime); }
+.practice-profit span + span { border-left: 1px solid var(--practice-ink); background: transparent; }
+.practice-shares p { margin: 0; padding: .65rem .8rem; border-top: 1px solid var(--practice-ink); font-size: .85rem; }
+.practice-message { padding: .95rem 1rem; }
+.practice-message span { font-size: .82rem; font-weight: 700; }
+.practice-message p { margin: .38rem 0 0; line-height: 1.5; font-size: 1.02rem; }
+.practice-actions { display: flex; flex-wrap: wrap; gap: .55rem; }
+.practice-choice {
+  flex: 1 1 10rem;
+  min-height: 2.85rem;
+  padding: .5rem .75rem;
+  border: 1px solid var(--practice-ink);
+  border-radius: 0;
+  color: var(--practice-ink);
+  background: var(--practice-paper);
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+  cursor: pointer;
+}
+.practice-choice:hover { background: var(--practice-lime); }
+.practice-choice:focus-visible { outline: 2px solid var(--practice-blue); outline-offset: 3px; }
+.practice-primary { color: #fff; background: var(--practice-blue); border-color: var(--practice-blue); }
+.practice-primary:hover { color: var(--practice-ink); border-color: var(--practice-ink); }
+.practice-primary span { margin-left: .25rem; }
+.practice-feedback { margin: 0 0 .8rem; border-left: 3px solid var(--practice-blue); padding: .12rem 0 .12rem .6rem; font-size: .91rem; font-weight: 650; line-height: 1.55; }
+.practice-hint { border-left-color: var(--practice-ink); }
+.practice-live { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
+
+@media (max-width: 360px) {
+  .practice-price-comparison > div { padding-inline: .7rem; }
+  .practice-ledger > div { padding-inline: .7rem; }
+  .practice-choice { flex-basis: 100%; }
+}
+</style>
+</head>
+<body>
+  <header class="top"><div class="top-inner">
+    <a class="wordmark" href="#today" aria-label="第一股，今日故事"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i></span><span>第一股<small>First Share</small></span></a>
+    <nav aria-label="主导航"><a href="#today" data-nav="today">今日故事</a><a href="#stories" data-nav="stories">全部故事</a></nav>
+  </div></header>
+  <main id="content" tabindex="-1"></main>
+  <footer class="site-footer"><a href="#practice">模拟盘</a><a href="#resources">延伸资料</a><span>校园投资故事 · 虚拟练习</span></footer>
+  <noscript>请启用 JavaScript，继续校园故事。</noscript>
+  <script>const STORIES = [
+  {
+    title: '一百块能换来什么',
+    label: '认识钱',
+    practice: 'money',
+    scenes: [
+      {
+        title: '周一中午，食堂排队',
+        text: '你摸出口袋里的 ¥100。套餐 ¥15，咖啡 ¥10。今天怎么买？',
+        art: 'canteen',
+        choices: [
+          { label: '买份套餐', feedback: '花掉 ¥15，吃饱了，还剩 ¥85。', value: '¥85' },
+          { label: '套餐加咖啡', feedback: '花掉 ¥25，吃饱了，也喝到咖啡。还剩 ¥75。', value: '¥75' },
+        ],
+        next: '看看菜单',
+      },
+      {
+        title: '同一张钱，新学期少买一餐',
+        text: '假设套餐从 ¥15 涨到 ¥18。还是那张 ¥100，现在能买几份？',
+        art: 'wallet',
+        choices: [
+          { label: '够买 5 份', feedback: '5 份花 ¥90，还剩 ¥10。原来能买 6 份。同样的钱买到的东西少了，这叫购买力下降。', value: '5 份' },
+          { label: '仍然能买 6 份', feedback: '6 份要 ¥108。手里的金额还是 ¥100，但只够买 5 份。', value: '差 ¥8' },
+        ],
+        next: '遇到一个邀约',
+      },
+      {
+        title: '今天拿走，还是下学期拿',
+        text: '同学想合资印明信片。他请你现在出 ¥100，卖顺了下学期能分到 ¥120，卖不动可能只拿回 ¥60。你怎么决定？',
+        art: 'time',
+        choices: [
+          { label: '先留着，下周还要吃饭', feedback: '留在手里，现在就有 ¥100 可用。用钱的时间会影响你能承担多大的风险。', value: '现在 ¥100' },
+          { label: '先问一张卖多少、卖不掉怎么办', feedback: '投资是拿出现在能用的钱，换未来可能的收益。先问清销量、成本和回款时间，再判断 ¥120 有多大把握。', value: '未来 ¥60～120' },
+          { label: '算好肯定赚 ¥20', feedback: '卖顺才多拿 ¥20。卖不动就可能少 ¥40，还要等到下学期才知道结果。', value: '可能亏 ¥40' },
+        ],
+        next: '这和股票有什么关系？',
+      },
+      {
+        title: '从明信片摊，走到股市',
+        text: '学姐想开咖啡店，邀请你出钱当小股东。遇到这样的机会，你会先问哪一句？',
+        art: 'coffee',
+        choices: [
+          { label: '它靠什么挣钱，我可能亏多少？', feedback: '买股票也是出钱成为一家公司的小股东。学会看生意、价格和风险，才能自己决定值不值得买。', value: '生意 / 价格 / 风险' },
+          { label: '这股明天会涨吗？', feedback: '明天的价格很难猜。先看公司靠什么赚钱、你付多少、最坏会亏多少，也可以决定先不买。', value: '先看生意' },
+        ],
+      },
+    ],
+  },
+  {
+    title: '留够下学期的钱',
+    label: '算预算',
+    practice: 'budget',
+    scenes: [
+      {
+        title: '周二晚上，摊开校园账本',
+        text: '存款 ¥8,000。房租、吃饭和考试报名要 ¥4,800，你想另留 ¥2,500 应急。扣完还剩多少？',
+        art: 'wallet',
+        choices: [
+          { label: '¥700', feedback: '¥8,000 − ¥4,800 − ¥2,500 = ¥700。这是暂时没安排的余额。', value: '剩 ¥700' },
+          { label: '¥3,200', feedback: '¥3,200 是扣完必需开支的余额。再放好应急金，才剩 ¥700。', value: '再留 ¥2,500' },
+        ],
+        next: '看看一笔订单',
+      },
+      {
+        title: '剩 ¥700，够买一手吗',
+        text: '模拟盘里有只 ¥10 左右的股票。先按 ¥10 算，沪深主板普通 A 股一手是 100 股，示例佣金 ¥5。',
+        art: 'receipt',
+        choices: [
+          { label: '试着买 100 股', feedback: '¥10 × 100 + ¥5 = ¥1,005，还差 ¥305。可以继续保留那 ¥700，用虚拟钱试单。', value: '共 ¥1,005' },
+          { label: '先拿 ¥305 应急金凑一凑', feedback: '凑够后，应急金就少了 ¥305。维修电脑或看病时，可能正好遇上股价下跌。', value: '应急金剩 ¥2,195' },
+          { label: '真钱投入 ¥0，用虚拟钱练', feedback: '¥700 继续留在手里。照样能练挂单、撤单和成交。', value: '真钱 ¥0' },
+        ],
+        next: '遇到意外支出',
+      },
+      {
+        title: '周末，电脑突然要修',
+        text: '你的电脑维修报价 ¥600，当天就要付款。两种资金安排会发生什么？',
+        art: 'receipt',
+        choices: [
+          { label: '用提前留下的应急金', feedback: '修完电脑，应急金还剩 ¥1,900。你不用等交易完成就能付款。', value: '还留 ¥1,900' },
+          { label: '假设钱都买了股票，等卖出再付', feedback: '你需要等市场开市、委托成交，再等资金可取。价跌时卖出，还可能拿回更少。', value: '回款时间不定' },
+        ],
+      },
+    ],
+  },
+  {
+    title: '下课咖啡怎么分钱',
+    label: '理解股票',
+    practice: 'ownership',
+    scenes: [
+      {
+        title: '校门口，一张咖啡券和一股股票',
+        text: '故事里的下课咖啡有 10 万股。店长把一张咖啡券和一张股东凭证摆到你面前，你想看看哪张？',
+        art: 'coffee',
+        choices: [
+          { label: '看咖啡券', feedback: '这张券能换一杯咖啡。喝完，这笔消费就结束了。', value: '1 杯咖啡' },
+          { label: '看股东凭证', feedback: '一股对应公司的十万分之一股权。公司经营的好坏会影响这份权益的价值。', value: '1 股' },
+        ],
+        next: '看看店里的账',
+      },
+      {
+        title: '今年做完生意，剩了 ¥12 万',
+        text: '下课咖啡卖饮品收进 ¥100 万。付过租金、员工工资、原料、税和设备后，还剩 ¥12 万。店长问这笔钱怎么用。',
+        art: 'coffee',
+        choices: [
+          { label: '拿一半发给股东', feedback: '¥60,000 分给 10 万股，每股收到 ¥0.60。店里还留着另一半现金。', value: '每股 ¥0.60' },
+          { label: '留下来尝试开新店', feedback: '本次分红 ¥0。新店赚钱时，股东可能受益。新店亏钱时，公司也承担成本。', value: '本次 ¥0' },
+          { label: '先偿还快到期的债务', feedback: '现金也会用于还债。还完才能继续决定留多少用于经营、分多少给股东。', value: '先还债' },
+        ],
+        next: '看看这份收益',
+      },
+      {
+        title: '收到分红，最后还是赚了吗',
+        text: '单独算一笔。你以 ¥10 买入一股，收到 ¥0.60 分红，最后以 ¥9 卖出。先忽略税费。',
+        art: 'receipt',
+        choices: [
+          { label: '亏 ¥0.40', feedback: '卖出拿回 ¥9，分红拿到 ¥0.60，共 ¥9.60。和买入的 ¥10 一比，少了 ¥0.40。', value: '−¥0.40' },
+          { label: '赚 ¥0.60', feedback: '分红确实拿到 ¥0.60，卖出却比买入少了 ¥1。两笔合起来亏 ¥0.40。', value: '−¥0.40' },
+        ],
+        next: '比较两个出价',
+      },
+      {
+        title: '同一间店，有人出 ¥10，有人出 ¥20',
+        text: '两位同学看的是同一家店、同样一股。假设未来一年都能分到 ¥0.60，仅看这笔分红，各占买入价多少？',
+        art: 'market',
+        choices: [
+          { label: '¥10 的是 6%，¥20 的是 3%', feedback: '同样拿到 ¥0.60，贵一倍买入，股息占买价的比例减半。未来的经营、分红和卖出价还会变。', value: '6% / 3%' },
+          { label: '都分 ¥0.60，所以比例一样', feedback: '分到的钱一样，付出的本金不同。¥0.60 ÷ ¥10 是 6%，÷ ¥20 是 3%。', value: '6% / 3%' },
+        ],
+      },
+    ],
+  },
+  {
+    title: '校园二手摊的出价',
+    label: '看懂报价',
+    practice: 'quote',
+    scenes: [
+      {
+        title: '旧教材市场，四张价签',
+        text: '同版教材，两位买家最多肯出 ¥19、¥20，两位卖家最低肯收 ¥22、¥24。现在最接近的一对是谁？',
+        art: 'market',
+        choices: [
+          { label: '买家 ¥20，卖家 ¥22', feedback: '一个出价最高，一个要价最低，离成交还差 ¥2。股市里把这两个报价叫买一、卖一。', value: '¥20 / ¥22' },
+          { label: '买家 ¥19，卖家 ¥24', feedback: '这两个报价差 ¥5。优先看最高买价 ¥20 和最低卖价 ¥22。', value: '差 ¥5' },
+        ],
+        next: '你来出价',
+      },
+      {
+        title: '你最多愿付多少',
+        text: '卖家 ¥22 的书还在。你写下愿意付的最高价，看看会发生什么。',
+        art: 'market',
+        choices: [
+          { label: '最多 ¥21', feedback: '卖家最低要 ¥22，你最多付 ¥21。可以留着报价等，或者把报价撤掉。', value: '继续等' },
+          { label: '最多 ¥23', feedback: '有人愿意按 ¥22 卖给你，你最多付 ¥23。按现有最低要价买，只需付 ¥22。', value: '成交 ¥22' },
+        ],
+        next: '换成股票报价',
+      },
+      {
+        title: '回到下课咖啡的报价单',
+        text: '最近一笔是 ¥10.01，当下买一 ¥10.00、卖一 ¥10.02。你想练一次限价买入，买 100 股。',
+        art: 'market',
+        choices: [
+          { label: '报 ¥10.00，看看等待状态', feedback: '¥10.00 达不到卖一，委托先等候。出现符合你限价的对手单时，才可能成交。', value: '待成交' },
+          { label: '报 ¥10.05，看看成交价', feedback: '卖一仍为 ¥10.02 且数量足够时，简化连续竞价会按 ¥10.02 成交。你设的 ¥10.05 是最高愿付价。', value: '可能成交 ¥10.02' },
+        ],
+        next: '看看什么时候能卖',
+      },
+      {
+        title: '买入当天，想再卖一次',
+        text: '假设你用模拟账户买到 100 股。页面显示持有 100 股，可卖 0 股。什么时候能卖？',
+        art: 'receipt',
+        choices: [
+          { label: '等到下一交易日', feedback: '普通 A 股实行 T+1。比如周五买入，遇上周末就要等下一次开市。', value: '下一交易日' },
+          { label: '今天再点一次卖出', feedback: '今天买的 100 股目前可卖数量是 0。到了下一交易日才会解锁。', value: '可卖 0 股' },
+        ],
+      },
+    ],
+  },
+  {
+    title: '打开券商 App 的一天',
+    label: '认识券商',
+    practice: 'broker',
+    scenes: [
+      {
+        title: '群里冒出一个开户链接',
+        text: '群友说点链接下载 App，再扫他的私人收款码入金。你想了解开户，下一步怎么做？',
+        art: 'phone',
+        choices: [
+          { label: '去证监会查名录，再从券商官网找 App', feedback: '先核对券商全称，再从官网入口到官方应用商店。下载前核对 App 名称和开发者。', value: '核对开发者' },
+          { label: '先扫收款码试转 ¥1', feedback: '私人转账到了个人账户。券商入金通常走本人绑定银行卡的「银证转账」，先去官方渠道核实。', value: '先核实' },
+        ],
+        next: '认识开户入口',
+      },
+      {
+        title: '官方 App 上有个「开户」',
+        text: '流程通常包含本人身份证、支持的本人银行卡、身份核验、风险测评和协议确认。你现在打算怎么做？',
+        art: 'phone',
+        choices: [
+          { label: '先看佣金、最低收费和卖出税费', feedback: '先弄清每笔要付多少钱。最低佣金对小额交易占比更大，具体事项看券商公示。', value: '查看费用说明' },
+          { label: '先不开户，继续练习', feedback: '这一周可以在模拟盘练完。以后想开户，再按券商官方步骤准备。', value: '继续模拟' },
+        ],
+        next: '模拟走一遍下单',
+      },
+      {
+        title: '在「行情」搜索证券代码',
+        text: '想象你的账户已开好，决定用本人银行卡做银证转账。搜到两家公司名字很像，下一步该点哪里？',
+        art: 'phone',
+        choices: [
+          { label: '核对证券代码和市场，再进「买入」', feedback: '进「买入」后，核对限价、股数、费用和可用资金。确认之前，随时可以退回。', value: '代码、价格、股数' },
+          { label: '点名字靠前的一只，直接买', feedback: '公司名字会相似。先用证券代码和所属市场确认是同一只股票。', value: '先核对' },
+        ],
+        next: '查一下委托',
+      },
+      {
+        title: '提交后，怎么知道买到没有',
+        text: '你刚提交模拟委托。想查实际成交价格、股数，还有多少没成交。打开哪个入口？',
+        art: 'receipt',
+        choices: [
+          { label: '先看「当日委托」，再看「当日成交」', feedback: '「委托」看排队和剩余数量，「成交」看实际价和股数。再去「持仓」核对可卖数量，订单未成交部分可按规则撤单。', value: '委托 → 成交' },
+          { label: '回到「行情」看最新价', feedback: '最新价显示市场的最近成交。你的成交价和数量要到「当日成交」里查询。', value: '去看自己的订单' },
+        ],
+      },
+    ],
+  },
+];
+</script>
+  <script>const SIM_QUOTES = [
+  { bid: 1000, ask: 1002, last: 1001, event: '开盘后，买卖双方的报价相差 2 分钱。' },
+  { bid: 997, ask: 999, last: 998, event: '有卖家愿意降价，卖一来到 ¥9.99。' },
+  { bid: 1004, ask: 1006, last: 1005, event: '有买家提高了报价，买一来到 ¥10.04。' },
+  { bid: 986, ask: 989, last: 988, event: '有买家撤掉报价，新报出来的买一更低。' },
+  { bid: 967, ask: 970, last: 969, event: '部分卖家继续降价，最新成交价回落。' },
+  { bid: 1020, ask: 1022, last: 1021, event: '新的买单报了更高的价，成交价回升。' },
+  { bid: 1014, ask: 1016, last: 1015, event: '买卖报价再次变化，短期成交价有涨也有跌。' }
+];
+
+function simFee(side, amount) {
+  const commission = Math.max(500, Math.round(amount * 0.0003));
+  const tax = side === 'sell' ? Math.round(amount * 0.0005) : 0;
+  return commission + tax;
+}
+
+class SimTradingAccount {
+  constructor(budget) {
+    this.startingCash = Math.round(budget * 100);
+    this.cash = this.startingCash;
+    this.shares = 0;
+    this.boughtToday = 0;
+    this.day = 1;
+    this.tick = 0;
+    this.last = this.quote.last;
+    this.orders = [];
+  }
+
+  get quote() {
+    return SIM_QUOTES[this.tick % SIM_QUOTES.length];
+  }
+
+  get pending() {
+    return this.orders.filter(order => order.status === 'pending');
+  }
+
+  get available() {
+    const held = this.pending
+      .filter(order => order.side === 'buy')
+      .reduce((sum, order) => sum + order.amount + order.fee, 0);
+    return this.cash - held;
+  }
+
+  get sellable() {
+    const held = this.pending
+      .filter(order => order.side === 'sell')
+      .reduce((sum, order) => sum + order.quantity, 0);
+    return this.shares - this.boughtToday - held;
+  }
+
+  submit(side, limit, quantity) {
+    if (!Number.isInteger(limit) || limit < 1 || limit > 99999) {
+      return { reason: '输入 0.01 至 999.99 元的价格，最多保留两位小数。' };
+    }
+    if (!Number.isInteger(quantity) || quantity < 100 || quantity % 100 !== 0 || quantity > 10000) {
+      return { reason: '数量从 100 股起，每次增加 100 股，本练习单笔最多 10,000 股。' };
+    }
+    const amount = limit * quantity;
+    const fee = simFee(side, amount);
+    if (side === 'buy' && amount + fee > this.available) {
+      return { reason: '可用资金不足。买入委托需要覆盖限价金额和预计费用。' };
+    }
+    if (side === 'sell' && quantity > this.sellable) {
+      const reason = this.boughtToday > 0
+        ? '可卖股数不足。今天买入的股票到下一交易日才可卖。'
+        : '可卖股数不足。先查看持仓，或撤销占用股数的卖单。';
+      return { reason };
+    }
+    const order = {
+      id: this.orders.length + 1, day: this.day, side, limit, quantity, amount, fee, status: 'pending'
+    };
+    this.orders.push(order);
+    this.match(order);
+    return { order };
+  }
+
+  match(order) {
+    const isBuy = order.side === 'buy';
+    const price = isBuy ? this.quote.ask : this.quote.bid;
+    const crosses = isBuy ? order.limit >= price : order.limit <= price;
+    if (!crosses) return false;
+    const amount = price * order.quantity;
+    const fee = simFee(order.side, amount);
+    if (isBuy) {
+      this.cash -= amount + fee;
+      this.shares += order.quantity;
+      this.boughtToday += order.quantity;
+    } else {
+      this.cash += amount - fee;
+      this.shares -= order.quantity;
+    }
+    this.last = price;
+    Object.assign(order, { price, amount, fee, status: 'filled' });
+    return true;
+  }
+
+  cancel(id) {
+    const order = this.pending.find(item => item.id === id);
+    if (order) order.status = 'canceled';
+    return order;
+  }
+
+  advance() {
+    this.tick += 1;
+    this.last = this.quote.last;
+    const filled = [];
+    for (const side of ['buy', 'sell']) {
+      const orders = this.pending.filter(order => order.side === side);
+      orders.sort((a, b) => (side === 'buy' ? b.limit - a.limit : a.limit - b.limit) || a.id - b.id);
+      for (const order of orders) {
+        if (this.match(order)) filled.push(order);
+      }
+    }
+    return { filled };
+  }
+
+  nextDay() {
+    const expired = this.pending;
+    for (const order of expired) order.status = 'expired';
+    this.boughtToday = 0;
+    this.day += 1;
+    this.advance();
+    return { expired };
+  }
+}
+
+const SIM_FORMAT = new Intl.NumberFormat('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const simNumber = cents => SIM_FORMAT.format(cents / 100);
+const simMoney = cents => `¥${simNumber(cents)}`;
+const simSide = side => side === 'buy' ? '买入' : '卖出';
+const SIM_ORDER_STATUS = { pending: '待成交', filled: '已成交', canceled: '已撤单', expired: '已失效' };
+let simAccount;
+
+function renderSimulator(root, budget = 8000) {
+  if (!simAccount) {
+    const chosenBudget = Number.isFinite(budget) ? Math.max(0, Math.min(10000, budget)) : 8000;
+    simAccount = new SimTradingAccount(chosenBudget);
+  }
+  let side = 'buy';
+  let price = '';
+  let quantity = '100';
+  let status = '';
+  let error = false;
+  root.innerHTML = `<style>${SIMULATOR_CSS}</style><div class="sim-shell"><div class="sim-live" aria-live="polite" aria-atomic="true"></div><div class="sim-content"></div></div>`;
+  const view = root.querySelector('.sim-content');
+  const live = root.querySelector('.sim-live');
+
+  function setStatus(text, isError = false) {
+    status = text;
+    error = isError;
+    live.textContent = text;
+  }
+
+  function selectedPrice() {
+    return /^\d{1,3}(?:\.\d{1,2})?$/.test(price) ? Math.round(Number(price) * 100) : 0;
+  }
+
+  function updateEstimate() {
+    const limit = selectedPrice();
+    const count = Number(quantity);
+    const estimate = view.querySelector('.sim-estimate');
+    if (!limit || count < 100 || count > 10000 || count % 100 !== 0) {
+      estimate.innerHTML = '<span>按限价试算</span><strong>—</strong>';
+      return;
+    }
+    const value = limit * count;
+    const fee = simFee(side, value);
+    const total = side === 'buy' ? value + fee : value - fee;
+    const totalLabel = side === 'buy' ? '预计扣款上限' : '预计到账下限';
+    estimate.innerHTML = `<span>${totalLabel} <small>含费用 ${simMoney(fee)}</small></span><strong>${simMoney(total)}</strong>`;
+  }
+
+  function render(focusSelector) {
+    const account = simAccount;
+    const { ask, bid, event } = account.quote;
+    const marketValue = account.shares * account.last;
+    const assets = account.cash + marketValue;
+    const profit = assets - account.startingCash;
+    const signedProfit = profit > 0 ? `+${simMoney(profit)}` : profit < 0 ? `−${simMoney(-profit)}` : simMoney(0);
+    const actionTitle = side === 'buy' ? '最高愿付的价格' : '最低愿收的价格';
+    const orders = account.orders.slice().reverse();
+    const rows = orders.map(order => `<tr>
+      <td>第 ${order.day} 日</td><td>${simSide(order.side)}</td><td>${simMoney(order.limit)}</td><td>${order.quantity} 股</td>
+      <td>${order.price ? simMoney(order.price) : '—'}</td><td>${order.status === 'filled' ? simMoney(order.fee) : '—'}</td>
+      <td><span class="sim-order-state ${order.status}">${SIM_ORDER_STATUS[order.status]}</span></td>
+      <td>${order.status === 'pending' ? `<button type="button" class="sim-link" data-cancel="${order.id}" aria-label="撤销第 ${order.id} 笔${simSide(order.side)}委托">撤单</button>` : '—'}</td>
+    </tr>`).join('');
+    view.innerHTML = `
+      <header class="sim-header">
+        <div><h1>模拟交易</h1><p>用虚拟资金练习看盘、挂单、成交和撤单。</p></div>
+        <span class="sim-day">第 ${account.day} 个交易日</span>
+      </header>
+      <div class="sim-account">
+        <div><span>总资产</span><strong>${simMoney(assets)}</strong><small>现金 + 持仓市值</small></div>
+        <div><span>可用资金</span><strong>${simMoney(account.available)}</strong><small>冻结 ${simMoney(account.cash - account.available)}</small></div>
+        <div><span>持有股数</span><strong>${account.shares} <small>股</small></strong><small>当前可卖 ${account.sellable} 股</small></div>
+        <div><span>账户盈亏</span><strong class="${profit < 0 ? 'sim-down' : profit > 0 ? 'sim-up' : ''}">${signedProfit}</strong><small>初始资金 ${simMoney(account.startingCash)}</small></div>
+      </div>
+      ${account.tick === 0 && account.orders.length === 0 ? '<aside class="sim-tip"><div><strong>练习第一笔限价单</strong><p>报 ¥10.00 买入 100 股，先看看委托为什么会等待，再推进一笔行情。</p></div><button type="button" class="btn secondary sim-btn" data-example>填入示例</button></aside>' : ''}
+      <div class="sim-market-grid">
+        <section class="sim-card sim-market" aria-labelledby="sim-stock-title">
+          <div class="sim-stock-head"><span class="sim-stock-symbol" aria-hidden="true"></span><div><h2 id="sim-stock-title">下课咖啡</h2><span>SIM001 · 虚构股票</span></div></div>
+          <div class="sim-print"><strong>${simMoney(account.last)}</strong><span>最新成交价</span></div>
+          <p class="sim-quotes-label" id="sim-quotes-label">预设外部报价</p>
+          <div class="sim-quotes" role="group" aria-labelledby="sim-quotes-label">
+            <button type="button" data-quote="${ask}" aria-label="把卖一 ${simNumber(ask)} 元填入限价"><span>卖一 <small>最低卖价</small></span><strong>${simMoney(ask)}</strong></button>
+            <button type="button" data-quote="${bid}" aria-label="把买一 ${simNumber(bid)} 元填入限价"><span>买一 <small>最高买价</small></span><strong>${simMoney(bid)}</strong></button>
+          </div>
+          <p class="sim-quotes-note">报价随预设行情变化。你的订单在「委托与成交」里查看。</p>
+          <p class="sim-event">${event}</p>
+          <div class="sim-market-actions">
+            <button type="button" class="btn secondary sim-btn" data-step="tick">推进一笔行情</button>
+            <button type="button" class="btn secondary sim-btn" data-step="day">进入下一交易日</button>
+          </div>
+        </section>
+        <section class="sim-card sim-ticket" aria-labelledby="sim-ticket-title">
+          <div class="sim-ticket-head"><h2 id="sim-ticket-title">限价委托</h2><span>每手 100 股</span></div>
+          <div class="sim-toggle" role="group" aria-label="交易方向">
+            <button type="button" data-side="buy" aria-pressed="${side === 'buy'}">买入</button>
+            <button type="button" data-side="sell" aria-pressed="${side === 'sell'}">卖出</button>
+          </div>
+          <form class="sim-form" data-order-form novalidate>
+            <div class="sim-inputs">
+              <label><span>限价（元 / 股）</span><input name="limit" value="${price}" type="number" inputmode="decimal" min="0.01" max="999.99" step="0.01" placeholder="${simNumber(side === 'buy' ? ask : bid)}" required><small>${actionTitle}</small></label>
+              <label><span>数量（股）</span><input name="quantity" value="${quantity}" type="number" inputmode="numeric" min="100" max="10000" step="100" required><small>按 100 股递增</small></label>
+            </div>
+            <div class="sim-estimate"></div>
+            <button class="btn primary sim-btn sim-submit" type="submit">提交${simSide(side)}委托</button>
+          </form>
+          ${status ? `<p class="sim-status${error ? ' sim-status-error' : ''}">${status}</p>` : ''}
+        </section>
+      </div>
+      <section class="sim-card sim-history" aria-labelledby="sim-history-title">
+        <div class="sim-ticket-head"><h2 id="sim-history-title">委托与成交</h2><span>${account.pending.length} 笔待成交</span></div>
+        ${rows ? `<div class="sim-table-scroll" tabindex="0" aria-label="订单记录表格，可横向滚动"><table><thead><tr><th scope="col">委托日</th><th scope="col">方向</th><th scope="col">限价</th><th scope="col">数量</th><th scope="col">成交价</th><th scope="col">费用</th><th scope="col">状态</th><th scope="col">操作</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="sim-empty">提交一笔委托后，这里会显示状态和成交价格。</p>'}
+      </section>
+      <div class="sim-foot">
+        <details><summary>模拟规则与费用</summary><p>行情按预设情景推进。只模拟连续竞价的最优一档，假设对手方数量充足，满足限价时按当时对手方报价一次成交。待成交订单按同方向价格优先、同价时间优先处理。换日时，未成交委托失效，当天买入的股票可在下一交易日卖出。练习省略实盘的涨跌幅限制、申报价格范围等规则。</p><p>示例佣金为成交额的 0.03%，每笔最低 ¥5。卖出额外计 0.05% 的印花税，模拟省略过户费。实盘费用以当期规则和券商公示为准。刷新页面会重置本次模拟记录。</p></details>
+        <details class="sim-reset"><summary>重置模拟资金</summary><form data-reset-form><label for="sim-budget">初始虚拟资金（0–10,000 元）</label><div><input id="sim-budget" name="budget" type="number" min="0" max="10000" step="1" value="${Math.trunc(account.startingCash / 100)}" required><button class="btn secondary sim-btn" type="submit">重置并开始</button></div><p>将清空当前持仓、委托和成交记录。</p></form></details>
+      </div>`;
+    updateEstimate();
+    if (focusSelector) view.querySelector(focusSelector)?.focus({ preventScroll: true });
+  }
+
+  view.addEventListener('input', event => {
+    if (event.target.name === 'limit') price = event.target.value;
+    if (event.target.name === 'quantity') quantity = event.target.value;
+    if (event.target.form?.matches('[data-order-form]')) updateEstimate();
+  });
+
+  view.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const action = button.dataset;
+    if ('example' in action) {
+      side = 'buy';
+      price = '10.00';
+      quantity = '100';
+      setStatus('');
+      render();
+      view.querySelector('[name="limit"]').focus();
+    }
+    if (action.side) {
+      side = action.side;
+      price = ((side === 'buy' ? simAccount.quote.ask : simAccount.quote.bid) / 100).toFixed(2);
+      setStatus('');
+      render(`[data-side="${side}"]`);
+    }
+    if (action.quote) {
+      price = (Number(action.quote) / 100).toFixed(2);
+      view.querySelector('[name="limit"]').value = price;
+      updateEstimate();
+      view.querySelector('[name="limit"]').focus();
+    }
+    if (action.step === 'tick') {
+      const { filled } = simAccount.advance();
+      const first = filled[0];
+      const message = first
+        ? `第 ${first.id} 笔委托以 ${simMoney(first.price)} 成交。${filled.length > 1 ? `另有 ${filled.length - 1} 笔成交。` : ''}`
+        : '行情已更新。待成交订单会继续等候符合限价的报价。';
+      setStatus(message);
+      render('[data-step="tick"]');
+    }
+    if (action.step === 'day') {
+      const { expired } = simAccount.nextDay();
+      setStatus(`现在是第 ${simAccount.day} 个交易日，可卖 ${simAccount.sellable} 股。${expired.length ? `${expired.length} 笔未成交委托已失效。` : ''}`);
+      render('[data-step="day"]');
+    }
+    if (action.cancel) {
+      const order = simAccount.cancel(Number(action.cancel));
+      if (!order) return;
+      const released = order.side === 'buy' ? `${simMoney(order.amount + order.fee)} 可用资金` : `${order.quantity} 股可卖数量`;
+      setStatus(`已撤销第 ${order.id} 笔委托，释放 ${released}。`);
+      render('[data-order-form] button[type="submit"]');
+    }
+  });
+
+  view.addEventListener('submit', event => {
+    event.preventDefault();
+    if (event.target.matches('[data-reset-form]')) {
+      const newBudget = event.target.elements.budget.valueAsNumber;
+      if (!Number.isInteger(newBudget) || newBudget < 0 || newBudget > 10000) return;
+      simAccount = new SimTradingAccount(newBudget);
+      side = 'buy';
+      price = '';
+      quantity = '100';
+      setStatus(`模拟账户已重置，初始资金 ${simMoney(simAccount.startingCash)}。`);
+      render('.sim-reset summary');
+      return;
+    }
+    if (!event.target.matches('[data-order-form]')) return;
+    const { order, reason } = simAccount.submit(side, selectedPrice(), Number(quantity));
+    if (reason) {
+      setStatus(reason, true);
+    } else if (order.status === 'filled') {
+      setStatus(`${simSide(side)}成交 ${order.quantity} 股，成交价 ${simMoney(order.price)}，费用 ${simMoney(order.fee)}。`);
+    } else {
+      const explanation = side === 'buy' ? '限价低于卖一' : '限价高于买一';
+      setStatus(`${explanation}，委托正在等候。你可以推进行情，也可以撤单。`);
+    }
+    render('[data-order-form] button[type="submit"]');
+  });
+
+  render();
+}
+
+const SIMULATOR_CSS = `
+.sim-shell { --sim-accent:var(--accent,#543bc1); --sim-lavender:var(--lav,#eeebff); --sim-ink:var(--ink,#212039); --sim-muted:var(--muted,#625f76); --sim-border:var(--line,#e8e6f0); color:var(--sim-ink); }
+.sim-shell * { box-sizing:border-box; }
+.sim-shell p { margin:0; }
+.sim-shell h1,.sim-shell h2 { margin:0; }
+.sim-shell h1 { font-size:clamp(30px,4vw,49px); line-height:1.15; letter-spacing:-.05em; }
+.sim-shell h2 { font-size:18px; font-weight:750; letter-spacing:-.02em; }
+.sim-header { display:flex; justify-content:space-between; align-items:end; gap:15px; margin-bottom:24px; }
+.sim-header p { color:var(--sim-muted); margin-top:10px; line-height:1.6; }
+.sim-day { color:var(--sim-accent); background:var(--sim-lavender); padding:8px 12px; font-size:13px; font-weight:700; white-space:nowrap; border-radius:999px; }
+.sim-account { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--sim-border); background:#fff; border-radius:17px; margin-bottom:18px; overflow:hidden; }
+.sim-account > div { display:flex; flex-direction:column; gap:6px; padding:17px 20px; min-width:0; }
+.sim-account > div + div { border-left:1px solid var(--sim-border); }
+.sim-account span,.sim-account small { color:var(--sim-muted); font-size:12px; }
+.sim-account strong { font:700 clamp(19px,2.6vw,27px)/1.12 'DM Sans',system-ui,sans-serif; white-space:nowrap; font-variant-numeric:tabular-nums; letter-spacing:-.035em; }
+.sim-account strong.sim-up { color:#9e333c; }
+.sim-account strong.sim-down { color:#087371; }
+.sim-market-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
+.sim-card { padding:22px; border:1px solid var(--sim-border); border-radius:18px; background:#fff; min-width:0; }
+.sim-stock-head { display:flex; align-items:center; gap:11px; }
+.sim-stock-head span,.sim-ticket-head>span { color:var(--sim-muted); font-size:12px; }
+.sim-stock-symbol { width:41px; height:41px; border-radius:13px; display:grid; place-items:center; background:var(--sim-lavender); position:relative; }
+.sim-stock-symbol::before { content:''; width:14px; height:10px; border:2px solid var(--sim-accent); border-top-width:1px; border-radius:2px 2px 5px 5px; transform:translate(-1px,1px); }
+.sim-stock-symbol::after { content:''; width:5px; height:6px; border:1.5px solid var(--sim-accent); border-left:0; border-radius:0 3px 3px 0; position:absolute; left:26px; top:18px; }
+.sim-print { display:flex; align-items:baseline; gap:9px; margin:17px 0 14px; }
+.sim-print strong { font:750 33px/1 'DM Sans',system-ui,sans-serif; letter-spacing:-.035em; font-variant-numeric:tabular-nums; }
+.sim-print span { color:var(--sim-muted); font-size:12px; }
+.sim-shell p.sim-quotes-label { font-size:12px; font-weight:700; color:var(--sim-ink); margin-bottom:6px; }
+.sim-shell p.sim-quotes-note { font-size:11px; color:var(--sim-muted); line-height:1.6; margin-top:7px; }
+.sim-quotes { display:grid; gap:5px; }
+.sim-quotes button { display:flex; justify-content:space-between; gap:7px; width:100%; padding:9px 11px; background:#f7f5fb; color:var(--sim-ink); border:1px solid transparent; border-radius:8px; text-align:left; font:inherit; font-size:13px; cursor:pointer; }
+.sim-quotes button:hover,.sim-quotes button:focus-visible { border-color:#b6a9e9; background:var(--sim-lavender); }
+.sim-quotes small { color:var(--sim-muted); margin-left:5px; }
+.sim-quotes strong { font-variant-numeric:tabular-nums; }
+.sim-shell p.sim-event { font-size:12px; color:var(--sim-muted); line-height:1.6; margin:12px 0; min-height:2em; }
+.sim-market-actions { display:flex; flex-wrap:wrap; gap:7px; }
+.sim-shell .sim-btn { font:inherit; font-size:13px; font-weight:700; padding:9px 12px; border-radius:9px; min-height:37px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+.sim-shell .sim-btn.secondary { border:1px solid var(--sim-border); background:#fff; color:var(--sim-accent); }
+.sim-shell .sim-btn.secondary:hover { background:var(--sim-lavender); }
+.sim-shell .sim-btn.primary { border:1px solid var(--sim-accent); background:var(--sim-accent); color:#fff; }
+.sim-shell .sim-btn.primary:hover { background:#4934b4; }
+.sim-ticket-head { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+.sim-toggle { display:flex; gap:4px; padding:3px; border-radius:9px; background:#f6f4fa; margin:15px 0; }
+.sim-toggle button { flex:1; border:1px solid transparent; border-radius:7px; background:transparent; color:var(--sim-muted); min-height:33px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sim-toggle button[aria-pressed="true"] { color:var(--sim-accent); background:#fff; border-color:var(--sim-border); }
+.sim-inputs { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.sim-shell label { display:grid; gap:5px; color:var(--sim-ink); font-size:13px; font-weight:650; min-width:0; }
+.sim-shell input { width:100%; min-width:0; padding:8px 10px; border:1px solid #dcd5e9; border-radius:8px; color:var(--sim-ink); background:#fff; font:inherit; font-size:16px; min-height:37px; }
+.sim-shell input::placeholder { color:#847b94; }
+.sim-shell label small { color:var(--sim-muted); font-size:11px; font-weight:400; }
+.sim-estimate { display:flex; justify-content:space-between; align-items:baseline; gap:7px; font-size:13px; margin:14px 0 10px; min-height:20px; }
+.sim-estimate small { display:block; color:var(--sim-muted); font-size:11px; }
+.sim-estimate strong { white-space:nowrap; font-variant-numeric:tabular-nums; }
+.sim-shell .sim-submit { width:100%; }
+.sim-shell p.sim-status { margin-top:11px; padding:9px 10px; border-radius:8px; background:var(--sim-lavender); color:#402c9b; font-size:12px; line-height:1.6; }
+.sim-shell p.sim-status-error { background:#fcecf1; color:#8c1942; }
+.sim-tip { display:flex; justify-content:space-between; gap:12px; align-items:center; line-height:1.6; margin:15px 0; padding:12px 14px; background:var(--sim-lavender); border-radius:12px; color:#4a3890; font-size:13px; }
+.sim-tip button { white-space:nowrap; }
+.sim-history { margin-top:16px; padding-bottom:14px; }
+.sim-table-scroll { overflow-x:auto; }
+.sim-shell table { border-collapse:collapse; width:100%; margin-top:11px; font-size:12px; font-variant-numeric:tabular-nums; text-align:left; }
+.sim-shell th,.sim-shell td { padding:9px 9px 9px 0; white-space:nowrap; border-bottom:1px solid var(--sim-border); }
+.sim-shell th { font-weight:650; color:var(--sim-muted); }
+.sim-shell tr:last-child td { border-bottom:0; }
+.sim-shell .sim-empty { margin:12px 0 7px; color:var(--sim-muted); font-size:13px; }
+.sim-order-state { color:var(--sim-muted); }
+.sim-order-state.pending { color:#7d541a; }
+.sim-order-state.filled { color:#326c54; }
+.sim-link { background:none; border:none; padding:3px 5px; color:var(--sim-accent); text-decoration:underline; text-underline-offset:2px; cursor:pointer; font:inherit; }
+.sim-foot { display:grid; grid-template-columns:1fr auto; gap:20px; padding-top:14px; color:var(--sim-muted); font-size:13px; line-height:1.65; }
+.sim-foot summary { cursor:pointer; color:var(--sim-accent); font-weight:650; }
+.sim-foot details p { margin:8px 0; max-width:66ch; }
+.sim-reset form { display:grid; gap:5px; padding-top:8px; }
+.sim-reset form>div { display:flex; align-items:center; gap:8px; }
+.sim-reset input { max-width:136px; }
+.sim-reset button { white-space:nowrap; }
+.sim-shell :where(button,input,summary,[tabindex]):focus-visible { outline:2px solid #6b50da; outline-offset:2px; }
+.sim-live { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+@media (max-width:720px) {
+  .sim-account { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .sim-account > div:nth-child(3) { border-left:0; }
+  .sim-account > div:nth-child(n+3) { border-top:1px solid var(--sim-border); }
+  .sim-account > div { padding:12px 14px; }
+  .sim-market-grid { grid-template-columns:1fr; }
+  .sim-card { padding:16px; }
+  .sim-foot { grid-template-columns:1fr; gap:10px; }
+}
+@media (max-width:400px) {
+  .sim-header { align-items:start; flex-direction:column; }
+  .sim-tip { align-items:start; flex-direction:column; }
+}
+`;
+</script>
+  <script>const PRACTICE_STEPS = {
+  money: [{
+    title: '同样的钱，能吃几顿？',
+    description: '饭卡里有 ¥100。食堂涨价后，最多能买几顿？',
+    figure: () => `<div class="practice-price-comparison"><div><span>原来的饭价</span><strong>¥15<small> / 顿</small></strong></div><div><span>现在的饭价</span><strong>¥18<small> / 顿</small></strong></div></div>`,
+    actions: ['5 顿', '6 顿'], correct: 0,
+    hint: '涨价后，6 顿要 ¥108。再算一次。',
+    next: () => '原来够买 6 顿，现在最多 5 顿。100 元的购买力下降了。'
+  }, {
+    title: '试着买一小份下课咖啡',
+    description: '这是虚构公司。用账户里的虚拟钱，按眼前的报价试买一次。',
+    figure: account => `<dl class="practice-ledger"><div><dt>每股卖价</dt><dd>${simMoney(account.quote.ask)}</dd></div><div><dt>这次买入</dt><dd>100 股</dd></div><div><dt>${account.shares ? '你已持有' : '虚拟资金'}</dt><dd>${account.shares ? '100 股' : simMoney(account.available)}</dd></div></dl>`,
+    actions: ['模拟买入 100 股'], correct: 0,
+    next: account => {
+      const { order } = account.submit('buy', account.quote.ask, 100);
+      return `买到了 100 股，含费用花了 ${simMoney(order.amount + order.fee)} 虚拟钱。你现在持有这家虚构公司的一小份权益。`;
+    }
+  }],
+  budget: [{
+    title: '这笔钱够下一单吗？',
+    description: '手上有 ¥8,000，下面两笔要先留好。',
+    figure: () => `<dl class="practice-ledger"><div><dt>必要开支</dt><dd>¥4,800</dd></div><div><dt>突发开支备用</dt><dd>¥2,500</dd></div><div><dt>100 股 × ¥10 + ¥5 费用</dt><dd>¥1,005</dd></div></dl>`,
+    actions: ['够，现在下单', '差 ¥305，先练模拟'], correct: 1,
+    hint: '¥8,000 减掉两笔只剩 ¥700，和订单金额比一比。',
+    success: '可动用 ¥700，这笔单还差 ¥305。先用虚拟资金练习。'
+  }],
+  ownership: [{
+    title: '当了股东，每股能分到多少？',
+    description: '下课咖啡还剩 ¥120,000 现金。公司决定拿一半出来分红。',
+    figure: () => `<div class="practice-shares"><div class="practice-profit"><span>分给股东 ¥60,000</span><span>公司留存 ¥60,000</span></div><p>分红金额由全部 <strong>100,000</strong> 股平分</p></div>`,
+    actions: ['¥1.20 / 股', '¥0.60 / 股'], correct: 1,
+    hint: '只有一半现金用来分红。拿 ¥60,000 除以总股数。',
+    success: '每股分到 ¥0.60。买股票就持有一部分公司，分红金额取决于公司的分配决定。'
+  }],
+  quote: [{
+    title: '你最多愿付多少？',
+    description: '买 100 股，每股最多出 ¥10.00。提交一笔限价单。',
+    figure: account => practiceQuote(account),
+    actions: ['报 ¥10.00', '报 ¥10.02'], correct: 0,
+    hint: '¥10.02 超出了你的上限。按你愿付的最高价下单。',
+    next: account => {
+      account.submit('buy', 1000, 100);
+      return '卖一比你的限价高 2 分，订单先挂着。';
+    }
+  }, {
+    title: '等一笔新报价',
+    description: '委托已提交。点一下，看看卖家降价后会发生什么。',
+    figure: account => practiceQuote(account),
+    actions: ['推进一笔行情'], correct: 0,
+    next: account => {
+      const { filled } = account.advance();
+      const [order] = filled;
+      return `成交 ${order.quantity} 股，每股 ${simMoney(order.price)}。含模拟费用，共扣款 ${simMoney(order.amount + order.fee)}。`;
+    }
+  }],
+  broker: [{
+    title: '从哪里下载券商 App？',
+    description: '同学在群里发来开户链接。你会从哪里找 App？',
+    figure: () => `<div class="practice-message"><span>班群消息</span><p>“扫我的二维码开户，有返现。”</p></div>`,
+    actions: ['核验券商后，去官网找', '扫群里发的二维码'], correct: 0,
+    hint: '群聊二维码的来源难核实。先查券商资质，再从官网找下载入口。',
+    next: () => '认准持牌券商的官网入口，并核对应用发布者。'
+  }, {
+    title: '这笔单成交了吗？',
+    description: '在券商 App 的「交易」页打开「当日委托」。',
+    figure: () => `<dl class="practice-ledger"><div><dt>委托数量</dt><dd>100 股</dd></div><div><dt>成交数量</dt><dd>0 股</dd></div><div><dt>订单状态</dt><dd class="practice-order-mark">已报</dd></div></dl>`,
+    actions: ['已经买到 100 股', '已提交，等成交'], correct: 1,
+    hint: '成交数量还是 0 股。看看「已报」表示哪一步。',
+    success: '「已报」表示订单已申报。成交数量有变化后，再核对成交价与持仓。'
+  }]
+};
+
+function practiceQuote(account) {
+  const order = account.orders[0];
+  const { ask, bid } = account.quote;
+  return `<dl class="practice-ledger">
+    <div><dt>卖一 · 最低卖价</dt><dd>${simMoney(ask)}</dd></div>
+    <div><dt>买一 · 最高买价</dt><dd>${simMoney(bid)}</dd></div>
+    <div><dt>${order ? '我的委托' : '虚拟可用资金'}</dt><dd class="practice-order-mark">${order ? SIM_ORDER_STATUS[order.status] : simMoney(account.available)}</dd></div>
+  </dl>`;
+}
+
+function renderPractice(root, type, { onDone, onStory, onFull } = {}) {
+  const steps = PRACTICE_STEPS[type];
+  if (!Array.isArray(steps)) return;
+  const account = type === 'quote' || type === 'money' ? new SimTradingAccount(8000) : null;
+  let stepIndex = 0;
+  let complete = false;
+  let feedback = '';
+  let isHint = false;
+
+  root.innerHTML = `<section class="practice practice-${type}" aria-labelledby="practice-title"><div class="practice-live" aria-live="polite" aria-atomic="true"></div><div class="practice-view"></div></section>`;
+  const view = root.querySelector('.practice-view');
+  const live = root.querySelector('.practice-live');
+
+  function draw(focusTarget) {
+    const step = steps[stepIndex];
+    const choices = step.actions.map((action, index) =>
+      `<button class="practice-choice" type="button" data-practice-choice="${index}">${action}</button>`).join('');
+    const storyButton = `<button class="practice-choice practice-primary" type="button" data-practice-nav="story">继续故事 <span aria-hidden="true">→</span></button>`;
+    const fullButton = onFull
+      ? '<button class="practice-choice" type="button" data-practice-nav="full">进入完整模拟盘</button>' : '';
+    view.innerHTML = `<div class="practice-main">
+        <p class="practice-kicker">动手试一试${steps.length > 1 ? ` <span>${stepIndex + 1} / ${steps.length}</span>` : ''}</p>
+        <h2 id="practice-title" tabindex="-1">${step.title}</h2>
+        <p class="practice-description">${step.description}</p>
+        <div class="practice-figure">${step.figure(account)}</div>
+        ${feedback ? `<p class="practice-feedback${isHint ? ' practice-hint' : ''}">${feedback}</p>` : ''}
+        <div class="practice-actions">${complete ? `${storyButton}${fullButton}` : choices}</div>
+    </div>`;
+    if (focusTarget) view.querySelector(focusTarget)?.focus({ preventScroll: true });
+  }
+
+  view.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const { practiceNav, practiceChoice } = button.dataset;
+    if (practiceNav === 'story') onStory?.(type);
+    if (practiceNav === 'full') onFull?.(type);
+    if (practiceChoice === undefined || complete) return;
+
+    const step = steps[stepIndex];
+    let focusTarget = `[data-practice-choice="${practiceChoice}"]`;
+    isHint = Number(practiceChoice) !== step.correct;
+    if (isHint) {
+      feedback = step.hint;
+    } else {
+      feedback = step.next ? step.next(account) : step.success;
+      complete = stepIndex === steps.length - 1;
+      if (complete) focusTarget = '[data-practice-nav="story"]';
+      else {
+        stepIndex += 1;
+        focusTarget = '#practice-title';
+      }
+    }
+    live.textContent = feedback;
+    draw(focusTarget);
+    if (complete) onDone?.(type);
+  });
+  draw();
+}
+</script>
+  <script>const storyRoot = document.getElementById('content');
+const progressKey = 'first-share-stories-v2';
+const scenePictures = [
+  [['食堂', '餐费预算', '¥100'], ['新学期的菜单', '每份套餐', '¥18'], ['印明信片', '今天拿出', '¥100'], ['下课咖啡', '小股东', '1 股']],
+  [['校园账本', '现在的存款', '¥8,000'], ['模拟订单', '一手', '100 股'], ['维修报价', '今天要付', '¥600']],
+  [['下课咖啡', '公司总股数', '10 万股'], ['咖啡店账本', '剩余现金', '¥12 万'], ['交易小票', '买一股花了', '¥10'], ['下课咖啡', '同一笔分红', '¥0.60']],
+  [['旧教材摊', '最接近的报价', '¥20 / 22'], ['旧教材摊', '卖家要价', '¥22'], ['虚构行情', '最新成交', '¥10.01'], ['持仓小票', '当天可卖', '0 股']],
+  [['群聊消息', '发来一个', '开户链接'], ['券商 App', '界面入口', '开户'], ['券商 App', '界面入口', '行情'], ['交易回执', '界面入口', '当日委托']],
+];
+const artProps = { canteen: 'meal', wallet: 'coin', time: 'clock', coffee: 'coffee', market: 'book', phone: 'phone', receipt: 'receipt' };
+
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(progressKey)) ?? {}; }
+  catch { return {}; }
+}
+
+const storedProgress = loadProgress();
+const progress = STORIES.map((story, index) => {
+  const stored = storedProgress[index] ?? {};
+  const scene = Number.isInteger(stored.scene) && stored.scene >= 0 && stored.scene < story.scenes.length ? stored.scene : 0;
+  const answers = story.scenes.map((item, n) => Number.isInteger(stored.answers?.[n]) && item.choices[stored.answers[n]] ? stored.answers[n] : null);
+  return { scene, answers, done: stored.done === true };
+});
+
+function saveProgress() {
+  try { localStorage.setItem(progressKey, JSON.stringify(progress)); }
+  catch { /* The current page can still keep progress in memory. */ }
+}
+
+function todayIndex() {
+  const index = progress.findIndex(entry => !entry.done);
+  return index === -1 ? 0 : index;
+}
+
+function dayNumber(index) {
+  return String(index + 1).padStart(2, '0');
+}
+
+function chapterHeading(index, label, count = 0, step = 0) {
+  const tracker = count ? `<div class="step-control" aria-label="第 ${step + 1} 幕，共 ${count} 幕"><strong>${step + 1}</strong> / ${count} 幕<div class="segments" aria-hidden="true">${Array.from({ length: count }, (_, n) => `<i class="${n === step ? 'active' : n < step ? 'visited' : ''}"></i>`).join('')}</div></div>` : '';
+  return `<header class="story-heading"><div><p class="day-display" aria-hidden="true">Day ${dayNumber(index)}<span class="dot">.</span></p><h1>${label}</h1></div>${tracker}</header>`;
+}
+
+function pictureHTML(index, current, scene) {
+  const [locationLabel, amountLabel, amount] = scenePictures[index][current];
+  const prop = artProps[scene.art];
+  const propHTML = prop === 'coin' ? '¥' : `<span class="prop-${prop}"></span>`;
+  return `<figure class="story-art" data-art="${scene.art}" aria-label="${locationLabel}，${amountLabel} ${amount}">
+    <span class="art-caption">${locationLabel}</span><span class="art-shape one" aria-hidden="true">✦</span><span class="art-shape two" aria-hidden="true">✳</span>
+    <div class="art-objects" aria-hidden="true"><div class="visual-card"><span>${amountLabel}</span><b class="${/[\u3400-\u9fff]/.test(amount) ? 'mixed' : ''}">${amount}</b></div><div class="visual-prop">${propHTML}</div></div>
+    <span class="art-status" aria-hidden="true" hidden></span><span class="art-index" aria-hidden="true">${dayNumber(index)} / ${String(current + 1).padStart(2, '0')}</span>
+  </figure>`;
+}
+
+function renderStory(index, focusScene = false) {
+  const story = STORIES[index];
+  const state = progress[index];
+  const current = state.scene;
+  const scene = story.scenes[current];
+  const last = current === story.scenes.length - 1;
+  const nextLabel = last ? '进入模拟练习' : scene.next ?? '下一幕';
+  storyRoot.innerHTML = `${chapterHeading(index, story.title, story.scenes.length, current)}
+    <section class="story-stage arrive" aria-labelledby="scene-title">${pictureHTML(index, current, scene)}<div class="story-copy">
+      <h2 class="scene-title" id="scene-title" tabindex="-1">${scene.title}</h2><p class="scene-text">${scene.text}</p>
+      <div class="choices" role="group" aria-label="选择你的行动">${scene.choices.map((choice, number) => `<button class="choice" type="button" data-choice="${number}" aria-pressed="false"><span class="choice-key" aria-hidden="true">${'ABC'[number]}</span><span>${choice.label}</span><span aria-hidden="true">↗</span></button>`).join('')}</div>
+      <p class="feedback" role="status" hidden></p><div class="scene-next" hidden><button class="btn primary" data-next type="button">${nextLabel}<span aria-hidden="true">→</span></button></div>
+    </div></section><div class="under-stage">${current ? '<button class="story-back" data-back type="button">← 上一幕</button>' : ''}${state.done ? '<span>这天已经完成</span>' : ''}</div>`;
+
+  const buttons = [...storyRoot.querySelectorAll('[data-choice]')];
+  const art = storyRoot.querySelector('.story-art');
+  const stamp = storyRoot.querySelector('.art-status');
+  const feedback = storyRoot.querySelector('.feedback');
+  const next = storyRoot.querySelector('.scene-next');
+
+  function selectChoice(number, animate) {
+    const choice = scene.choices[number];
+    buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === number)));
+    feedback.hidden = false;
+    feedback.textContent = choice.feedback;
+    next.hidden = false;
+    stamp.hidden = !choice.value;
+    stamp.textContent = choice.value ?? '';
+    if (animate) {
+      art.classList.remove('changed');
+      stamp.classList.remove('toss');
+      void art.offsetWidth;
+      art.classList.add('changed');
+      stamp.classList.add('toss');
+    }
+  }
+
+  if (state.answers[current] !== null) selectChoice(state.answers[current], false);
+  buttons.forEach((button, number) => button.addEventListener('click', () => {
+    state.answers[current] = number;
+    saveProgress();
+    selectChoice(number, true);
+  }));
+  storyRoot.querySelector('[data-next]').addEventListener('click', () => {
+    if (last) {
+      location.hash = `#practice/${index + 1}`;
+      return;
+    }
+    state.scene += 1;
+    saveProgress();
+    renderStory(index, true);
+  });
+  storyRoot.querySelector('[data-back]')?.addEventListener('click', () => {
+    state.scene -= 1;
+    saveProgress();
+    renderStory(index, true);
+  });
+  if (focusScene) {
+    storyRoot.querySelector('#scene-title').focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  }
+}
+
+function renderStoryList() {
+  storyRoot.innerHTML = `<header class="story-heading"><div><p class="day-display" aria-hidden="true">Stories<span class="dot">.</span></p><h1>全部故事</h1></div><span class="step-control">已完成 ${progress.filter(item => item.done).length} / ${STORIES.length} 天</span></header>
+    <div class="story-list">${STORIES.map((story, index) => `<a class="story-tile" href="#day/${index + 1}"><div><strong>Day ${dayNumber(index)}.</strong><h2>${story.title}</h2><p>${story.label}${progress[index].done ? ' · 已完成' : ''}</p></div><span aria-hidden="true">↗</span></a>`).join('')}</div>`;
+}
+
+function renderStoryPractice(index) {
+  storyRoot.innerHTML = `${chapterHeading(index, '模拟练习')}<div id="story-practice"></div><div class="under-stage"><a class="story-back" href="#day/${index + 1}">← 回到故事</a></div>`;
+  renderPractice(document.getElementById('story-practice'), STORIES[index].practice, {
+    onDone() {
+      progress[index].done = true;
+      saveProgress();
+    },
+    onStory() { location.hash = index + 1 < STORIES.length ? `#day/${index + 2}` : '#stories'; },
+    onFull() { location.hash = '#practice'; },
+  });
+}
+
+function renderResources() {
+  storyRoot.innerHTML = `<section class="resources"><h1>延伸资料</h1>
+    <article class="resource-card"><a href="https://b23.tv/9HJ7SOJ" target="_blank" rel="noopener noreferrer">《投资是怎样赚钱的？》有知有行 · 孟岩 ↗</a></article>
+    <article class="resource-card"><a href="https://www.csrc.gov.cn/" target="_blank" rel="noopener noreferrer">中国证监会 · 查询证券公司名录 ↗</a></article>
+    <article class="resource-card"><a href="https://www.sse.com.cn/lawandrules/sselawsrules/trade/" target="_blank" rel="noopener noreferrer">上海证券交易所 · 交易规则 ↗</a></article></section>`;
+}
+
+function showPage(focus = false) {
+  const [page, number] = location.hash.slice(1).split('/');
+  const index = /^[1-5]$/.test(number ?? '') ? Number(number) - 1 : null;
+  let title = '今日故事';
+  if (page === 'stories' || page === 'courses') {
+    title = '全部故事';
+    renderStoryList();
+  } else if (page === 'practice' && index !== null) {
+    title = '模拟练习';
+    renderStoryPractice(index);
+  } else if (page === 'practice' || page === 'simulator') {
+    title = '模拟交易';
+    renderSimulator(storyRoot);
+  } else if (page === 'resources' || page === 'glossary') {
+    title = '延伸资料';
+    renderResources();
+  } else {
+    renderStory(page === 'day' && index !== null ? index : todayIndex());
+  }
+  document.title = `${title} · 第一股`;
+  document.querySelectorAll('[data-nav]').forEach(link => {
+    if (link.textContent === title) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+  if (focus) {
+    storyRoot.focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  }
+}
+
+window.addEventListener('hashchange', () => showPage(true));
+showPage();
+</script>
+</body>
+</html>
