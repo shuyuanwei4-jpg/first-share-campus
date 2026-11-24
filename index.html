@@ -2,9 +2,14 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f7f2">
   <meta name="description" content="五天校园故事。先认识钱，再用虚拟资金练一笔 A 股交易。">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="第一股">
+  <link rel="manifest" href="./app.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="./icons/app-192.png">
   <title>第一股 · 今日故事</title>
   <style>@font-face { font-family: Bauhaus93; src: url('https://shuyuanwei4-jpg.github.io/wei-shuyuan-portfolio/assets/Bauhaus93.ttf') format('truetype'); font-display: swap; }
 @font-face { font-family: OPPOSans; src: url('https://shuyuanwei4-jpg.github.io/wei-shuyuan-portfolio/assets/OPPOSans-Light.ttf') format('truetype'); font-weight: 300; font-display: swap; }
@@ -270,15 +275,332 @@ nav a[aria-current] { font-weight: 700; }
   .practice-ledger > div { padding-inline: .7rem; }
   .practice-choice { flex-basis: 100%; }
 }
+
+@font-face {
+  font-family: 'ZCOOL KuaiLe App';
+  src: url('./assets/zcool-kuaile.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --cn-display: 'ZCOOL KuaiLe App', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --mobile-nav-height: 62px;
+  font-family: system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-weight: 400;
+}
+
+.wordmark > span:nth-child(2), .story-heading h1, .scene-title, .story-tile h2,
+.practice-main h2, .resources h1, .install-sheet-body h2, #content .sim-header h1 {
+  font-family: var(--cn-display);
+  font-weight: 400;
+  letter-spacing: -.025em;
+}
+.scene-text { text-shadow: none; }
+.visual-card b.mixed { font-family: var(--cn-display); font-weight: 400; }
+.desktop-nav { margin-left: auto; }
+.mobile-dock { display: none; }
+.install-trigger, .install-close { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 0 12px 0 0; padding: 4px 10px; background: var(--paper); color: var(--ink); font-size: 13px; font-weight: 650; }
+.install-trigger > span:first-child { font-size: 20px; line-height: 1; }
+.install-trigger:hover, .install-close:hover { background: var(--lime); }
+#install-sheet { position: fixed; width: min(430px, calc(100% - 28px)); max-height: 85dvh; padding: 0; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 0 30px 0 0; box-shadow: 7px 7px var(--ink); }
+#install-sheet[open] { animation: sheet-open .32s var(--ease) both; }
+#install-sheet::backdrop { background: #1119; }
+.install-sheet-body { display: grid; gap: 11px; padding: 21px; }
+.install-sheet-body h2 { margin: 0; font-size: 29px; }
+.install-sheet-body p { margin: 0; font-size: 15px; line-height: 1.6; }
+.install-close { justify-self: end; min-width: 44px; font-size: 24px; line-height: 1; }
+.gesture-hint { display: none; }
+
+@media (max-width: 680px) {
+  body { padding-bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom)); }
+  .top { position: sticky; top: 0; z-index: 4; border-bottom-width: 1px; background: var(--paper); padding-top: env(safe-area-inset-top); }
+  .top-inner { width: auto; margin-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right)); min-height: 54px; }
+  .brand-icon { width: 29px; height: 29px; padding-bottom: 5px; }
+  .wordmark { font-size: 19px; }
+  .wordmark small { display: none; }
+  .desktop-nav { display: none; }
+  .install-trigger { margin-left: auto; min-width: 44px; border: 0; }
+  .install-trigger > span:first-child { display: grid; place-items: center; width: 25px; height: 25px; border: 1.5px solid var(--ink); border-radius: 50%; }
+  .install-trigger > span:last-child { font-size: 11px; }
+  #content { width: auto; margin-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right)); padding: 16px 0 12px; }
+  #content:has(.scene-next:not([hidden])) { padding-bottom: 85px; }
+  .story-heading { margin-bottom: 13px; gap: 8px; }
+  .story-heading .day-display { font-size: clamp(50px, 13vw, 77px); margin-bottom: 7px; }
+  .story-heading h1 { font-size: clamp(21px, 5.8vw, 35px); line-height: 1.1; }
+  .step-control { font-size: 11px; align-self: end; }
+  .segments i { width: 13px; height: 5px; }
+  .story-stage { overflow: visible; display: block; background: transparent; border: 0; border-radius: 0; }
+  .story-stage.arrive { animation: swipe-in .31s var(--ease) both; }
+  .story-stage.reverse { --slide: -14px; }
+  .story-art { overflow: hidden; border: 2px solid var(--ink); border-radius: 0 38px 0 0; min-height: clamp(155px, 28svh, 270px); touch-action: pan-y pinch-zoom; }
+  .story-art[data-art='canteen'] .visual-prop { bottom: 7%; }
+  .art-objects { width: min(75%, 310px); height: clamp(138px, 22svh, 214px); }
+  .art-index { display: none; }
+  .art-caption { padding: 4px 7px; font-size: 11px; }
+  .art-status { bottom: 8px; }
+  .story-copy { padding: 13px 0 0; }
+  .scene-title { font-size: clamp(24px, 6.3vw, 36px); margin-bottom: 5px; }
+  .scene-text { margin-bottom: 11px; font-size: 15px; line-height: 1.55; }
+  .choices { gap: 7px; }
+  .choice { min-height: 48px; font-size: 14px; border-width: 1.5px; padding: 7px 10px; background: #fff; }
+  .choice[aria-pressed='true'] { background: var(--lime); }
+  .choice-key { border-width: 1px; }
+  .feedback { min-height: 32px; font-size: 14px; }
+  .scene-next { position: fixed; margin: 0; z-index: 3; left: 0; right: 0; bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom)); padding: 7px max(14px, env(safe-area-inset-right)) 8px max(14px, env(safe-area-inset-left)); background: var(--paper); border-top: 1px solid #1114; }
+  .scene-next .btn { min-height: 46px; }
+  .gesture-hint { display: inline; color: #555; font-size: 11px; font-weight: 400; margin-left: auto; }
+  .scene-next .btn .gesture-hint { transform: none; }
+  .under-stage { min-height: 10px; padding: 0; }
+  .mobile-dock { position: fixed; z-index: 5; bottom: 0; inset-inline: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; min-height: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom)); padding: 3px max(12px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(12px, env(safe-area-inset-left)); color: var(--paper); background: var(--ink); border-top: 1px solid var(--ink); }
+  .mobile-dock a { display: grid; place-content: center; justify-items: center; gap: 2px; color: inherit; font-size: 11px; line-height: 1; padding: 2px 0 5px; min-height: 53px; border: 0; }
+  .mobile-dock a > span { display: grid; place-items: center; width: 47px; height: 29px; border-radius: 0 11px 0 0; transition: background .2s var(--ease), transform .26s var(--ease); }
+  .mobile-dock img { filter: invert(1); width: 21px; height: 21px; }
+  .mobile-dock a[aria-current] { color: var(--lime); }
+  .mobile-dock a[aria-current] > span { background: var(--lime); transform: translateY(-1px); }
+  .mobile-dock a[aria-current] img { filter: none; }
+  .mobile-dock a:focus-visible { outline-offset: -3px; outline-color: var(--lime); }
+  .site-footer { padding: 7px 0 12px; margin-inline: 14px; width: auto; border: 0; justify-content: flex-end; }
+  .site-footer > :first-child, .site-footer > :last-child { display: none; }
+  body:has(.scene-next:not([hidden])) .site-footer { padding-bottom: 62px; }
+  .story-list { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+  .story-tile { align-items: center; min-height: 80px; padding: 10px 12px; }
+  .story-tile > div { display: grid; grid-template-columns: 83px minmax(0, 1fr); column-gap: 9px; align-items: center; }
+  .story-tile strong { grid-row: 1 / span 2; font-size: 25px; white-space: nowrap; }
+  .story-tile h2 { margin: 0; font-size: clamp(18px, 5.5vw, 24px); }
+  .story-tile > span { align-self: center; }
+  #install-sheet { inset: auto 0 0; width: 100%; max-width: none; margin: 0; border-bottom: 0; box-shadow: none; }
+  .install-sheet-body { padding: 16px 16px calc(20px + env(safe-area-inset-bottom)); }
+}
+
+@keyframes swipe-in { from { opacity: .55; translate: var(--slide, 14px) 0; } to { opacity: 1; translate: 0 0; } }
+@keyframes sheet-open { from { opacity: 0; translate: 0 20px; } to { opacity: 1; translate: 0 0; } }
+
+@media (max-width: 680px) {
+  #content:has(.practice) .story-heading { margin-bottom: 14px; }
+  #content:has(.practice) .story-heading .day-display { font-size: clamp(32px, 9vmin, 49px); }
+  #content .practice { width: 100%; }
+  #content .practice-main {
+    --practice-nav-clearance: calc(var(--mobile-nav-height, 64px) + env(safe-area-inset-bottom));
+    display: flex;
+    min-height: clamp(330px, calc(100svh - var(--practice-nav-clearance) - 150px), 620px);
+    flex-direction: column;
+  }
+  #content .practice-kicker { font-size: .75rem; }
+  #content .practice-kicker span {
+    display: inline-grid;
+    align-items: center;
+    min-width: 41px;
+    background: var(--paper);
+    border-block-end: 2px solid var(--blue);
+    color: var(--ink);
+    text-align: center;
+  }
+  #content .practice-main h2 {
+    margin: 9px 0 6px;
+    font-family: var(--cn-display, inherit);
+    font-size: clamp(1.5rem, 6.5vw, 2.35rem);
+    font-weight: 400;
+    line-height: 1.16;
+    letter-spacing: -.035em;
+    text-wrap: balance;
+  }
+  #content .practice-description { max-width: 28em; font-size: .9rem; line-height: 1.55; }
+  #content .practice-figure {
+    display: grid;
+    align-content: center;
+    min-height: 113px;
+    margin: clamp(15px, 3svh, 28px) 3px 18px 0;
+    border: 2px solid var(--ink);
+    border-radius: 0 20px 0 0;
+    background: var(--panel, #fff);
+    box-shadow: 3px 3px 0 var(--ink);
+    overflow: clip;
+  }
+  #content .practice-figure strong,
+  #content .practice-ledger dd:not(.practice-order-mark) {
+    font-family: var(--display, system-ui, sans-serif);
+    font-weight: 400;
+    letter-spacing: -.02em;
+  }
+  #content .practice-price-comparison > div { min-height: 115px; }
+  #content .practice-price-comparison strong { font-size: clamp(2.1rem, 11vw, 3.35rem); }
+  #content .practice-ledger > div { min-height: 42px; padding-block: 8px; }
+  #content .practice-ledger > div:last-child { background: var(--lime); }
+  #content .practice-ledger dd:not(.practice-order-mark) { font-size: 1.28rem; }
+  #content .practice-message p { max-width: 24em; font-weight: 750; }
+  #content .practice-dock {
+    position: sticky;
+    z-index: 2;
+    bottom: var(--practice-nav-clearance);
+    margin-top: auto;
+    padding: 8px 1px 8px 0;
+    background: var(--paper);
+  }
+  #content .practice-actions { display: flex; gap: 7px; }
+  #content .practice-choice {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    min-width: 0;
+    min-height: 52px;
+    padding: 7px 9px;
+    border: 2px solid var(--ink);
+    border-radius: 0 13px 0 0;
+    text-align: left;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  #content .practice-actions > :only-child,
+  #content .practice-primary { background: var(--lime); color: var(--ink); }
+  #content .practice-choice:active { background: var(--lime); transform: translateY(2px); }
+  #content .practice-arrow,
+  #content .practice-primary span { margin: 0; font: 1rem/1 system-ui, sans-serif; }
+  #content .practice-feedback {
+    margin-bottom: 7px;
+    padding: 6px 8px;
+    border: 0;
+    border-left: 3px solid var(--blue);
+    background: color-mix(in srgb, var(--blue) 9%, var(--paper));
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+  #content .practice-hint { border-left-color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, var(--paper)); }
+  #content [data-practice-state='advance'] .practice-figure,
+  #content [data-practice-state='complete'] .practice-figure { animation: practice-placed .34s cubic-bezier(.22, 1, .36, 1) both; }
+  #content [data-practice-state='retry'] .practice-feedback { animation: practice-feedback-in .22s ease-out both; }
+  #content [data-practice-state='complete'] .practice-ledger > div:last-child,
+  #content [data-practice-state='complete'] .practice-price-comparison > div + div,
+  #content [data-practice-state='complete'] .practice-profit > span:first-child { color: white; background: var(--blue); }
+  #content:has(.practice) .under-stage .story-back { display: inline-flex; align-items: center; min-height: 44px; }
+
+  #content .sim-shell { --sim-lavender: #ecf5cf; --sim-muted: var(--muted, #555); }
+  #content .sim-header {
+    display: grid;
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  #content .sim-shell h1 { font-family: var(--cn-display, inherit); font-size: clamp(1.5rem, 6.8vw, 2.4rem); font-weight: 400; line-height: 1.13; }
+  #content .sim-header p { margin-top: 5px; font-size: .82rem; line-height: 1.45; }
+  #content .sim-day {
+    align-self: start;
+    padding: 6px 7px;
+    border: 1px solid var(--ink);
+    border-radius: 0 9px 0 0;
+    background: var(--lime);
+    color: var(--ink);
+    font-size: .69rem;
+  }
+  #content .sim-account { margin-bottom: 12px; }
+  #content .sim-account > div { padding: 10px 11px; gap: 3px; }
+  #content .sim-account > div:first-child { color: #fff; background: var(--blue); }
+  #content .sim-account > div:first-child :is(span, small) { color: #fff; }
+  #content .sim-account strong { font-size: clamp(1.2rem, 6vw, 1.9rem); }
+  #content .sim-account span,
+  #content .sim-account small { font-size: .7rem; line-height: 1.24; }
+  #content .sim-tip {
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 12px;
+    padding: 7px 8px;
+    font-size: .73rem;
+    line-height: 1.35;
+  }
+  #content .sim-tip strong { display: block; font-size: .8rem; }
+  #content .sim-tip p { margin-top: 2px; }
+  #content .sim-shell .sim-btn, #content .sim-toggle button {
+    min-height: 44px;
+    border-radius: 0 10px 0 0;
+    font-size: .83rem;
+    touch-action: manipulation;
+  }
+  #content .sim-tip .sim-btn { flex-shrink: 0; padding-inline: 7px; }
+  #content .sim-market-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  #content .sim-card { padding: 12px; }
+  #content .sim-stock-head { gap: 8px; }
+  #content .sim-stock-symbol { border-radius: 0 12px 0 0; }
+  #content .sim-print { margin-block: 12px 10px; }
+  #content .sim-print strong { font-size: 1.8rem; }
+  #content .sim-quotes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #content .sim-quotes button {
+    display: grid;
+    min-width: 0;
+    min-height: 56px;
+    gap: 2px;
+    padding: 5px 7px;
+    border: 1px solid var(--ink);
+    border-radius: 0 10px 0 0;
+    background: #f6f6ee;
+    touch-action: manipulation;
+  }
+  #content .sim-quotes button:first-child { background: var(--sim-lavender); }
+  #content .sim-quotes button:active { background: var(--lime); }
+  #content .sim-quotes small { margin-left: 2px; font-size: .66rem; color: var(--ink); }
+  #content .sim-quotes strong { font-family: var(--display); font-size: 1.15rem; font-weight: 400; }
+  #content .sim-shell .sim-event { margin-block: 8px; min-height: 0; line-height: 1.45; }
+  #content .sim-market-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  #content .sim-market-actions .sim-btn { white-space: normal; text-align: center; padding-inline: 4px; }
+  #content .sim-toggle { margin: 9px 0; padding: 0; gap: 5px; background: transparent; }
+  #content .sim-toggle button { border: 1px solid var(--ink); color: var(--ink); background: var(--paper); }
+  #content .sim-toggle button[aria-pressed='true'] { background: var(--lime); color: var(--ink); border-color: var(--ink); }
+  #content .sim-inputs { gap: 7px; }
+  #content .sim-shell input { min-height: 47px; border: 1px solid var(--ink); border-radius: 0 10px 0 0; font-size: 16px; }
+  #content .sim-shell .sim-submit { min-height: 52px; }
+  #content .sim-shell :is(.sim-ticket, .sim-reset) :is(input, button) { scroll-margin-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  #content .sim-shell .sim-status { border-left: 3px solid var(--blue); border-radius: 0; }
+  #content .sim-shell .sim-status-error { border-left-color: #8c1942; }
+  #content .sim-history { margin-top: 12px; }
+  #content .sim-link { min-height: 44px; }
+  #content .sim-foot { gap: 0; }
+  #content .sim-foot summary { min-height: 44px; align-content: center; }
+  #content .sim-reset form > div { min-width: 0; }
+  #content .sim-reset form > div input { width: min(100%, 136px); }
+}
+
+@keyframes practice-placed {
+  from { transform: translateY(4px) scale(.985); }
+  60% { transform: translateY(-2px) scale(1.005); }
+  to { transform: none; }
+}
+
+@keyframes practice-feedback-in {
+  from { opacity: .55; translate: 0 2px; }
+  to { opacity: 1; translate: 0; }
+}
+
+@media (max-width: 680px) and (prefers-reduced-motion: reduce) {
+  #content .practice [data-practice-state] .practice-figure,
+  #content .practice [data-practice-state] .practice-feedback { animation: none; }
+  #content .practice-choice:active { transform: none; }
+}
 </style>
 </head>
 <body>
   <header class="top"><div class="top-inner">
     <a class="wordmark" href="#today" aria-label="第一股，今日故事"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i></span><span>第一股<small>First Share</small></span></a>
-    <nav aria-label="主导航"><a href="#today" data-nav="today">今日故事</a><a href="#stories" data-nav="stories">全部故事</a></nav>
+    <nav class="desktop-nav" aria-label="主导航"><a href="#today" data-nav="today">今日故事</a><a href="#stories" data-nav="stories">全部故事</a></nav>
+    <button class="install-trigger" type="button" aria-haspopup="dialog" aria-label="添加到手机主屏幕"><span aria-hidden="true">↓</span><span>添加到主屏幕</span></button>
   </div></header>
   <main id="content" tabindex="-1"></main>
+  <nav class="mobile-dock" aria-label="手机导航">
+    <a href="#today" data-nav="today"><span><img src="./assets/lucide-book-open.svg" alt="" width="23" height="23"></span>今日</a>
+    <a href="#stories" data-nav="stories"><span><img src="./assets/lucide-map.svg" alt="" width="23" height="23"></span>章节</a>
+    <a href="#practice" data-nav="practice"><span><img src="./assets/lucide-chart.svg" alt="" width="23" height="23"></span>模拟</a>
+  </nav>
   <footer class="site-footer"><a href="#practice">模拟盘</a><a href="#resources">延伸资料</a><span>校园投资故事 · 虚拟练习</span></footer>
+  <dialog id="install-sheet" aria-labelledby="install-title"><div class="install-sheet-body">
+    <button type="button" class="install-close" aria-label="关闭">×</button>
+    <h2 id="install-title">把第一股放进手机</h2>
+    <p id="install-help"></p>
+    <button class="btn primary install-confirm" type="button" hidden>安装第一股</button>
+  </div></dialog>
   <noscript>请启用 JavaScript，继续校园故事。</noscript>
   <script>const STORIES = [
   {
@@ -1022,18 +1344,21 @@ function renderPractice(root, type, { onDone, onStory, onFull } = {}) {
 
   function draw(focusTarget) {
     const step = steps[stepIndex];
+    const result = complete ? 'complete' : isHint ? 'retry' : feedback ? 'advance' : 'ready';
     const choices = step.actions.map((action, index) =>
-      `<button class="practice-choice" type="button" data-practice-choice="${index}">${action}</button>`).join('');
+      `<button class="practice-choice" type="button" data-practice-choice="${index}">${action}<span class="practice-arrow" aria-hidden="true">↗</span></button>`).join('');
     const storyButton = `<button class="practice-choice practice-primary" type="button" data-practice-nav="story">继续故事 <span aria-hidden="true">→</span></button>`;
     const fullButton = onFull
       ? '<button class="practice-choice" type="button" data-practice-nav="full">进入完整模拟盘</button>' : '';
-    view.innerHTML = `<div class="practice-main">
+    view.innerHTML = `<div class="practice-main" data-practice-state="${result}">
         <p class="practice-kicker">动手试一试${steps.length > 1 ? ` <span>${stepIndex + 1} / ${steps.length}</span>` : ''}</p>
         <h2 id="practice-title" tabindex="-1">${step.title}</h2>
         <p class="practice-description">${step.description}</p>
         <div class="practice-figure">${step.figure(account)}</div>
-        ${feedback ? `<p class="practice-feedback${isHint ? ' practice-hint' : ''}">${feedback}</p>` : ''}
-        <div class="practice-actions">${complete ? `${storyButton}${fullButton}` : choices}</div>
+        <div class="practice-dock">
+          ${feedback ? `<p class="practice-feedback${isHint ? ' practice-hint' : ''}">${feedback}</p>` : ''}
+          <div class="practice-actions">${complete ? `${storyButton}${fullButton}` : choices}</div>
+        </div>
     </div>`;
     if (focusTarget) view.querySelector(focusTarget)?.focus({ preventScroll: true });
   }
@@ -1121,7 +1446,7 @@ function pictureHTML(index, current, scene) {
   </figure>`;
 }
 
-function renderStory(index, focusScene = false) {
+function renderStory(index, direction = 0) {
   const story = STORIES[index];
   const state = progress[index];
   const current = state.scene;
@@ -1129,11 +1454,12 @@ function renderStory(index, focusScene = false) {
   const last = current === story.scenes.length - 1;
   const nextLabel = last ? '进入模拟练习' : scene.next ?? '下一幕';
   storyRoot.innerHTML = `${chapterHeading(index, story.title, story.scenes.length, current)}
-    <section class="story-stage arrive" aria-labelledby="scene-title">${pictureHTML(index, current, scene)}<div class="story-copy">
+    <section class="story-stage arrive${direction < 0 ? ' reverse' : ''}" aria-labelledby="scene-title">${pictureHTML(index, current, scene)}<div class="story-copy">
       <h2 class="scene-title" id="scene-title" tabindex="-1">${scene.title}</h2><p class="scene-text">${scene.text}</p>
       <div class="choices" role="group" aria-label="选择你的行动">${scene.choices.map((choice, number) => `<button class="choice" type="button" data-choice="${number}" aria-pressed="false"><span class="choice-key" aria-hidden="true">${'ABC'[number]}</span><span>${choice.label}</span><span aria-hidden="true">↗</span></button>`).join('')}</div>
-      <p class="feedback" role="status" hidden></p><div class="scene-next" hidden><button class="btn primary" data-next type="button">${nextLabel}<span aria-hidden="true">→</span></button></div>
-    </div></section><div class="under-stage">${current ? '<button class="story-back" data-back type="button">← 上一幕</button>' : ''}${state.done ? '<span>这天已经完成</span>' : ''}</div>`;
+      <p class="feedback" role="status" hidden></p>
+    </div></section><div class="scene-next" hidden><button class="btn primary" data-next type="button">${nextLabel}${last ? '' : '<span class="gesture-hint" aria-hidden="true">也可左滑插图</span>'}<span aria-hidden="true">→</span></button></div>
+    <div class="under-stage">${current ? '<button class="story-back" data-back type="button">← 上一幕</button>' : ''}${state.done ? '<span>这天已经完成</span>' : ''}</div>`;
 
   const buttons = [...storyRoot.querySelectorAll('[data-choice]')];
   const art = storyRoot.querySelector('.story-art');
@@ -1164,21 +1490,42 @@ function renderStory(index, focusScene = false) {
     saveProgress();
     selectChoice(number, true);
   }));
-  storyRoot.querySelector('[data-next]').addEventListener('click', () => {
+  function forward() {
+    if (state.answers[current] === null) return;
     if (last) {
       location.hash = `#practice/${index + 1}`;
       return;
     }
     state.scene += 1;
     saveProgress();
-    renderStory(index, true);
-  });
-  storyRoot.querySelector('[data-back]')?.addEventListener('click', () => {
+    renderStory(index, 1);
+  }
+
+  function back() {
+    if (!current) return;
     state.scene -= 1;
     saveProgress();
-    renderStory(index, true);
+    renderStory(index, -1);
+  }
+
+  storyRoot.querySelector('[data-next]').addEventListener('click', forward);
+  storyRoot.querySelector('[data-back]')?.addEventListener('click', back);
+  let swipe;
+  art.addEventListener('pointerdown', event => {
+    if (!event.isPrimary || event.pointerType !== 'touch') return;
+    swipe = { id: event.pointerId, x: event.clientX, y: event.clientY };
   });
-  if (focusScene) {
+  art.addEventListener('pointercancel', () => { swipe = undefined; });
+  art.addEventListener('pointerup', event => {
+    if (swipe?.id !== event.pointerId) return;
+    const dx = event.clientX - swipe.x;
+    const dy = event.clientY - swipe.y;
+    swipe = undefined;
+    if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+    if (dx < 0) forward();
+    else back();
+  });
+  if (direction) {
     storyRoot.querySelector('#scene-title').focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
@@ -1228,8 +1575,9 @@ function showPage(focus = false) {
     renderStory(page === 'day' && index !== null ? index : todayIndex());
   }
   document.title = `${title} · 第一股`;
+  const activeNav = title === '全部故事' ? 'stories' : title === '模拟交易' || title === '模拟练习' ? 'practice' : title === '今日故事' ? 'today' : '';
   document.querySelectorAll('[data-nav]').forEach(link => {
-    if (link.textContent === title) link.setAttribute('aria-current', 'page');
+    if (link.dataset.nav === activeNav) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   });
   if (focus) {
@@ -1240,6 +1588,48 @@ function showPage(focus = false) {
 
 window.addEventListener('hashchange', () => showPage(true));
 showPage();
+
+const installSheet = document.getElementById('install-sheet');
+const installTrigger = document.querySelector('.install-trigger');
+const installConfirm = document.querySelector('.install-confirm');
+let installEvent;
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  installEvent = event;
+  installConfirm.hidden = false;
+});
+window.addEventListener('appinstalled', () => {
+  installEvent = undefined;
+  installTrigger.hidden = true;
+  installSheet.close();
+});
+
+if (matchMedia('(display-mode: standalone)').matches || navigator.standalone) installTrigger.hidden = true;
+
+installTrigger.addEventListener('click', () => {
+  const appleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const android = /Android/.test(navigator.userAgent);
+  const tip = installEvent ? '安装后点手机主屏幕上的「第一股」，就能继续故事。'
+    : appleMobile ? '用 Safari 打开，点分享按钮，再选「添加到主屏幕」。'
+      : android ? '打开浏览器菜单，选择「安装应用」或「添加到主屏幕」。'
+        : '在手机浏览器打开这页，再从浏览器菜单添加到主屏幕。';
+  document.getElementById('install-help').textContent = tip;
+  installSheet.showModal();
+});
+document.querySelector('.install-close').addEventListener('click', () => installSheet.close());
+installConfirm.addEventListener('click', async () => {
+  const pendingInstall = installEvent;
+  if (!pendingInstall) return;
+  installEvent = undefined;
+  installConfirm.hidden = true;
+  installSheet.close();
+  await pendingInstall.prompt();
+});
+
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+  navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(error => console.warn('离线功能暂不可用', error));
+}
 </script>
 </body>
 </html>

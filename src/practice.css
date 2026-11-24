@@ -1,0 +1,89 @@
+.practice {
+  --practice-ink: var(--ink, #111);
+  --practice-paper: var(--paper, #f7f7f2);
+  --practice-blue: var(--blue, #3155f5);
+  --practice-lime: var(--lime, #b9f227);
+  color: var(--practice-ink);
+  width: min(100%, 39rem);
+  margin-inline: auto;
+}
+
+.practice * { box-sizing: border-box; }
+.practice-main { min-width: 0; }
+.practice-main h2 {
+  color: inherit;
+  margin: .45rem 0 .6rem;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  line-height: 1.12;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+.practice-main h2:focus { outline: 0; }
+.practice-kicker {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: .83rem;
+  font-weight: 700;
+}
+.practice-kicker span { color: var(--muted, #555); font-variant-numeric: tabular-nums; }
+.practice-description { margin: 0; font-size: 1rem; line-height: 1.65; }
+.practice-figure {
+  margin: 1.3rem 0 1rem;
+  border: 1px solid var(--practice-ink);
+  border-top-right-radius: 1.4rem;
+  background: var(--practice-paper);
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.practice-price-comparison { display: grid; grid-template-columns: 1fr 1fr; }
+.practice-price-comparison > div { display: grid; align-content: center; gap: .35rem; min-width: 0; min-height: 6.4rem; padding: .9rem 1.1rem; }
+.practice-price-comparison > div + div { background: var(--practice-lime); border-left: 1px solid var(--practice-ink); }
+.practice-price-comparison span { font-size: .82rem; font-weight: 700; }
+.practice-price-comparison strong { font-size: clamp(1.5rem, 5.5vw, 2.35rem); line-height: 1.1; }
+.practice-price-comparison small { font-family: inherit; font-size: .73rem; white-space: nowrap; }
+.practice-ledger { margin: 0; }
+.practice-ledger > div { display: flex; justify-content: space-between; align-items: center; gap: .7rem; padding: .63rem 1rem; }
+.practice-ledger > div + div { border-top: 1px solid var(--practice-ink); }
+.practice-ledger > div:last-child { background: var(--practice-lime); }
+.practice-ledger dt { font-size: .88rem; line-height: 1.35; }
+.practice-ledger dd { margin: 0; white-space: nowrap; font-size: 1.02rem; font-weight: 750; }
+.practice-ledger dd.practice-order-mark { font-size: .9rem; }
+.practice-profit { display: grid; grid-template-columns: 1fr 1fr; }
+.practice-profit span { display: flex; align-items: center; min-height: 3.6rem; padding: .6rem .8rem; font-size: .88rem; font-weight: 750; background: var(--practice-lime); }
+.practice-profit span + span { border-left: 1px solid var(--practice-ink); background: transparent; }
+.practice-shares p { margin: 0; padding: .65rem .8rem; border-top: 1px solid var(--practice-ink); font-size: .85rem; }
+.practice-message { padding: .95rem 1rem; }
+.practice-message span { font-size: .82rem; font-weight: 700; }
+.practice-message p { margin: .38rem 0 0; line-height: 1.5; font-size: 1.02rem; }
+.practice-actions { display: flex; flex-wrap: wrap; gap: .55rem; }
+.practice-choice {
+  flex: 1 1 10rem;
+  min-height: 2.85rem;
+  padding: .5rem .75rem;
+  border: 1px solid var(--practice-ink);
+  border-radius: 0;
+  color: var(--practice-ink);
+  background: var(--practice-paper);
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+  cursor: pointer;
+}
+.practice-choice:hover { background: var(--practice-lime); }
+.practice-choice:focus-visible { outline: 2px solid var(--practice-blue); outline-offset: 3px; }
+.practice-primary { color: #fff; background: var(--practice-blue); border-color: var(--practice-blue); }
+.practice-primary:hover { color: var(--practice-ink); border-color: var(--practice-ink); }
+.practice-primary span { margin-left: .25rem; }
+.practice-feedback { margin: 0 0 .8rem; border-left: 3px solid var(--practice-blue); padding: .12rem 0 .12rem .6rem; font-size: .91rem; font-weight: 650; line-height: 1.55; }
+.practice-hint { border-left-color: var(--practice-ink); }
+.practice-live { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
+
+@media (max-width: 360px) {
+  .practice-price-comparison > div { padding-inline: .7rem; }
+  .practice-ledger > div { padding-inline: .7rem; }
+  .practice-choice { flex-basis: 100%; }
+}

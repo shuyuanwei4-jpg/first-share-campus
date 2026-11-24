@@ -1,0 +1,204 @@
+@media (max-width: 680px) {
+  #content:has(.practice) .story-heading { margin-bottom: 14px; }
+  #content:has(.practice) .story-heading .day-display { font-size: clamp(32px, 9vmin, 49px); }
+  #content .practice { width: 100%; }
+  #content .practice-main {
+    --practice-nav-clearance: calc(var(--mobile-nav-height, 64px) + env(safe-area-inset-bottom));
+    display: flex;
+    min-height: clamp(330px, calc(100svh - var(--practice-nav-clearance) - 150px), 620px);
+    flex-direction: column;
+  }
+  #content .practice-kicker { font-size: .75rem; }
+  #content .practice-kicker span {
+    display: inline-grid;
+    align-items: center;
+    min-width: 41px;
+    background: var(--paper);
+    border-block-end: 2px solid var(--blue);
+    color: var(--ink);
+    text-align: center;
+  }
+  #content .practice-main h2 {
+    margin: 9px 0 6px;
+    font-family: var(--cn-display, inherit);
+    font-size: clamp(1.5rem, 6.5vw, 2.35rem);
+    font-weight: 400;
+    line-height: 1.16;
+    letter-spacing: -.035em;
+    text-wrap: balance;
+  }
+  #content .practice-description { max-width: 28em; font-size: .9rem; line-height: 1.55; }
+  #content .practice-figure {
+    display: grid;
+    align-content: center;
+    min-height: 113px;
+    margin: clamp(15px, 3svh, 28px) 3px 18px 0;
+    border: 2px solid var(--ink);
+    border-radius: 0 20px 0 0;
+    background: var(--panel, #fff);
+    box-shadow: 3px 3px 0 var(--ink);
+    overflow: clip;
+  }
+  #content .practice-figure strong,
+  #content .practice-ledger dd:not(.practice-order-mark) {
+    font-family: var(--display, system-ui, sans-serif);
+    font-weight: 400;
+    letter-spacing: -.02em;
+  }
+  #content .practice-price-comparison > div { min-height: 115px; }
+  #content .practice-price-comparison strong { font-size: clamp(2.1rem, 11vw, 3.35rem); }
+  #content .practice-ledger > div { min-height: 42px; padding-block: 8px; }
+  #content .practice-ledger > div:last-child { background: var(--lime); }
+  #content .practice-ledger dd:not(.practice-order-mark) { font-size: 1.28rem; }
+  #content .practice-message p { max-width: 24em; font-weight: 750; }
+  #content .practice-dock {
+    position: sticky;
+    z-index: 2;
+    bottom: var(--practice-nav-clearance);
+    margin-top: auto;
+    padding: 8px 1px 8px 0;
+    background: var(--paper);
+  }
+  #content .practice-actions { display: flex; gap: 7px; }
+  #content .practice-choice {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    min-width: 0;
+    min-height: 52px;
+    padding: 7px 9px;
+    border: 2px solid var(--ink);
+    border-radius: 0 13px 0 0;
+    text-align: left;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  #content .practice-actions > :only-child,
+  #content .practice-primary { background: var(--lime); color: var(--ink); }
+  #content .practice-choice:active { background: var(--lime); transform: translateY(2px); }
+  #content .practice-arrow,
+  #content .practice-primary span { margin: 0; font: 1rem/1 system-ui, sans-serif; }
+  #content .practice-feedback {
+    margin-bottom: 7px;
+    padding: 6px 8px;
+    border: 0;
+    border-left: 3px solid var(--blue);
+    background: color-mix(in srgb, var(--blue) 9%, var(--paper));
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+  #content .practice-hint { border-left-color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, var(--paper)); }
+  #content [data-practice-state='advance'] .practice-figure,
+  #content [data-practice-state='complete'] .practice-figure { animation: practice-placed .34s cubic-bezier(.22, 1, .36, 1) both; }
+  #content [data-practice-state='retry'] .practice-feedback { animation: practice-feedback-in .22s ease-out both; }
+  #content [data-practice-state='complete'] .practice-ledger > div:last-child,
+  #content [data-practice-state='complete'] .practice-price-comparison > div + div,
+  #content [data-practice-state='complete'] .practice-profit > span:first-child { color: white; background: var(--blue); }
+  #content:has(.practice) .under-stage .story-back { display: inline-flex; align-items: center; min-height: 44px; }
+
+  #content .sim-shell { --sim-lavender: #ecf5cf; --sim-muted: var(--muted, #555); }
+  #content .sim-header {
+    display: grid;
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  #content .sim-shell h1 { font-family: var(--cn-display, inherit); font-size: clamp(1.5rem, 6.8vw, 2.4rem); font-weight: 400; line-height: 1.13; }
+  #content .sim-header p { margin-top: 5px; font-size: .82rem; line-height: 1.45; }
+  #content .sim-day {
+    align-self: start;
+    padding: 6px 7px;
+    border: 1px solid var(--ink);
+    border-radius: 0 9px 0 0;
+    background: var(--lime);
+    color: var(--ink);
+    font-size: .69rem;
+  }
+  #content .sim-account { margin-bottom: 12px; }
+  #content .sim-account > div { padding: 10px 11px; gap: 3px; }
+  #content .sim-account > div:first-child { color: #fff; background: var(--blue); }
+  #content .sim-account > div:first-child :is(span, small) { color: #fff; }
+  #content .sim-account strong { font-size: clamp(1.2rem, 6vw, 1.9rem); }
+  #content .sim-account span,
+  #content .sim-account small { font-size: .7rem; line-height: 1.24; }
+  #content .sim-tip {
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 12px;
+    padding: 7px 8px;
+    font-size: .73rem;
+    line-height: 1.35;
+  }
+  #content .sim-tip strong { display: block; font-size: .8rem; }
+  #content .sim-tip p { margin-top: 2px; }
+  #content .sim-shell .sim-btn, #content .sim-toggle button {
+    min-height: 44px;
+    border-radius: 0 10px 0 0;
+    font-size: .83rem;
+    touch-action: manipulation;
+  }
+  #content .sim-tip .sim-btn { flex-shrink: 0; padding-inline: 7px; }
+  #content .sim-market-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  #content .sim-card { padding: 12px; }
+  #content .sim-stock-head { gap: 8px; }
+  #content .sim-stock-symbol { border-radius: 0 12px 0 0; }
+  #content .sim-print { margin-block: 12px 10px; }
+  #content .sim-print strong { font-size: 1.8rem; }
+  #content .sim-quotes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #content .sim-quotes button {
+    display: grid;
+    min-width: 0;
+    min-height: 56px;
+    gap: 2px;
+    padding: 5px 7px;
+    border: 1px solid var(--ink);
+    border-radius: 0 10px 0 0;
+    background: #f6f6ee;
+    touch-action: manipulation;
+  }
+  #content .sim-quotes button:first-child { background: var(--sim-lavender); }
+  #content .sim-quotes button:active { background: var(--lime); }
+  #content .sim-quotes small { margin-left: 2px; font-size: .66rem; color: var(--ink); }
+  #content .sim-quotes strong { font-family: var(--display); font-size: 1.15rem; font-weight: 400; }
+  #content .sim-shell .sim-event { margin-block: 8px; min-height: 0; line-height: 1.45; }
+  #content .sim-market-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  #content .sim-market-actions .sim-btn { white-space: normal; text-align: center; padding-inline: 4px; }
+  #content .sim-toggle { margin: 9px 0; padding: 0; gap: 5px; background: transparent; }
+  #content .sim-toggle button { border: 1px solid var(--ink); color: var(--ink); background: var(--paper); }
+  #content .sim-toggle button[aria-pressed='true'] { background: var(--lime); color: var(--ink); border-color: var(--ink); }
+  #content .sim-inputs { gap: 7px; }
+  #content .sim-shell input { min-height: 47px; border: 1px solid var(--ink); border-radius: 0 10px 0 0; font-size: 16px; }
+  #content .sim-shell .sim-submit { min-height: 52px; }
+  #content .sim-shell :is(.sim-ticket, .sim-reset) :is(input, button) { scroll-margin-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  #content .sim-shell .sim-status { border-left: 3px solid var(--blue); border-radius: 0; }
+  #content .sim-shell .sim-status-error { border-left-color: #8c1942; }
+  #content .sim-history { margin-top: 12px; }
+  #content .sim-link { min-height: 44px; }
+  #content .sim-foot { gap: 0; }
+  #content .sim-foot summary { min-height: 44px; align-content: center; }
+  #content .sim-reset form > div { min-width: 0; }
+  #content .sim-reset form > div input { width: min(100%, 136px); }
+}
+
+@keyframes practice-placed {
+  from { transform: translateY(4px) scale(.985); }
+  60% { transform: translateY(-2px) scale(1.005); }
+  to { transform: none; }
+}
+
+@keyframes practice-feedback-in {
+  from { opacity: .55; translate: 0 2px; }
+  to { opacity: 1; translate: 0; }
+}
+
+@media (max-width: 680px) and (prefers-reduced-motion: reduce) {
+  #content .practice [data-practice-state] .practice-figure,
+  #content .practice [data-practice-state] .practice-feedback { animation: none; }
+  #content .practice-choice:active { transform: none; }
+}
