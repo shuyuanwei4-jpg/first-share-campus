@@ -1,6 +1,6 @@
 @media (max-width: 680px) {
   #content:has(.practice) .story-heading { margin-bottom: 14px; }
-  #content:has(.practice) .story-heading .day-display { font-size: clamp(32px, 9vmin, 49px); }
+  #content:has(.practice) .story-heading .day-display { font-size: var(--type-heading); }
   #content .practice { width: 100%; }
   #content .practice-main {
     --practice-nav-clearance: calc(var(--mobile-nav-height, 64px) + env(safe-area-inset-bottom));
@@ -8,7 +8,7 @@
     min-height: clamp(330px, calc(100svh - var(--practice-nav-clearance) - 150px), 620px);
     flex-direction: column;
   }
-  #content .practice-kicker { font-size: .75rem; }
+  #content .practice-kicker { font-size: var(--type-caption); }
   #content .practice-kicker span {
     display: inline-grid;
     align-items: center;
@@ -21,13 +21,13 @@
   #content .practice-main h2 {
     margin: 9px 0 6px;
     font-family: var(--cn-display, inherit);
-    font-size: clamp(1.5rem, 6.5vw, 2.35rem);
-    font-weight: 400;
-    line-height: 1.16;
-    letter-spacing: -.035em;
+    font-size: var(--type-heading);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: normal;
     text-wrap: balance;
   }
-  #content .practice-description { max-width: 28em; font-size: .9rem; line-height: 1.55; }
+  #content .practice-description { max-width: 28em; font-size: var(--type-body); line-height: 1.55; }
   #content .practice-figure {
     display: grid;
     align-content: center;
@@ -41,16 +41,16 @@
   }
   #content .practice-figure strong,
   #content .practice-ledger dd:not(.practice-order-mark) {
-    font-family: var(--display, system-ui, sans-serif);
-    font-weight: 400;
+    font-family: var(--body);
+    font-weight: 600;
     letter-spacing: -.02em;
   }
   #content .practice-price-comparison > div { min-height: 115px; }
-  #content .practice-price-comparison strong { font-size: clamp(2.1rem, 11vw, 3.35rem); }
+  #content .practice-price-comparison strong { font-size: var(--type-title); }
   #content .practice-ledger > div { min-height: 42px; padding-block: 8px; }
   #content .practice-ledger > div:last-child { background: var(--lime); }
-  #content .practice-ledger dd:not(.practice-order-mark) { font-size: 1.28rem; }
-  #content .practice-message p { max-width: 24em; font-weight: 750; }
+  #content .practice-ledger dd:not(.practice-order-mark) { font-size: var(--type-heading); }
+  #content .practice-message p { max-width: 24em; font-weight: 600; }
   #content .practice-dock {
     position: sticky;
     z-index: 2;
@@ -72,7 +72,7 @@
     border: 2px solid var(--ink);
     border-radius: 0 13px 0 0;
     text-align: left;
-    font-weight: 800;
+    font-weight: 600;
     overflow-wrap: anywhere;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -88,7 +88,7 @@
     border: 0;
     border-left: 3px solid var(--blue);
     background: color-mix(in srgb, var(--blue) 9%, var(--paper));
-    font-size: .82rem;
+    font-size: var(--type-caption);
     line-height: 1.45;
   }
   #content .practice-hint { border-left-color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, var(--paper)); }
@@ -108,8 +108,8 @@
     gap: 8px;
     margin-bottom: 14px;
   }
-  #content .sim-shell h1 { font-family: var(--cn-display, inherit); font-size: clamp(1.5rem, 6.8vw, 2.4rem); font-weight: 400; line-height: 1.13; }
-  #content .sim-header p { margin-top: 5px; font-size: .82rem; line-height: 1.45; }
+  #content .sim-shell h1 { font-family: var(--cn-display, inherit); font-size: var(--type-title); font-weight: 600; line-height: 1.3; }
+  #content .sim-header p { margin-top: 5px; font-size: var(--type-caption); line-height: 1.45; }
   #content .sim-day {
     align-self: start;
     padding: 6px 7px;
@@ -117,30 +117,30 @@
     border-radius: 0 9px 0 0;
     background: var(--lime);
     color: var(--ink);
-    font-size: .69rem;
+    font-size: var(--type-caption);
   }
   #content .sim-account { margin-bottom: 12px; }
   #content .sim-account > div { padding: 10px 11px; gap: 3px; }
   #content .sim-account > div:first-child { color: #fff; background: var(--blue); }
   #content .sim-account > div:first-child :is(span, small) { color: #fff; }
-  #content .sim-account strong { font-size: clamp(1.2rem, 6vw, 1.9rem); }
+  #content .sim-account strong { font-size: var(--type-heading); }
   #content .sim-account span,
-  #content .sim-account small { font-size: .7rem; line-height: 1.24; }
+  #content .sim-account small { font-size: var(--type-caption); line-height: 1.24; }
   #content .sim-tip {
     flex-direction: row;
     align-items: center;
     gap: 7px;
     margin: 0 0 12px;
     padding: 7px 8px;
-    font-size: .73rem;
+    font-size: var(--type-caption);
     line-height: 1.35;
   }
-  #content .sim-tip strong { display: block; font-size: .8rem; }
+  #content .sim-tip strong { display: block; font-size: var(--type-caption); }
   #content .sim-tip p { margin-top: 2px; }
   #content .sim-shell .sim-btn, #content .sim-toggle button {
     min-height: 44px;
     border-radius: 0 10px 0 0;
-    font-size: .83rem;
+    font-size: var(--type-caption);
     touch-action: manipulation;
   }
   #content .sim-tip .sim-btn { flex-shrink: 0; padding-inline: 7px; }
@@ -149,7 +149,7 @@
   #content .sim-stock-head { gap: 8px; }
   #content .sim-stock-symbol { border-radius: 0 12px 0 0; }
   #content .sim-print { margin-block: 12px 10px; }
-  #content .sim-print strong { font-size: 1.8rem; }
+  #content .sim-print strong { font-size: var(--type-heading); }
   #content .sim-quotes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #content .sim-quotes button {
     display: grid;
@@ -164,8 +164,8 @@
   }
   #content .sim-quotes button:first-child { background: var(--sim-lavender); }
   #content .sim-quotes button:active { background: var(--lime); }
-  #content .sim-quotes small { margin-left: 2px; font-size: .66rem; color: var(--ink); }
-  #content .sim-quotes strong { font-family: var(--display); font-size: 1.15rem; font-weight: 400; }
+  #content .sim-quotes small { margin-left: 2px; font-size: var(--type-caption); color: var(--ink); }
+  #content .sim-quotes strong { font-family: var(--body); font-size: var(--type-body); font-weight: 600; }
   #content .sim-shell .sim-event { margin-block: 8px; min-height: 0; line-height: 1.45; }
   #content .sim-market-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
   #content .sim-market-actions .sim-btn { white-space: normal; text-align: center; padding-inline: 4px; }

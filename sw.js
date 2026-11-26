@@ -1,7 +1,7 @@
 const appScope = new URL(self.registration.scope);
 const indexUrl = new URL('index.html', appScope).href;
 const cachePrefix = 'first-stock:' + appScope.pathname + ':';
-const cacheName = cachePrefix + 'v2';
+const cacheName = cachePrefix + 'v3';
 
 const appFiles = [
   'index.html',
@@ -10,7 +10,6 @@ const appFiles = [
   'icons/app-512.png',
   'icons/app-maskable-512.png',
   'icons/apple-touch-icon.png',
-  'assets/zcool-kuaile.woff2',
   'assets/lucide-book-open.svg',
   'assets/lucide-map.svg',
   'assets/lucide-chart.svg',

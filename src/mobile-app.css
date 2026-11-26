@@ -1,36 +1,25 @@
-@font-face {
-  font-family: 'ZCOOL KuaiLe App';
-  src: url('./assets/zcool-kuaile.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
-}
-
 :root {
-  --cn-display: 'ZCOOL KuaiLe App', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --mobile-nav-height: 62px;
-  font-family: system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  font-weight: 400;
 }
 
-.wordmark > span:nth-child(2), .story-heading h1, .scene-title, .story-tile h2,
+.wordmark > span:nth-child(2), .story-heading h1, .scene-title,
 .practice-main h2, .resources h1, .install-sheet-body h2, #content .sim-header h1 {
   font-family: var(--cn-display);
-  font-weight: 400;
-  letter-spacing: -.025em;
+  font-weight: 600;
+  letter-spacing: normal;
 }
-.scene-text { text-shadow: none; }
-.visual-card b.mixed { font-family: var(--cn-display); font-weight: 400; }
+.visual-card b.mixed { font-family: var(--cn-display); font-weight: 600; }
 .desktop-nav { margin-left: auto; }
 .mobile-dock { display: none; }
-.install-trigger, .install-close { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 0 12px 0 0; padding: 4px 10px; background: var(--paper); color: var(--ink); font-size: 13px; font-weight: 650; }
+.install-trigger, .install-close { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 0 12px 0 0; padding: 4px 10px; background: var(--paper); color: var(--ink); font-size: var(--type-caption); font-weight: 600; }
 .install-trigger > span:first-child { font-size: 20px; line-height: 1; }
 .install-trigger:hover, .install-close:hover { background: var(--lime); }
 #install-sheet { position: fixed; width: min(430px, calc(100% - 28px)); max-height: 85dvh; padding: 0; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 0 30px 0 0; box-shadow: 7px 7px var(--ink); }
 #install-sheet[open] { animation: sheet-open .32s var(--ease) both; }
 #install-sheet::backdrop { background: #1119; }
 .install-sheet-body { display: grid; gap: 11px; padding: 21px; }
-.install-sheet-body h2 { margin: 0; font-size: 29px; }
-.install-sheet-body p { margin: 0; font-size: 15px; line-height: 1.6; }
+.install-sheet-body h2 { margin: 0; font-size: var(--type-heading); }
+.install-sheet-body p { margin: 0; font-size: var(--type-ui); line-height: 1.6; }
 .install-close { justify-self: end; min-width: 44px; font-size: 24px; line-height: 1; }
 .gesture-hint { display: none; }
 
@@ -39,18 +28,18 @@
   .top { position: sticky; top: 0; z-index: 4; border-bottom-width: 1px; background: var(--paper); padding-top: env(safe-area-inset-top); }
   .top-inner { width: auto; margin-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right)); min-height: 54px; }
   .brand-icon { width: 29px; height: 29px; padding-bottom: 5px; }
-  .wordmark { font-size: 19px; }
+  .wordmark { font-size: var(--type-heading); }
   .wordmark small { display: none; }
   .desktop-nav { display: none; }
   .install-trigger { margin-left: auto; min-width: 44px; border: 0; }
   .install-trigger > span:first-child { display: grid; place-items: center; width: 25px; height: 25px; border: 1.5px solid var(--ink); border-radius: 50%; }
-  .install-trigger > span:last-child { font-size: 11px; }
+  .install-trigger > span:last-child { font-size: var(--type-caption); }
   #content { width: auto; margin-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right)); padding: 16px 0 12px; }
   #content:has(.scene-next:not([hidden])) { padding-bottom: 85px; }
   .story-heading { margin-bottom: 13px; gap: 8px; }
-  .story-heading .day-display { font-size: clamp(50px, 13vw, 77px); margin-bottom: 7px; }
-  .story-heading h1 { font-size: clamp(21px, 5.8vw, 35px); line-height: 1.1; }
-  .step-control { font-size: 11px; align-self: end; }
+  .story-heading .day-display { font-size: var(--type-heading); margin-bottom: 7px; }
+  .story-heading h1 { font-size: var(--type-title); line-height: 1.1; }
+  .step-control { font-size: var(--type-caption); align-self: end; }
   .segments i { width: 13px; height: 5px; }
   .story-stage { overflow: visible; display: block; background: transparent; border: 0; border-radius: 0; }
   .story-stage.arrive { animation: swipe-in .31s var(--ease) both; }
@@ -59,23 +48,23 @@
   .story-art[data-art='canteen'] .visual-prop { bottom: 7%; }
   .art-objects { width: min(75%, 310px); height: clamp(138px, 22svh, 214px); }
   .art-index { display: none; }
-  .art-caption { padding: 4px 7px; font-size: 11px; }
+  .art-caption { padding: 4px 7px; font-size: var(--type-caption); }
   .art-status { bottom: 8px; }
   .story-copy { padding: 13px 0 0; }
-  .scene-title { font-size: clamp(24px, 6.3vw, 36px); margin-bottom: 5px; }
-  .scene-text { margin-bottom: 11px; font-size: 15px; line-height: 1.55; }
+  .scene-title { font-size: var(--type-heading); margin-bottom: 5px; }
+  .scene-text { margin-bottom: 11px; font-size: var(--type-body); line-height: 1.6; }
   .choices { gap: 7px; }
-  .choice { min-height: 48px; font-size: 14px; border-width: 1.5px; padding: 7px 10px; background: #fff; }
+  .choice { min-height: 48px; font-size: var(--type-ui); border-width: 1.5px; padding: 7px 10px; background: #fff; }
   .choice[aria-pressed='true'] { background: var(--lime); }
   .choice-key { border-width: 1px; }
-  .feedback { min-height: 32px; font-size: 14px; }
+  .feedback { min-height: 32px; font-size: var(--type-ui); }
   .scene-next { position: fixed; margin: 0; z-index: 3; left: 0; right: 0; bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom)); padding: 7px max(14px, env(safe-area-inset-right)) 8px max(14px, env(safe-area-inset-left)); background: var(--paper); border-top: 1px solid #1114; }
   .scene-next .btn { min-height: 46px; }
-  .gesture-hint { display: inline; color: #555; font-size: 11px; font-weight: 400; margin-left: auto; }
+  .gesture-hint { display: inline; color: #555; font-size: var(--type-caption); font-weight: 400; margin-left: auto; }
   .scene-next .btn .gesture-hint { transform: none; }
   .under-stage { min-height: 10px; padding: 0; }
   .mobile-dock { position: fixed; z-index: 5; bottom: 0; inset-inline: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; min-height: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom)); padding: 3px max(12px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(12px, env(safe-area-inset-left)); color: var(--paper); background: var(--ink); border-top: 1px solid var(--ink); }
-  .mobile-dock a { display: grid; place-content: center; justify-items: center; gap: 2px; color: inherit; font-size: 11px; line-height: 1; padding: 2px 0 5px; min-height: 53px; border: 0; }
+  .mobile-dock a { display: grid; place-content: center; justify-items: center; gap: 2px; color: inherit; font-size: var(--type-caption); line-height: 1; padding: 2px 0 5px; min-height: 53px; border: 0; }
   .mobile-dock a > span { display: grid; place-items: center; width: 47px; height: 29px; border-radius: 0 11px 0 0; transition: background .2s var(--ease), transform .26s var(--ease); }
   .mobile-dock img { filter: invert(1); width: 21px; height: 21px; }
   .mobile-dock a[aria-current] { color: var(--lime); }
@@ -85,12 +74,6 @@
   .site-footer { padding: 7px 0 12px; margin-inline: 14px; width: auto; border: 0; justify-content: flex-end; }
   .site-footer > :first-child, .site-footer > :last-child { display: none; }
   body:has(.scene-next:not([hidden])) .site-footer { padding-bottom: 62px; }
-  .story-list { grid-template-columns: minmax(0, 1fr); gap: 9px; }
-  .story-tile { align-items: center; min-height: 80px; padding: 10px 12px; }
-  .story-tile > div { display: grid; grid-template-columns: 83px minmax(0, 1fr); column-gap: 9px; align-items: center; }
-  .story-tile strong { grid-row: 1 / span 2; font-size: 25px; white-space: nowrap; }
-  .story-tile h2 { margin: 0; font-size: clamp(18px, 5.5vw, 24px); }
-  .story-tile > span { align-self: center; }
   #install-sheet { inset: auto 0 0; width: 100%; max-width: none; margin: 0; border-bottom: 0; box-shadow: none; }
   .install-sheet-body { padding: 16px 16px calc(20px + env(safe-area-inset-bottom)); }
 }

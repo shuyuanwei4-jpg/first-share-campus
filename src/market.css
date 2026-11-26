@@ -1,0 +1,44 @@
+.market-header-actions { display: flex; align-items: center; flex-wrap: wrap; justify-content: end; gap: .6rem; }
+.sim-ticket .market-order-symbol { color: var(--muted); font-size: var(--type-ui); margin-top: .25rem; }
+#content .sim-market-grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+.market-ident { display: flex; justify-content: space-between; gap: .85rem; align-items: center; }
+.market-last { display: grid; justify-items: end; gap: .12rem; line-height: 1.3; }
+.market-last strong { font-size: var(--type-heading); font-weight: 600; font-variant-numeric: tabular-nums; }
+.market-last span, .market-stats dt { color: var(--muted); font-size: var(--type-caption); }
+.market-change.rise { color: #a02e30; }
+.market-change.fall { color: #15685f; }
+.market-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .3rem; border-block: 1px solid #deded7; padding: .65rem 0; margin: .9rem 0; }
+.market-stats dd { margin: .2rem 0 0; font-size: var(--type-ui); font-variant-numeric: tabular-nums; font-weight: 600; }
+.market-chart-switch { display: inline-flex; gap: 3px; padding: 3px; background: var(--paper); border: 1px solid #dcddd6; border-radius: 9px; }
+.market-chart-switch button { min-height: 38px; padding: .3rem .75rem; border: 0; border-radius: 6px; color: var(--muted); background: transparent; font: inherit; font-size: var(--type-ui); cursor: pointer; }
+.market-chart-switch [aria-pressed="true"] { background: var(--ink); color: #fff; font-weight: 600; }
+.market-chart-title { display: flex; align-items: baseline; flex-wrap: wrap; justify-content: space-between; gap: .25rem .5rem; margin: .85rem 0 .55rem; }
+.market-chart-title h3 { margin: 0; font-size: var(--type-body); font-weight: 600; }
+.market-chart-title > span, .market-chart-scale, .market-time-scale { font-size: var(--type-caption); color: var(--muted); }
+.market-chart-plot { display: grid; grid-template-columns: max-content minmax(0,1fr); column-gap: .5rem; font-variant-numeric: tabular-nums; }
+.market-chart-scale { grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: space-between; align-items: end; height: 124px; line-height: 14px; }
+.market-chart-plot svg { grid-area: 1 / 2; width: 100%; height: 158px; overflow: visible; cursor: crosshair; }
+.market-gridline { fill: none; stroke: #e0e2da; vector-effect: non-scaling-stroke; }
+.market-baseline { fill: none; stroke: #84887e; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; }
+.market-fill { fill: var(--blue); opacity: .045; }
+.market-line { fill: none; stroke: var(--blue); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.market-volume { fill: #a2a89c; }
+.market-cross { stroke: #686d61; stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
+.market-point { stroke: white; stroke-width: 1.5; fill: var(--blue); vector-effect: non-scaling-stroke; }
+.market-time-scale { grid-column: 2; display: flex; justify-content: space-between; margin-top: .2rem; }
+.market-reading { display: flex; justify-content: space-between; align-items: baseline; gap: .25rem .6rem; flex-wrap: wrap; margin-top: .65rem; font-size: var(--type-caption); font-variant-numeric: tabular-nums; }
+.market-reading [data-chart-reading] { font-weight: 600; color: var(--ink); }
+#content .sim-chart input.market-scrubber { display: block; width: 100%; height: 30px; min-height: 30px; padding: 0; margin: 0; border: 0; box-shadow: none; background: transparent; accent-color: var(--blue); cursor: pointer; }
+#content .sim-chart .market-chart-note { color: var(--muted); font-size: var(--type-caption); line-height: 1.5; margin: 0 0 .9rem; }
+.market-chart-note a { text-decoration: underline; text-underline-offset: 2px; }
+#content .sim-market-actions { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .75rem; }
+#content .sim-market-actions .sim-btn { min-height: 44px; }
+#content .sim-market-actions [aria-pressed="true"] { background: var(--blue); color: #fff; }
+.sim-shell button:disabled { opacity: .55; cursor: default; }
+@media (max-width: 720px) {
+  #content .sim-market-grid { grid-template-columns: minmax(0, 1fr); }
+  .market-header-actions { flex-direction: column; align-items: flex-end; gap: .3rem; }
+  .market-chart-switch button { min-height: 44px; }
+  #content .sim-chart input.market-scrubber { height: 44px; min-height: 44px; }
+  #content .sim-market-actions .sim-btn { flex: 1 1 auto; }
+}

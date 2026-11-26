@@ -28,8 +28,7 @@ function saveProgress() {
 }
 
 function todayIndex() {
-  const index = progress.findIndex(entry => !entry.done);
-  return index === -1 ? 0 : index;
+  return progress.findIndex(entry => !entry.done);
 }
 
 function dayNumber(index) {
@@ -138,8 +137,19 @@ function renderStory(index, direction = 0) {
 }
 
 function renderStoryList() {
-  storyRoot.innerHTML = `<header class="story-heading"><div><p class="day-display" aria-hidden="true">Stories<span class="dot">.</span></p><h1>全部故事</h1></div><span class="step-control">已完成 ${progress.filter(item => item.done).length} / ${STORIES.length} 天</span></header>
-    <div class="story-list">${STORIES.map((story, index) => `<a class="story-tile" href="#day/${index + 1}"><div><strong>Day ${dayNumber(index)}.</strong><h2>${story.title}</h2><p>${story.label}${progress[index].done ? ' · 已完成' : ''}</p></div><span aria-hidden="true">↗</span></a>`).join('')}</div>`;
+  const doneDays = progress.filter(item => item.done).length;
+  const study = strategyProgress();
+  const chapters = STORIES.map((story, index) => `<li><a href="#day/${index + 1}"><span class="course-no" lang="en">Day ${dayNumber(index)}</span><span>${story.title}</span><small>${progress[index].done ? '已完成' : story.label}</small></a></li>`).join('');
+  const groups = STRATEGY_GROUPS.map(group => `<li><a href="#strategy/${group.lessons[0].slug}"><span>${group.title}</span><small>${group.lessons.map(lesson => lesson.summary).join(' · ')}</small></a></li>`).join('');
+  storyRoot.innerHTML = `<header class="story-heading"><h1>课程目录</h1></header>
+    <div class="course-map">
+      <section class="course-track"><header><p>第一阶段 <span>${doneDays} / ${STORIES.length} 天</span></p><h2>认识股票</h2></header>
+        <ul class="course-chapters">${chapters}</ul>
+        <a class="course-continue" href="#day/${Math.max(0, todayIndex()) + 1}">${doneDays === STORIES.length ? '重温校园故事' : doneDays ? '继续校园故事' : '开始校园故事'} <span aria-hidden="true">→</span></a></section>
+      <section class="course-track strategy-track"><header><p>第二阶段 <span>${study.completed} / ${study.total} 课</span></p><h2>选股与交易</h2></header>
+        <ul class="course-groups">${groups}</ul>
+        <a class="course-continue" href="#strategy">查看第二阶段课程 <span aria-hidden="true">→</span></a></section>
+    </div>`;
 }
 
 function renderStoryPractice(index) {
@@ -149,7 +159,8 @@ function renderStoryPractice(index) {
       progress[index].done = true;
       saveProgress();
     },
-    onStory() { location.hash = index + 1 < STORIES.length ? `#day/${index + 2}` : '#stories'; },
+    nextLabel: index + 1 === STORIES.length ? '进入选股与交易课程' : '继续故事',
+    onStory() { location.hash = index + 1 < STORIES.length ? `#day/${index + 2}` : '#strategy'; },
     onFull() { location.hash = '#practice'; },
   });
 }
@@ -163,25 +174,35 @@ function renderResources() {
 
 function showPage(focus = false) {
   const [page, number] = location.hash.slice(1).split('/');
-  const index = /^[1-5]$/.test(number ?? '') ? Number(number) - 1 : null;
-  let title = '今日故事';
+  const index = /^[1-9]\d*$/.test(number ?? '') && STORIES[Number(number) - 1] ? Number(number) - 1 : null;
+  let title = '今日学习';
+  let activeNav = 'today';
   if (page === 'stories' || page === 'courses') {
-    title = '全部故事';
+    title = '课程目录';
+    activeNav = 'stories';
     renderStoryList();
+  } else if (page === 'strategy') {
+    title = '选股与交易';
+    activeNav = 'stories';
+    renderStrategy(storyRoot, number);
   } else if (page === 'practice' && index !== null) {
     title = '模拟练习';
+    activeNav = 'practice';
     renderStoryPractice(index);
   } else if (page === 'practice' || page === 'simulator') {
     title = '模拟交易';
+    activeNav = 'practice';
     renderSimulator(storyRoot);
   } else if (page === 'resources' || page === 'glossary') {
     title = '延伸资料';
+    activeNav = '';
     renderResources();
   } else {
-    renderStory(page === 'day' && index !== null ? index : todayIndex());
+    const day = page === 'day' && index !== null ? index : todayIndex();
+    if (day >= 0) renderStory(day);
+    else renderStrategy(storyRoot, strategyProgress().nextSlug);
   }
   document.title = `${title} · 第一股`;
-  const activeNav = title === '全部故事' ? 'stories' : title === '模拟交易' || title === '模拟练习' ? 'practice' : title === '今日故事' ? 'today' : '';
   document.querySelectorAll('[data-nav]').forEach(link => {
     if (link.dataset.nav === activeNav) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');

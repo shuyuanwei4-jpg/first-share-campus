@@ -1,13 +1,3 @@
-const SIM_QUOTES = [
-  { bid: 1000, ask: 1002, last: 1001, event: '开盘后，买卖双方的报价相差 2 分钱。' },
-  { bid: 997, ask: 999, last: 998, event: '有卖家愿意降价，卖一来到 ¥9.99。' },
-  { bid: 1004, ask: 1006, last: 1005, event: '有买家提高了报价，买一来到 ¥10.04。' },
-  { bid: 986, ask: 989, last: 988, event: '有买家撤掉报价，新报出来的买一更低。' },
-  { bid: 967, ask: 970, last: 969, event: '部分卖家继续降价，最新成交价回落。' },
-  { bid: 1020, ask: 1022, last: 1021, event: '新的买单报了更高的价，成交价回升。' },
-  { bid: 1014, ask: 1016, last: 1015, event: '买卖报价再次变化，短期成交价有涨也有跌。' }
-];
-
 function simFee(side, amount) {
   const commission = Math.max(500, Math.round(amount * 0.0003));
   const tax = side === 'sell' ? Math.round(amount * 0.0005) : 0;
@@ -21,13 +11,26 @@ class SimTradingAccount {
     this.shares = 0;
     this.boughtToday = 0;
     this.day = 1;
-    this.tick = 0;
-    this.last = this.quote.last;
+    this.tick = 12;
+    this.previousClose = 1000;
+    this.session = makeMarketSession(this.day, this.previousClose);
     this.orders = [];
   }
 
   get quote() {
-    return SIM_QUOTES[this.tick % SIM_QUOTES.length];
+    return this.session[this.tick];
+  }
+
+  get last() {
+    return this.quote.last;
+  }
+
+  get history() {
+    return this.session.slice(0, this.tick + 1);
+  }
+
+  get closed() {
+    return this.tick === this.session.length - 1;
   }
 
   get pending() {
@@ -49,6 +52,7 @@ class SimTradingAccount {
   }
 
   submit(side, limit, quantity) {
+    if (this.closed) return { reason: '今天已经收盘。进入下一交易日后可以继续委托。' };
     if (!Number.isInteger(limit) || limit < 1 || limit > 99999) {
       return { reason: '输入 0.01 至 999.99 元的价格，最多保留两位小数。' };
     }
@@ -89,7 +93,11 @@ class SimTradingAccount {
       this.cash += amount - fee;
       this.shares -= order.quantity;
     }
-    this.last = price;
+    const point = this.quote;
+    point.last = price;
+    point.low = Math.min(point.low, price);
+    point.high = Math.max(point.high, price);
+    point.volume += order.quantity;
     Object.assign(order, { price, amount, fee, status: 'filled' });
     return true;
   }
@@ -101,8 +109,8 @@ class SimTradingAccount {
   }
 
   advance() {
+    if (this.closed) return { filled: [], expired: [] };
     this.tick += 1;
-    this.last = this.quote.last;
     const filled = [];
     for (const side of ['buy', 'sell']) {
       const orders = this.pending.filter(order => order.side === side);
@@ -111,16 +119,25 @@ class SimTradingAccount {
         if (this.match(order)) filled.push(order);
       }
     }
-    return { filled };
+    const expired = this.closed ? this.pending : [];
+    for (const order of expired) order.status = 'expired';
+    return { filled, expired };
   }
 
   nextDay() {
-    const expired = this.pending;
-    for (const order of expired) order.status = 'expired';
+    const filled = [];
+    let expired = [];
+    while (!this.closed) {
+      const step = this.advance();
+      filled.push(...step.filled);
+      expired = step.expired;
+    }
+    this.previousClose = this.last;
     this.boughtToday = 0;
     this.day += 1;
-    this.advance();
-    return { expired };
+    this.tick = 0;
+    this.session = makeMarketSession(this.day, this.previousClose);
+    return { filled, expired };
   }
 }
 
@@ -141,9 +158,26 @@ function renderSimulator(root, budget = 8000) {
   let quantity = '100';
   let status = '';
   let error = false;
+  let historical = false;
+  let playTimer = null;
   root.innerHTML = `<style>${SIMULATOR_CSS}</style><div class="sim-shell"><div class="sim-live" aria-live="polite" aria-atomic="true"></div><div class="sim-content"></div></div>`;
   const view = root.querySelector('.sim-content');
   const live = root.querySelector('.sim-live');
+
+  function pausePlayback() {
+    clearInterval(playTimer);
+    playTimer = null;
+    document.removeEventListener('visibilitychange', pauseWhenHidden);
+    const button = view.querySelector('[data-market-play]');
+    if (button) {
+      button.textContent = '播放行情';
+      button.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  function pauseWhenHidden() {
+    if (document.hidden) pausePlayback();
+  }
 
   function setStatus(text, isError = false) {
     status = text;
@@ -172,7 +206,11 @@ function renderSimulator(root, budget = 8000) {
 
   function render(focusSelector) {
     const account = simAccount;
-    const { ask, bid, event } = account.quote;
+    const { ask, bid, time } = account.quote;
+    const prices = account.history;
+    const change = account.last - account.previousClose;
+    const sign = change < 0 ? '−' : change > 0 ? '+' : '';
+    const openDetails = [...view.querySelectorAll('.sim-foot details')].map(item => item.open);
     const marketValue = account.shares * account.last;
     const assets = account.cash + marketValue;
     const profit = assets - account.startingCash;
@@ -188,7 +226,7 @@ function renderSimulator(root, budget = 8000) {
     view.innerHTML = `
       <header class="sim-header">
         <div><h1>模拟交易</h1><p>用虚拟资金练习看盘、挂单、成交和撤单。</p></div>
-        <span class="sim-day">第 ${account.day} 个交易日</span>
+        <div class="market-header-actions"><span class="sim-day">第 ${account.day} 日　${time}</span><button type="button" class="sim-tour-replay" data-tour-open>新手引导</button></div>
       </header>
       <div class="sim-account">
         <div><span>总资产</span><strong>${simMoney(assets)}</strong><small>现金 + 持仓市值</small></div>
@@ -196,25 +234,33 @@ function renderSimulator(root, budget = 8000) {
         <div><span>持有股数</span><strong>${account.shares} <small>股</small></strong><small>当前可卖 ${account.sellable} 股</small></div>
         <div><span>账户盈亏</span><strong class="${profit < 0 ? 'sim-down' : profit > 0 ? 'sim-up' : ''}">${signedProfit}</strong><small>初始资金 ${simMoney(account.startingCash)}</small></div>
       </div>
-      ${account.tick === 0 && account.orders.length === 0 ? '<aside class="sim-tip"><div><strong>练习第一笔限价单</strong><p>报 ¥10.00 买入 100 股，先看看委托为什么会等待，再推进一笔行情。</p></div><button type="button" class="btn secondary sim-btn" data-example>填入示例</button></aside>' : ''}
+      ${account.day === 1 && account.tick === 12 && account.orders.length === 0 ? '<aside class="sim-tip"><div><strong>练习第一笔限价单</strong><p>报 ¥10.00 买入 100 股，先看看委托为什么会等待，再前进 5 分钟。</p></div><button type="button" class="btn secondary sim-btn" data-example>填入示例</button></aside>' : ''}
       <div class="sim-market-grid">
         <section class="sim-card sim-market" aria-labelledby="sim-stock-title">
-          <div class="sim-stock-head"><span class="sim-stock-symbol" aria-hidden="true"></span><div><h2 id="sim-stock-title">下课咖啡</h2><span>SIM001 · 虚构股票</span></div></div>
-          <div class="sim-print"><strong>${simMoney(account.last)}</strong><span>最新成交价</span></div>
-          <p class="sim-quotes-label" id="sim-quotes-label">预设外部报价</p>
+          <div class="market-ident"><div class="sim-stock-head"><span class="sim-stock-symbol" aria-hidden="true"></span><div><h2 id="sim-stock-title">下课咖啡</h2><span>SIM001 · 虚构股票</span></div></div>
+          <div class="market-last"><span>最新成交价</span><strong>${simMoney(account.last)}</strong><span class="market-change ${change < 0 ? 'fall' : change > 0 ? 'rise' : ''}">较昨收 ${sign}${simNumber(Math.abs(change))}（${sign}${(Math.abs(change) / account.previousClose * 100).toFixed(2)}%）</span></div></div>
+          <dl class="market-stats">
+            <div><dt>昨收</dt><dd>${simNumber(account.previousClose)}</dd></div>
+            <div><dt>最高</dt><dd>${simNumber(Math.max(...prices.map(p => p.high)))}</dd></div>
+            <div><dt>最低</dt><dd>${simNumber(Math.min(...prices.map(p => p.low)))}</dd></div>
+            <div><dt>总量（手）</dt><dd>${(prices.reduce((sum, point) => sum + point.volume, 0) / 100).toLocaleString('zh-CN')}</dd></div>
+          </dl>
+          <section class="sim-chart" aria-label="交互行情图"></section>
+          <p class="sim-quotes-label" id="sim-quotes-label">${account.closed ? '下课咖啡 · 收盘前最后报价' : '下课咖啡 · 当前报价'}</p>
           <div class="sim-quotes" role="group" aria-labelledby="sim-quotes-label">
             <button type="button" data-quote="${ask}" aria-label="把卖一 ${simNumber(ask)} 元填入限价"><span>卖一 <small>最低卖价</small></span><strong>${simMoney(ask)}</strong></button>
             <button type="button" data-quote="${bid}" aria-label="把买一 ${simNumber(bid)} 元填入限价"><span>买一 <small>最高买价</small></span><strong>${simMoney(bid)}</strong></button>
           </div>
-          <p class="sim-quotes-note">报价随预设行情变化。你的订单在「委托与成交」里查看。</p>
-          <p class="sim-event">${event}</p>
+          <p class="sim-quotes-note">点报价可填入限价。${account.closed ? '本日已收盘。' : '每步推进 5 个交易分钟，午休自动跳过。'}</p>
           <div class="sim-market-actions">
-            <button type="button" class="btn secondary sim-btn" data-step="tick">推进一笔行情</button>
-            <button type="button" class="btn secondary sim-btn" data-step="day">进入下一交易日</button>
+            <button type="button" class="btn secondary sim-btn" data-market-play aria-pressed="${playTimer !== null}" ${account.closed ? 'disabled' : ''}>${playTimer !== null ? '暂停播放' : '播放行情'}</button>
+            <button type="button" class="btn secondary sim-btn" data-step="tick" ${account.closed ? 'disabled' : ''}>前进 5 分钟</button>
+            <button type="button" class="btn secondary sim-btn" data-step="day">下一交易日</button>
           </div>
         </section>
         <section class="sim-card sim-ticket" aria-labelledby="sim-ticket-title">
           <div class="sim-ticket-head"><h2 id="sim-ticket-title">限价委托</h2><span>每手 100 股</span></div>
+          <p class="market-order-symbol">下课咖啡 · SIM001</p>
           <div class="sim-toggle" role="group" aria-label="交易方向">
             <button type="button" data-side="buy" aria-pressed="${side === 'buy'}">买入</button>
             <button type="button" data-side="sell" aria-pressed="${side === 'sell'}">卖出</button>
@@ -225,7 +271,7 @@ function renderSimulator(root, budget = 8000) {
               <label><span>数量（股）</span><input name="quantity" value="${quantity}" type="number" inputmode="numeric" min="100" max="10000" step="100" required><small>按 100 股递增</small></label>
             </div>
             <div class="sim-estimate"></div>
-            <button class="btn primary sim-btn sim-submit" type="submit">提交${simSide(side)}委托</button>
+            <button class="btn primary sim-btn sim-submit" type="submit" ${account.closed ? 'disabled' : ''}>${account.closed ? '已收盘' : '提交' + simSide(side) + '委托'}</button>
           </form>
           ${status ? `<p class="sim-status${error ? ' sim-status-error' : ''}">${status}</p>` : ''}
         </section>
@@ -235,9 +281,11 @@ function renderSimulator(root, budget = 8000) {
         ${rows ? `<div class="sim-table-scroll" tabindex="0" aria-label="订单记录表格，可横向滚动"><table><thead><tr><th scope="col">委托日</th><th scope="col">方向</th><th scope="col">限价</th><th scope="col">数量</th><th scope="col">成交价</th><th scope="col">费用</th><th scope="col">状态</th><th scope="col">操作</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="sim-empty">提交一笔委托后，这里会显示状态和成交价格。</p>'}
       </section>
       <div class="sim-foot">
-        <details><summary>模拟规则与费用</summary><p>行情按预设情景推进。只模拟连续竞价的最优一档，假设对手方数量充足，满足限价时按当时对手方报价一次成交。待成交订单按同方向价格优先、同价时间优先处理。换日时，未成交委托失效，当天买入的股票可在下一交易日卖出。练习省略实盘的涨跌幅限制、申报价格范围等规则。</p><p>示例佣金为成交额的 0.03%，每笔最低 ¥5。卖出额外计 0.05% 的印花税，模拟省略过户费。实盘费用以当期规则和券商公示为准。刷新页面会重置本次模拟记录。</p></details>
+        <details><summary>模拟规则与费用</summary><p>虚构股票按五分钟更新成交价和成交量。9:30 的量为开盘成交量。只模拟最优一档，假设对手方数量充足，满足限价时按对手方报价一次成交。同方向按价格优先、同价按时间优先处理。跳到下一日会先走完当日行情，收盘后剩余委托失效，当天买入的股数到下一交易日可卖。练习简化了集合竞价、涨跌幅和申报范围等规则。</p><p>示例佣金为成交额的 0.03%，每笔最低 ¥5。卖出额外计 0.05% 的印花税，模拟省略过户费。实盘费用以当期规则和券商公示为准。刷新页面会重置本次模拟记录。</p></details>
         <details class="sim-reset"><summary>重置模拟资金</summary><form data-reset-form><label for="sim-budget">初始虚拟资金（0–10,000 元）</label><div><input id="sim-budget" name="budget" type="number" min="0" max="10000" step="1" value="${Math.trunc(account.startingCash / 100)}" required><button class="btn secondary sim-btn" type="submit">重置并开始</button></div><p>将清空当前持仓、委托和成交记录。</p></form></details>
       </div>`;
+    renderMarketChart(view.querySelector('.sim-chart'), account, historical);
+    view.querySelectorAll('.sim-foot details').forEach((item, index) => { item.open = Boolean(openDetails[index]); });
     updateEstimate();
     if (focusSelector) view.querySelector(focusSelector)?.focus({ preventScroll: true });
   }
@@ -248,10 +296,59 @@ function renderSimulator(root, budget = 8000) {
     if (event.target.form?.matches('[data-order-form]')) updateEstimate();
   });
 
+  function stepMarket(automatic = false) {
+    if (!view.isConnected || document.hidden) {
+      pausePlayback();
+      return;
+    }
+    const keepPlayFocus = document.activeElement?.matches('[data-market-play]');
+    historical = false;
+    const { filled, expired } = simAccount.advance();
+    const messages = [];
+    if (filled.length) {
+      messages.push(`第 ${filled[0].id} 笔委托以 ${simMoney(filled[0].price)} 成交。`);
+      if (filled.length > 1) messages.push(`另有 ${filled.length - 1} 笔成交。`);
+    }
+    if (simAccount.closed) {
+      pausePlayback();
+      messages.push(`今天已收盘。${expired.length ? `${expired.length} 笔未成交委托已失效。` : ''}`);
+    }
+    if (messages.length || !automatic) setStatus(messages.join('') || `模拟行情已推进至 ${simAccount.quote.time}。`);
+    let focusTarget = simAccount.closed ? '[data-step="day"]' : '[data-step="tick"]';
+    if (automatic && !simAccount.closed) focusTarget = '[data-market-play]';
+    if (automatic && !keepPlayFocus) focusTarget = undefined;
+    render(focusTarget);
+  }
+
+  view.addEventListener('focusin', event => {
+    if (!event.target.matches('[data-market-play]')) pausePlayback();
+  });
+  view.addEventListener('pointerdown', event => {
+    if (!event.target.closest('[data-market-play]')) pausePlayback();
+  });
+  window.addEventListener('hashchange', pausePlayback, { once: true });
+
   view.addEventListener('click', event => {
     const button = event.target.closest('button');
     if (!button) return;
     const action = button.dataset;
+    if ('tourOpen' in action) pausePlayback();
+    if ('marketPlay' in action) {
+      if (playTimer !== null) {
+        pausePlayback();
+      } else if (!simAccount.closed) {
+        historical = false;
+        playTimer = setInterval(() => stepMarket(true), 2000);
+        document.addEventListener('visibilitychange', pauseWhenHidden);
+        render('[data-market-play]');
+      }
+      return;
+    }
+    if (action.chartMode) {
+      historical = action.chartMode === 'index';
+      render(`[data-chart-mode="${action.chartMode}"]`);
+      return;
+    }
     if ('example' in action) {
       side = 'buy';
       price = '10.00';
@@ -273,17 +370,12 @@ function renderSimulator(root, budget = 8000) {
       view.querySelector('[name="limit"]').focus();
     }
     if (action.step === 'tick') {
-      const { filled } = simAccount.advance();
-      const first = filled[0];
-      const message = first
-        ? `第 ${first.id} 笔委托以 ${simMoney(first.price)} 成交。${filled.length > 1 ? `另有 ${filled.length - 1} 笔成交。` : ''}`
-        : '行情已更新。待成交订单会继续等候符合限价的报价。';
-      setStatus(message);
-      render('[data-step="tick"]');
+      stepMarket();
     }
     if (action.step === 'day') {
-      const { expired } = simAccount.nextDay();
-      setStatus(`现在是第 ${simAccount.day} 个交易日，可卖 ${simAccount.sellable} 股。${expired.length ? `${expired.length} 笔未成交委托已失效。` : ''}`);
+      historical = false;
+      const { filled, expired } = simAccount.nextDay();
+      setStatus(`现在是第 ${simAccount.day} 个交易日，可卖 ${simAccount.sellable} 股。${filled.length ? `上一日收盘前有 ${filled.length} 笔委托成交。` : ''}${expired.length ? `${expired.length} 笔未成交委托已失效。` : ''}`);
       render('[data-step="day"]');
     }
     if (action.cancel) {
@@ -301,6 +393,7 @@ function renderSimulator(root, budget = 8000) {
       const newBudget = event.target.elements.budget.valueAsNumber;
       if (!Number.isInteger(newBudget) || newBudget < 0 || newBudget > 10000) return;
       simAccount = new SimTradingAccount(newBudget);
+      historical = false;
       side = 'buy';
       price = '';
       quantity = '100';
@@ -322,6 +415,7 @@ function renderSimulator(root, budget = 8000) {
   });
 
   render();
+  setupSimulatorTour(root);
 }
 
 const SIMULATOR_CSS = `
@@ -329,72 +423,72 @@ const SIMULATOR_CSS = `
 .sim-shell * { box-sizing:border-box; }
 .sim-shell p { margin:0; }
 .sim-shell h1,.sim-shell h2 { margin:0; }
-.sim-shell h1 { font-size:clamp(30px,4vw,49px); line-height:1.15; letter-spacing:-.05em; }
-.sim-shell h2 { font-size:18px; font-weight:750; letter-spacing:-.02em; }
+.sim-shell h1 { font-size:var(--type-title); font-weight:600; line-height:1.3; }
+.sim-shell h2 { font-size:var(--type-heading); font-weight:600; line-height:1.3; }
 .sim-header { display:flex; justify-content:space-between; align-items:end; gap:15px; margin-bottom:24px; }
 .sim-header p { color:var(--sim-muted); margin-top:10px; line-height:1.6; }
-.sim-day { color:var(--sim-accent); background:var(--sim-lavender); padding:8px 12px; font-size:13px; font-weight:700; white-space:nowrap; border-radius:999px; }
+.sim-day { color:var(--sim-accent); background:var(--sim-lavender); padding:8px 12px; font-size:var(--type-caption); font-weight:600; white-space:nowrap; border-radius:999px; }
 .sim-account { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--sim-border); background:#fff; border-radius:17px; margin-bottom:18px; overflow:hidden; }
 .sim-account > div { display:flex; flex-direction:column; gap:6px; padding:17px 20px; min-width:0; }
 .sim-account > div + div { border-left:1px solid var(--sim-border); }
-.sim-account span,.sim-account small { color:var(--sim-muted); font-size:12px; }
-.sim-account strong { font:700 clamp(19px,2.6vw,27px)/1.12 'DM Sans',system-ui,sans-serif; white-space:nowrap; font-variant-numeric:tabular-nums; letter-spacing:-.035em; }
+.sim-account span,.sim-account small { color:var(--sim-muted); font-size:var(--type-caption); }
+.sim-account strong { font:600 var(--type-heading)/1.2 var(--body); white-space:nowrap; font-variant-numeric:tabular-nums; letter-spacing:-.035em; }
 .sim-account strong.sim-up { color:#9e333c; }
 .sim-account strong.sim-down { color:#087371; }
 .sim-market-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
 .sim-card { padding:22px; border:1px solid var(--sim-border); border-radius:18px; background:#fff; min-width:0; }
 .sim-stock-head { display:flex; align-items:center; gap:11px; }
-.sim-stock-head span,.sim-ticket-head>span { color:var(--sim-muted); font-size:12px; }
+.sim-stock-head span,.sim-ticket-head>span { color:var(--sim-muted); font-size:var(--type-caption); }
 .sim-stock-symbol { width:41px; height:41px; border-radius:13px; display:grid; place-items:center; background:var(--sim-lavender); position:relative; }
 .sim-stock-symbol::before { content:''; width:14px; height:10px; border:2px solid var(--sim-accent); border-top-width:1px; border-radius:2px 2px 5px 5px; transform:translate(-1px,1px); }
 .sim-stock-symbol::after { content:''; width:5px; height:6px; border:1.5px solid var(--sim-accent); border-left:0; border-radius:0 3px 3px 0; position:absolute; left:26px; top:18px; }
 .sim-print { display:flex; align-items:baseline; gap:9px; margin:17px 0 14px; }
-.sim-print strong { font:750 33px/1 'DM Sans',system-ui,sans-serif; letter-spacing:-.035em; font-variant-numeric:tabular-nums; }
-.sim-print span { color:var(--sim-muted); font-size:12px; }
-.sim-shell p.sim-quotes-label { font-size:12px; font-weight:700; color:var(--sim-ink); margin-bottom:6px; }
-.sim-shell p.sim-quotes-note { font-size:11px; color:var(--sim-muted); line-height:1.6; margin-top:7px; }
+.sim-print strong { font:600 var(--type-heading)/1.2 var(--body); letter-spacing:-.035em; font-variant-numeric:tabular-nums; }
+.sim-print span { color:var(--sim-muted); font-size:var(--type-caption); }
+.sim-shell p.sim-quotes-label { font-size:var(--type-caption); font-weight:600; color:var(--sim-ink); margin-bottom:6px; }
+.sim-shell p.sim-quotes-note { font-size:var(--type-caption); color:var(--sim-muted); line-height:1.6; margin-top:7px; }
 .sim-quotes { display:grid; gap:5px; }
-.sim-quotes button { display:flex; justify-content:space-between; gap:7px; width:100%; padding:9px 11px; background:#f7f5fb; color:var(--sim-ink); border:1px solid transparent; border-radius:8px; text-align:left; font:inherit; font-size:13px; cursor:pointer; }
+.sim-quotes button { display:flex; justify-content:space-between; gap:7px; width:100%; padding:9px 11px; background:#f7f5fb; color:var(--sim-ink); border:1px solid transparent; border-radius:8px; text-align:left; font:inherit; font-size:var(--type-ui); cursor:pointer; }
 .sim-quotes button:hover,.sim-quotes button:focus-visible { border-color:#b6a9e9; background:var(--sim-lavender); }
 .sim-quotes small { color:var(--sim-muted); margin-left:5px; }
 .sim-quotes strong { font-variant-numeric:tabular-nums; }
-.sim-shell p.sim-event { font-size:12px; color:var(--sim-muted); line-height:1.6; margin:12px 0; min-height:2em; }
+.sim-shell p.sim-event { font-size:var(--type-caption); color:var(--sim-muted); line-height:1.6; margin:12px 0; min-height:2em; }
 .sim-market-actions { display:flex; flex-wrap:wrap; gap:7px; }
-.sim-shell .sim-btn { font:inherit; font-size:13px; font-weight:700; padding:9px 12px; border-radius:9px; min-height:37px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+.sim-shell .sim-btn { font:inherit; font-size:var(--type-ui); font-weight:600; padding:9px 12px; border-radius:9px; min-height:37px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
 .sim-shell .sim-btn.secondary { border:1px solid var(--sim-border); background:#fff; color:var(--sim-accent); }
 .sim-shell .sim-btn.secondary:hover { background:var(--sim-lavender); }
 .sim-shell .sim-btn.primary { border:1px solid var(--sim-accent); background:var(--sim-accent); color:#fff; }
 .sim-shell .sim-btn.primary:hover { background:#4934b4; }
 .sim-ticket-head { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
 .sim-toggle { display:flex; gap:4px; padding:3px; border-radius:9px; background:#f6f4fa; margin:15px 0; }
-.sim-toggle button { flex:1; border:1px solid transparent; border-radius:7px; background:transparent; color:var(--sim-muted); min-height:33px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sim-toggle button { flex:1; border:1px solid transparent; border-radius:7px; background:transparent; color:var(--sim-muted); min-height:33px; font:inherit; font-size:var(--type-ui); font-weight:600; cursor:pointer; }
 .sim-toggle button[aria-pressed="true"] { color:var(--sim-accent); background:#fff; border-color:var(--sim-border); }
 .sim-inputs { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.sim-shell label { display:grid; gap:5px; color:var(--sim-ink); font-size:13px; font-weight:650; min-width:0; }
-.sim-shell input { width:100%; min-width:0; padding:8px 10px; border:1px solid #dcd5e9; border-radius:8px; color:var(--sim-ink); background:#fff; font:inherit; font-size:16px; min-height:37px; }
+.sim-shell label { display:grid; gap:5px; color:var(--sim-ink); font-size:var(--type-caption); font-weight:600; min-width:0; }
+.sim-shell input { width:100%; min-width:0; padding:8px 10px; border:1px solid #dcd5e9; border-radius:8px; color:var(--sim-ink); background:#fff; font:inherit; font-size:var(--type-body); min-height:37px; }
 .sim-shell input::placeholder { color:#847b94; }
-.sim-shell label small { color:var(--sim-muted); font-size:11px; font-weight:400; }
-.sim-estimate { display:flex; justify-content:space-between; align-items:baseline; gap:7px; font-size:13px; margin:14px 0 10px; min-height:20px; }
-.sim-estimate small { display:block; color:var(--sim-muted); font-size:11px; }
+.sim-shell label small { color:var(--sim-muted); font-size:var(--type-caption); font-weight:400; }
+.sim-estimate { display:flex; justify-content:space-between; align-items:baseline; gap:7px; font-size:var(--type-caption); margin:14px 0 10px; min-height:20px; }
+.sim-estimate small { display:block; color:var(--sim-muted); font-size:var(--type-caption); }
 .sim-estimate strong { white-space:nowrap; font-variant-numeric:tabular-nums; }
 .sim-shell .sim-submit { width:100%; }
-.sim-shell p.sim-status { margin-top:11px; padding:9px 10px; border-radius:8px; background:var(--sim-lavender); color:#402c9b; font-size:12px; line-height:1.6; }
+.sim-shell p.sim-status { margin-top:11px; padding:9px 10px; border-radius:8px; background:var(--sim-lavender); color:#402c9b; font-size:var(--type-caption); line-height:1.6; }
 .sim-shell p.sim-status-error { background:#fcecf1; color:#8c1942; }
-.sim-tip { display:flex; justify-content:space-between; gap:12px; align-items:center; line-height:1.6; margin:15px 0; padding:12px 14px; background:var(--sim-lavender); border-radius:12px; color:#4a3890; font-size:13px; }
+.sim-tip { display:flex; justify-content:space-between; gap:12px; align-items:center; line-height:1.6; margin:15px 0; padding:12px 14px; background:var(--sim-lavender); border-radius:12px; color:#4a3890; font-size:var(--type-caption); }
 .sim-tip button { white-space:nowrap; }
 .sim-history { margin-top:16px; padding-bottom:14px; }
 .sim-table-scroll { overflow-x:auto; }
-.sim-shell table { border-collapse:collapse; width:100%; margin-top:11px; font-size:12px; font-variant-numeric:tabular-nums; text-align:left; }
+.sim-shell table { border-collapse:collapse; width:100%; margin-top:11px; font-size:var(--type-caption); font-variant-numeric:tabular-nums; text-align:left; }
 .sim-shell th,.sim-shell td { padding:9px 9px 9px 0; white-space:nowrap; border-bottom:1px solid var(--sim-border); }
-.sim-shell th { font-weight:650; color:var(--sim-muted); }
+.sim-shell th { font-weight:600; color:var(--sim-muted); }
 .sim-shell tr:last-child td { border-bottom:0; }
-.sim-shell .sim-empty { margin:12px 0 7px; color:var(--sim-muted); font-size:13px; }
+.sim-shell .sim-empty { margin:12px 0 7px; color:var(--sim-muted); font-size:var(--type-caption); }
 .sim-order-state { color:var(--sim-muted); }
 .sim-order-state.pending { color:#7d541a; }
 .sim-order-state.filled { color:#326c54; }
 .sim-link { background:none; border:none; padding:3px 5px; color:var(--sim-accent); text-decoration:underline; text-underline-offset:2px; cursor:pointer; font:inherit; }
-.sim-foot { display:grid; grid-template-columns:1fr auto; gap:20px; padding-top:14px; color:var(--sim-muted); font-size:13px; line-height:1.65; }
-.sim-foot summary { cursor:pointer; color:var(--sim-accent); font-weight:650; }
+.sim-foot { display:grid; grid-template-columns:1fr auto; gap:20px; padding-top:14px; color:var(--sim-muted); font-size:var(--type-caption); line-height:1.65; }
+.sim-foot summary { cursor:pointer; color:var(--sim-accent); font-weight:600; }
 .sim-foot details p { margin:8px 0; max-width:66ch; }
 .sim-reset form { display:grid; gap:5px; padding-top:8px; }
 .sim-reset form>div { display:flex; align-items:center; gap:8px; }

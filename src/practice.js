@@ -80,7 +80,7 @@ function practiceQuote(account) {
   </dl>`;
 }
 
-function renderPractice(root, type, { onDone, onStory, onFull } = {}) {
+function renderPractice(root, type, { onDone, onStory, onFull, nextLabel = '继续故事' } = {}) {
   const steps = PRACTICE_STEPS[type];
   if (!Array.isArray(steps)) return;
   const account = type === 'quote' || type === 'money' ? new SimTradingAccount(8000) : null;
@@ -98,7 +98,7 @@ function renderPractice(root, type, { onDone, onStory, onFull } = {}) {
     const result = complete ? 'complete' : isHint ? 'retry' : feedback ? 'advance' : 'ready';
     const choices = step.actions.map((action, index) =>
       `<button class="practice-choice" type="button" data-practice-choice="${index}">${action}<span class="practice-arrow" aria-hidden="true">↗</span></button>`).join('');
-    const storyButton = `<button class="practice-choice practice-primary" type="button" data-practice-nav="story">继续故事 <span aria-hidden="true">→</span></button>`;
+    const storyButton = `<button class="practice-choice practice-primary" type="button" data-practice-nav="story">${nextLabel} <span aria-hidden="true">→</span></button>`;
     const fullButton = onFull
       ? '<button class="practice-choice" type="button" data-practice-nav="full">进入完整模拟盘</button>' : '';
     view.innerHTML = `<div class="practice-main" data-practice-state="${result}">

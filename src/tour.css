@@ -1,0 +1,112 @@
+.sim-tour-replay {
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid var(--ink);
+  border-radius: 0 12px 0 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: .875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.sim-tour-replay:hover { background: var(--lime); }
+
+:root:has(.sim-tour[open]) { overflow: hidden; }
+/* Leave room below the last controls so their explanation can sit beside them. */
+body:has(.sim-tour[open])::after { content: ''; flex: none; height: 70dvh; }
+.sim-tour {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--ink);
+}
+.sim-tour::backdrop { background: transparent; }
+.sim-tour-frame {
+  position: absolute;
+  pointer-events: none;
+  border: 2px solid var(--blue);
+  border-radius: 4px 14px 4px 4px;
+  box-shadow: 0 0 0 2px white, 0 0 0 200vmax rgb(15 20 30 / 52%);
+}
+.sim-tour-card {
+  position: absolute;
+  width: min(23rem, calc(100% - 20px));
+  max-height: calc(100% - 20px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 12px 18px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 0 20px 0 0;
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.sim-tour-meta, .sim-tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.sim-tour-meta { font-size: .8125rem; font-weight: 600; }
+.sim-tour-meta b { margin-left: 5px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.sim-tour button {
+  min-height: 44px;
+  border: 1px solid var(--ink);
+  border-radius: 0 10px 0 0;
+  padding: 6px 14px;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: .875rem;
+  font-weight: 600;
+}
+.sim-tour .sim-tour-skip {
+  padding-inline: 6px;
+  border: 0;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: .24em;
+}
+.sim-tour-track { height: 3px; background: #d8d9d2; }
+.sim-tour-track i {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+}
+.sim-tour-card #sim-tour-title {
+  margin: 16px 0 8px;
+  font-family: inherit;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.35;
+  outline: none;
+}
+.sim-tour-card #sim-tour-text {
+  margin: 0;
+  font-size: .9375rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+.sim-tour-actions { justify-content: flex-end; margin-top: 14px; }
+.sim-tour-actions [data-tour-next] { background: var(--lime); }
+.sim-tour-actions :disabled { color: #65655e; border-color: #b7b8ad; }
+@media (max-height: 480px) {
+  .sim-tour-card { padding-block: 4px 8px; }
+  .sim-tour-card #sim-tour-title { margin-block: 8px 4px; }
+  .sim-tour-actions { margin-top: 6px; }
+}
+@media (max-height: 480px) and (min-width: 680px) {
+  .sim-tour-card { width: min(20rem, 43%); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sim-tour-track i { transition: width .18s ease-out; }
+}
