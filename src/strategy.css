@@ -1,22 +1,23 @@
 .strategy { max-width: 1020px; margin-inline: auto; }
 .strategy h1, .strategy h2, .strategy p { margin: 0; }
 .strategy h1, .strategy h2, .strategy strong, .strategy dt, .strategy button { font-weight: 600; }
-.strategy h1 { font-size: var(--type-title, 1.75rem); line-height: 1.3; }
-.strategy h2 { font-size: var(--type-heading, 1.375rem); line-height: 1.4; }
+.strategy h1 { font-size: var(--type-title); line-height: 1.3; }
+.strategy h2 { font-size: var(--type-heading); line-height: 1.4; }
 .strategy p { line-height: 1.7; }
-.strategy .strategy-meta, .strategy-index-heading > div > p:first-child { font-size: var(--type-caption, .8125rem); color: var(--muted); margin: 0 0 .4rem; }
-.strategy-back { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); font-size: var(--type-ui, .9375rem); }
+.strategy .strategy-meta, .strategy-index-heading > div > p:first-child { font-size: var(--type-caption); color: var(--muted); margin: 0 0 .4rem; }
+.strategy-back { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); font-size: var(--type-body); }
 .strategy-back:hover, .strategy-sources a:hover, .strategy-next a:not(.strategy-main-link):hover { text-decoration: underline; }
 .strategy-index-heading { display: flex; justify-content: space-between; gap: 2rem; align-items: end; margin: .3rem 0 1.75rem; }
 .strategy-index-heading p:last-child { color: var(--muted); max-width: 35em; margin-top: .5rem; }
 .strategy-continue { flex: none; display: grid; gap: .35rem; justify-items: end; }
-.strategy-continue > span, .strategy-status, .strategy-legend { font-size: var(--type-caption, .8125rem); color: var(--muted); }
-.strategy-main-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 1rem; width: fit-content; min-height: 44px; padding: .6rem .95rem; background: var(--blue); color: white; border: 1px solid var(--ink); border-radius: 0 12px 0 0; font-size: var(--type-ui, .9375rem); font-weight: 600; }
+.strategy-continue > span, .strategy-status, .strategy-legend { font-size: var(--type-caption); color: var(--muted); }
+.strategy-main-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 1rem; width: fit-content; min-height: 44px; padding: .6rem .95rem; background: var(--blue); color: white; border: 1px solid var(--ink); border-radius: 0 12px 0 0; font-size: var(--type-body); font-weight: 600; }
 .strategy-main-link:hover { background: #2644c8; }
 .strategy-groups { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem 2rem; }
 .strategy-group { border-top: 2px solid var(--ink); }
-.strategy-group header { padding: 1rem 0 .75rem; }
-.strategy-group header p, .strategy-group small { font-size: var(--type-ui, .9375rem); color: var(--muted); }
+.strategy-group header { display: flex; align-items: center; gap: .85rem; padding: 1rem 0 .75rem; }
+.strategy-category-mark { width: 4rem; height: 3.75rem; flex: none; }
+.strategy-group header p, .strategy-group small { font-size: var(--type-caption); color: var(--muted); }
 .strategy-group a { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .65rem .35rem .65rem 0; border-top: 1px solid #c1c1b8; }
 .strategy-group a:hover { background: #edf2db; }
 .strategy-group strong, .strategy-group small { display: block; }
@@ -24,49 +25,58 @@
 .strategy-status { white-space: nowrap; }
 .strategy-lesson-heading { margin: .4rem 0 1.4rem; }
 .strategy-lesson-layout { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); gap: clamp(1.3rem,4vw,3rem); align-items: start; border-top: 2px solid var(--line); padding-top: 1.2rem; }
-.strategy-reading { display: grid; gap: 1rem; font-size: var(--type-body,1.0625rem); }
+.strategy-reading { display: grid; gap: 1rem; font-size: var(--type-body); }
 .strategy-reading p + p { color: #393936; }
 .strategy-lab { min-width: 0; border: 1.5px solid var(--line); border-radius: 0 20px 0 0; padding: clamp(.85rem,2vw,1.35rem); background: var(--panel); }
-.strategy-lab > p, .strategy-note { margin-top: .35rem; font-size: var(--type-ui, .9375rem); color: var(--muted); }
+.strategy-lab > p, .strategy-note { margin-top: .35rem; font-size: var(--type-body); color: var(--muted); }
 .strategy-options { display: flex; flex-wrap: wrap; gap: .35rem; margin: .9rem 0; }
-.strategy-options button, .strategy-answers button { min-height: 44px; padding: .45rem .65rem; border: 1px solid #77776e; background: var(--panel); font-size: var(--type-ui, .9375rem); }
+.strategy-options button, .strategy-answers button { min-height: 44px; padding: .45rem .65rem; border: 1px solid #77776e; background: var(--panel); font-size: var(--type-body); }
 .strategy-options button { border-radius: 4px; }
 .strategy-options button[aria-pressed="true"] { background: var(--lime); border-color: var(--ink); }
-.strategy-result { min-width: 0; }
+.strategy-result { min-width: 0; container-type: inline-size; }
 .strategy-result.strategy-changing { animation: strategy-reveal .22s ease-out both; }
 .strategy-ticket { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .85rem; padding: .8rem .85rem; border-left: 4px solid var(--blue); background: #f0f2ff; }
-.strategy-ticket strong { font-size: var(--type-heading, 1.375rem); font-variant-numeric: tabular-nums; }
-.strategy-ticket span { font-size: var(--type-ui, .9375rem); }
+.strategy-ticket strong { font-size: var(--type-heading); font-variant-numeric: tabular-nums; }
+.strategy-ticket span { font-size: var(--type-caption); }
 .strategy-ticket span:first-child { width: 100%; color: var(--muted); }
-.strategy-ledger { margin: .4rem 0 0; font-size: var(--type-ui, .9375rem); }
+.strategy-ledger { margin: .4rem 0 0; font-size: var(--type-body); }
 .strategy-ledger > div { display: grid; grid-template-columns: minmax(4.2rem,.65fr) minmax(0,1.75fr); gap: .6rem; padding: .6rem .05rem; line-height: 1.55; border-bottom: 1px solid #d2d2cb; }
 .strategy-ledger dd { margin: 0; font-variant-numeric: tabular-nums; }
 .strategy-allocation { display: flex; height: 25px; background: #e5e9d4; border: 1px solid var(--line); }
 .strategy-allocation i { display: block; background: var(--blue); transform-origin: left; animation: strategy-grow .28s ease-out both; }
 .strategy-legend { margin-top: .45rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .3rem; }
 .strategy-legend i { display: inline-block; width: 8px; height: 8px; margin-right: .3rem; background: var(--blue); }
-.strategy-table { border-collapse: collapse; width: 100%; font-size: var(--type-ui,.9375rem); font-variant-numeric: tabular-nums; }
-.strategy-table caption { text-align: left; color: var(--muted); font-size: var(--type-caption,.8125rem); margin-bottom: .3rem; }
+.strategy-table { border-collapse: collapse; width: 100%; font-size: var(--type-body); font-variant-numeric: tabular-nums; }
+.strategy-table caption { text-align: left; color: var(--muted); font-size: var(--type-caption); margin-bottom: .3rem; }
 .strategy-table th, .strategy-table td { border-bottom: 1px solid #cecec6; padding: .65rem .35rem; text-align: right; }
 .strategy-table tr > :first-child { text-align: left; }
 .strategy-table th { font-weight: 600; }
 .strategy-table thead { background: #f0f2ff; }
-.strategy-chart { display: block; width: 100%; max-height: 235px; background: #fafaf6; }
-.strategy-chart text { fill: #53534e; font-size: 13px; font-variant-numeric: tabular-nums; }
+.strategy-chart { display: block; width: min(100%, 450px); margin-inline: auto; background: #fafaf6; }
+.strategy-chart text { fill: #53534e; font-size: var(--type-caption); font-variant-numeric: tabular-nums; }
+/* A 370-unit viewBox scales its text as well as its paths. Keep axis labels at caption size. */
+@supports (scale: calc(1px / 1px)) {
+  .strategy-chart text { transform-box: fill-box; transform-origin: left bottom; scale: calc(370px / min(100cqi, 450px)); }
+  .strategy-chart [text-anchor="middle"] { transform-origin: center bottom; }
+  .strategy-chart [text-anchor="end"] { transform-origin: right bottom; }
+}
 .strategy-rule { stroke: #babbb4; stroke-width: .8; }
 .strategy-guide { stroke: #81857e; stroke-width: .7; stroke-dasharray: 2 4; }
 .strategy-price-line { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
 .strategy-changing .strategy-price-line { stroke-dasharray: 1; animation: strategy-trace .42s ease-out both; }
 .strategy-quiz { margin-top: 1.5rem; max-width: 50rem; padding: 1rem 0; border-top: 2px solid var(--ink); }
-.strategy-quiz h2 { font-size: var(--type-body,1.0625rem); }
+.strategy-quiz h2 { font-size: var(--type-body); }
 .strategy-answers { display: grid; gap: .45rem; margin-top: .75rem; }
 .strategy-answers button { border-radius: 0 10px 0 0; text-align: left; }
 .strategy-answers button:hover, .strategy-options button:hover { border-color: var(--blue); }
 .strategy-answers button[aria-pressed="true"] { background: #e9edff; border-color: var(--blue); }
-.strategy-feedback:not(:empty) { padding: .4rem .7rem; margin-top: .65rem; border-left: 3px solid var(--blue); font-size: var(--type-ui,.9375rem); }
-.strategy-next, .strategy-sources { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: center; margin-top: 1rem; font-size: var(--type-ui,.9375rem); }
+.strategy-feedback:not(:empty) { padding: .4rem .7rem; margin-top: .65rem; border-left: 3px solid var(--blue); font-size: var(--type-body); }
+.strategy-next, .strategy-sources { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: center; margin-top: 1rem; font-size: var(--type-body); }
 .strategy-next a:not(.strategy-main-link), .strategy-sources a { text-decoration: underline; text-underline-offset: .18em; }
-.strategy-sources { color: var(--muted); font-size: var(--type-caption,.8125rem); }
+.strategy-details { max-width: 50rem; border-top: 1px solid #c1c1b8; margin-top: .5rem; }
+.strategy-details summary { width: fit-content; cursor: pointer; padding-block: .75rem; font-size: var(--type-caption); font-weight: 600; }
+.strategy-details > p { max-width: 38em; font-size: var(--type-body); }
+.strategy-sources { color: var(--muted); font-size: var(--type-caption); }
 @keyframes strategy-trace { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes strategy-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes strategy-reveal { from { opacity: .72; } to { opacity: 1; } }

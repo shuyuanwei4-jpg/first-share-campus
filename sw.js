@@ -1,7 +1,7 @@
 const appScope = new URL(self.registration.scope);
 const indexUrl = new URL('index.html', appScope).href;
 const cachePrefix = 'first-stock:' + appScope.pathname + ':';
-const cacheName = cachePrefix + 'v5';
+const cacheName = cachePrefix + 'v6';
 
 const appFiles = [
   'index.html',

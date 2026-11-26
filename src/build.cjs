@@ -2,11 +2,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const snippets = {
-  STYLE: ['story.css', 'practice.css', 'mobile-app.css', 'mobile-practice.css', 'market.css', 'strategy.css', 'tour.css'],
+  STYLE: ['story.css', 'practice.css', 'mobile-app.css', 'mobile-practice.css', 'market.css', 'strategy.css', 'strategy-art.css', 'tour.css'],
   STORIES: ['stories.js'],
   SIMULATOR: ['market-data.js', 'market-chart.js', 'simulator.js', 'tour.js'],
   PRACTICE: ['practice.js'],
-  STRATEGY: ['strategy-content.js', 'strategy.js'],
+  STRATEGY: ['strategy-content.js', 'strategy-art.js', 'strategy.js'],
   APP: ['story-app.js'],
 };
 

@@ -81,7 +81,7 @@
   #content .practice-primary { background: var(--lime); color: var(--ink); }
   #content .practice-choice:active { background: var(--lime); transform: translateY(2px); }
   #content .practice-arrow,
-  #content .practice-primary span { margin: 0; font: 1rem/1 system-ui, sans-serif; }
+  #content .practice-primary span { margin: 0; font: var(--type-body)/1 system-ui, sans-serif; }
   #content .practice-feedback {
     margin-bottom: 7px;
     padding: 6px 8px;
@@ -173,7 +173,7 @@
   #content .sim-toggle button { border: 1px solid var(--ink); color: var(--ink); background: var(--paper); }
   #content .sim-toggle button[aria-pressed='true'] { background: var(--lime); color: var(--ink); border-color: var(--ink); }
   #content .sim-inputs { gap: 7px; }
-  #content .sim-shell input { min-height: 47px; border: 1px solid var(--ink); border-radius: 0 10px 0 0; font-size: 16px; }
+  #content .sim-shell input { min-height: 47px; border: 1px solid var(--ink); border-radius: 0 10px 0 0; font-size: var(--type-body); }
   #content .sim-shell .sim-submit { min-height: 52px; }
   #content .sim-shell :is(.sim-ticket, .sim-reset) :is(input, button) { scroll-margin-bottom: calc(88px + env(safe-area-inset-bottom)); }
   #content .sim-shell .sim-status { border-left: 3px solid var(--blue); border-radius: 0; }

@@ -14,6 +14,6 @@
 
 ## 字体、图标和设计参考
 
-- 英文展示字使用原有的 Bauhaus 93，中文优先使用苹方，其他设备可使用思源黑体（Noto Sans SC）或微软雅黑。标题和正文用 28、22、17、15、13 五档字号组织信息，字重以常规和半粗为主。[Apple 字体设计指南](https://developer.apple.com/design/human-interface-guidelines/typography)
+- 英文展示字使用 Bauhaus 93，中文优先使用苹方，其他设备可使用 Noto Sans SC 或微软雅黑。中文用 28、22、17、14 四档字号，分别用于大标题、小标题、正文和辅助信息，随浏览器字号设置缩放。[Apple 字体设计指南](https://developer.apple.com/design/human-interface-guidelines/typography)
 - 底部导航使用 [Lucide 图标](https://lucide.dev/)，许可证随项目分发。[许可证](assets/LICENSE-LUCIDE.txt)
 - 手机导航参考 [Mobbin](https://mobbin.com/) 的常驻入口，触摸反馈参考 [Cuberto](https://cuberto.com/)，故事里的探索取自 [Bruno Simon](https://bruno-simon.com/) 给人的操作反馈思路。版式和配色延续用户的 [作品集](https://shuyuanwei4-jpg.github.io/wei-shuyuan-portfolio/#signals)。

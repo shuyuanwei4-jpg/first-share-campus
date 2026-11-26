@@ -12,15 +12,15 @@
 .desktop-nav { margin-left: auto; }
 .mobile-dock { display: none; }
 .install-trigger, .install-close { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 0 12px 0 0; padding: 4px 10px; background: var(--paper); color: var(--ink); font-size: var(--type-caption); font-weight: 600; }
-.install-trigger > span:first-child { font-size: 20px; line-height: 1; }
+.install-trigger > span:first-child { font-size: var(--type-heading); line-height: 1; }
 .install-trigger:hover, .install-close:hover { background: var(--lime); }
 #install-sheet { position: fixed; width: min(430px, calc(100% - 28px)); max-height: 85dvh; padding: 0; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 0 30px 0 0; box-shadow: 7px 7px var(--ink); }
 #install-sheet[open] { animation: sheet-open .32s var(--ease) both; }
 #install-sheet::backdrop { background: #1119; }
 .install-sheet-body { display: grid; gap: 11px; padding: 21px; }
 .install-sheet-body h2 { margin: 0; font-size: var(--type-heading); }
-.install-sheet-body p { margin: 0; font-size: var(--type-ui); line-height: 1.6; }
-.install-close { justify-self: end; min-width: 44px; font-size: 24px; line-height: 1; }
+.install-sheet-body p { margin: 0; font-size: var(--type-body); line-height: 1.6; }
+.install-close { justify-self: end; min-width: 44px; font-size: var(--type-heading); line-height: 1; }
 .gesture-hint { display: none; }
 
 @media (max-width: 680px) {
@@ -54,10 +54,10 @@
   .scene-title { font-size: var(--type-heading); margin-bottom: 5px; }
   .scene-text { margin-bottom: 11px; font-size: var(--type-body); line-height: 1.6; }
   .choices { gap: 7px; }
-  .choice { min-height: 48px; font-size: var(--type-ui); border-width: 1.5px; padding: 7px 10px; background: #fff; }
+  .choice { min-height: 48px; font-size: var(--type-body); border-width: 1.5px; padding: 7px 10px; background: #fff; }
   .choice[aria-pressed='true'] { background: var(--lime); }
   .choice-key { border-width: 1px; }
-  .feedback { min-height: 32px; font-size: var(--type-ui); }
+  .feedback { min-height: 32px; font-size: var(--type-body); }
   .scene-next { position: fixed; margin: 0; z-index: 3; left: 0; right: 0; bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom)); padding: 7px max(14px, env(safe-area-inset-right)) 8px max(14px, env(safe-area-inset-left)); background: var(--paper); border-top: 1px solid #1114; }
   .scene-next .btn { min-height: 46px; }
   .gesture-hint { display: inline; color: #555; font-size: var(--type-caption); font-weight: 400; margin-left: auto; }

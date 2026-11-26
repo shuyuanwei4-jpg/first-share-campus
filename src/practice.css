@@ -47,13 +47,13 @@
 .practice-ledger > div { display: flex; justify-content: space-between; align-items: center; gap: .7rem; padding: .63rem 1rem; }
 .practice-ledger > div + div { border-top: 1px solid var(--practice-ink); }
 .practice-ledger > div:last-child { background: var(--practice-lime); }
-.practice-ledger dt { font-size: var(--type-ui); line-height: 1.35; }
+.practice-ledger dt { font-size: var(--type-body); line-height: 1.35; }
 .practice-ledger dd { margin: 0; white-space: nowrap; font-size: var(--type-body); font-weight: 600; }
-.practice-ledger dd.practice-order-mark { font-size: var(--type-ui); }
+.practice-ledger dd.practice-order-mark { font-size: var(--type-body); }
 .practice-profit { display: grid; grid-template-columns: 1fr 1fr; }
-.practice-profit span { display: flex; align-items: center; min-height: 3.6rem; padding: .6rem .8rem; font-size: var(--type-ui); font-weight: 600; background: var(--practice-lime); }
+.practice-profit span { display: flex; align-items: center; min-height: 3.6rem; padding: .6rem .8rem; font-size: var(--type-body); font-weight: 600; background: var(--practice-lime); }
 .practice-profit span + span { border-left: 1px solid var(--practice-ink); background: transparent; }
-.practice-shares p { margin: 0; padding: .65rem .8rem; border-top: 1px solid var(--practice-ink); font-size: var(--type-ui); }
+.practice-shares p { margin: 0; padding: .65rem .8rem; border-top: 1px solid var(--practice-ink); font-size: var(--type-body); }
 .practice-message { padding: .95rem 1rem; }
 .practice-message span { font-size: var(--type-caption); font-weight: 600; }
 .practice-message p { margin: .38rem 0 0; line-height: 1.5; font-size: var(--type-body); }
@@ -67,7 +67,7 @@
   color: var(--practice-ink);
   background: var(--practice-paper);
   font: inherit;
-  font-size: var(--type-ui);
+  font-size: var(--type-body);
   font-weight: 600;
   line-height: 1.35;
   text-align: center;
@@ -78,7 +78,7 @@
 .practice-primary { color: #fff; background: var(--practice-blue); border-color: var(--practice-blue); }
 .practice-primary:hover { color: var(--practice-ink); border-color: var(--practice-ink); }
 .practice-primary span { margin-left: .25rem; }
-.practice-feedback { margin: 0 0 .8rem; border-left: 3px solid var(--practice-blue); padding: .12rem 0 .12rem .6rem; font-size: var(--type-ui); font-weight: 600; line-height: 1.55; }
+.practice-feedback { margin: 0 0 .8rem; border-left: 3px solid var(--practice-blue); padding: .12rem 0 .12rem .6rem; font-size: var(--type-body); font-weight: 600; line-height: 1.55; }
 .practice-hint { border-left-color: var(--practice-ink); }
 .practice-live { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
 

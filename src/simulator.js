@@ -448,20 +448,20 @@ const SIMULATOR_CSS = `
 .sim-shell p.sim-quotes-label { font-size:var(--type-caption); font-weight:600; color:var(--sim-ink); margin-bottom:6px; }
 .sim-shell p.sim-quotes-note { font-size:var(--type-caption); color:var(--sim-muted); line-height:1.6; margin-top:7px; }
 .sim-quotes { display:grid; gap:5px; }
-.sim-quotes button { display:flex; justify-content:space-between; gap:7px; width:100%; padding:9px 11px; background:#f7f5fb; color:var(--sim-ink); border:1px solid transparent; border-radius:8px; text-align:left; font:inherit; font-size:var(--type-ui); cursor:pointer; }
+.sim-quotes button { display:flex; justify-content:space-between; gap:7px; width:100%; padding:9px 11px; background:#f7f5fb; color:var(--sim-ink); border:1px solid transparent; border-radius:8px; text-align:left; font:inherit; font-size:var(--type-body); cursor:pointer; }
 .sim-quotes button:hover,.sim-quotes button:focus-visible { border-color:#b6a9e9; background:var(--sim-lavender); }
-.sim-quotes small { color:var(--sim-muted); margin-left:5px; }
+.sim-quotes small { font-size:var(--type-caption); color:var(--sim-muted); margin-left:5px; }
 .sim-quotes strong { font-variant-numeric:tabular-nums; }
 .sim-shell p.sim-event { font-size:var(--type-caption); color:var(--sim-muted); line-height:1.6; margin:12px 0; min-height:2em; }
 .sim-market-actions { display:flex; flex-wrap:wrap; gap:7px; }
-.sim-shell .sim-btn { font:inherit; font-size:var(--type-ui); font-weight:600; padding:9px 12px; border-radius:9px; min-height:37px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+.sim-shell .sim-btn { font:inherit; font-size:var(--type-body); font-weight:600; padding:9px 12px; border-radius:9px; min-height:37px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
 .sim-shell .sim-btn.secondary { border:1px solid var(--sim-border); background:#fff; color:var(--sim-accent); }
 .sim-shell .sim-btn.secondary:hover { background:var(--sim-lavender); }
 .sim-shell .sim-btn.primary { border:1px solid var(--sim-accent); background:var(--sim-accent); color:#fff; }
 .sim-shell .sim-btn.primary:hover { background:#4934b4; }
 .sim-ticket-head { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
 .sim-toggle { display:flex; gap:4px; padding:3px; border-radius:9px; background:#f6f4fa; margin:15px 0; }
-.sim-toggle button { flex:1; border:1px solid transparent; border-radius:7px; background:transparent; color:var(--sim-muted); min-height:33px; font:inherit; font-size:var(--type-ui); font-weight:600; cursor:pointer; }
+.sim-toggle button { flex:1; border:1px solid transparent; border-radius:7px; background:transparent; color:var(--sim-muted); min-height:33px; font:inherit; font-size:var(--type-body); font-weight:600; cursor:pointer; }
 .sim-toggle button[aria-pressed="true"] { color:var(--sim-accent); background:#fff; border-color:var(--sim-border); }
 .sim-inputs { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .sim-shell label { display:grid; gap:5px; color:var(--sim-ink); font-size:var(--type-caption); font-weight:600; min-width:0; }

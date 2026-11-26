@@ -1,0 +1,26 @@
+.story-art.strategy-illustration {
+  width: 100%; min-height: 0; height: clamp(218px, 20vw, 284px); display: grid; place-items: center;
+  border: 2px solid var(--ink); border-radius: 0 28px 0 0; margin: 0;
+}
+.strategy-illustration .art-caption { top: 10px; left: 10px; font-size: var(--type-caption); }
+.strategy-art-arrangement { position: relative; width: min(88%, 400px); height: 76%; }
+.strategy-illustration .strategy-art-slip {
+  position: absolute; left: 4%; top: 20%; width: 70%; min-height: 57%; padding: 13px 16px;
+  transform: rotate(-7deg); border-radius: 0 19px 0 0; gap: 5px;
+}
+.strategy-illustration .strategy-art-slip span { font-size: var(--type-caption); font-weight: 600; line-height: 1.4; }
+.strategy-illustration .strategy-art-slip b { font-size: var(--type-heading); line-height: 1.25; font-weight: 600; font-family: var(--body); letter-spacing: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.strategy-art-object {
+  position: absolute; width: 40%; right: -3%; bottom: 1%; height: auto; overflow: visible;
+  filter: drop-shadow(3px 4px 0 #111);
+}
+.strategy-art-note { position: absolute; bottom: 9px; right: 11px; font: 600 var(--type-caption)/1.35 var(--body); color: var(--ink); padding: 2px 6px; background: var(--paper); border: 1px solid var(--ink); }
+@media(max-width: 480px) {
+  .story-art.strategy-illustration { height: 202px; }
+  .strategy-art-arrangement { width: 92%; }
+  .strategy-illustration .strategy-art-slip { padding: 10px 12px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .strategy-art-object { animation: strategy-art-place .26s var(--ease) both; transform-origin: 55% 80%; }
+}
+@keyframes strategy-art-place { from { transform: translateY(-4px) rotate(-4deg); } }
