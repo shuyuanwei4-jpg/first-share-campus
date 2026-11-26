@@ -1,0 +1,51 @@
+第一股 · 校园插画与贴纸
+
+食堂、宿舍、咖啡店、二手书摊、自习桌、图书馆的背景与小满、阿禾两位学生的形象，是为本组课程绘制的原创矢量画。
+
+课内物件贴纸来自 OpenMoji 17.0.0，由 OpenMoji 项目及其贡献者设计。所选原图整理为本地 SVG 图集，含独立符号名称与白色贴纸描边。图集及这些贴纸改编沿用 CC BY-SA 4.0 许可。
+餐盘贴纸增加了番茄与鸡蛋的配色和细节，纸币贴纸调整为课堂代币配色，以配合食堂故事。
+
+OpenMoji — https://openmoji.org/
+Source release — https://github.com/hfg-gmuend/openmoji/tree/17.0.0/color/svg
+Creative Commons Attribution-ShareAlike 4.0 International — https://creativecommons.org/licenses/by-sa/4.0/
+
+下方依次为贴纸名称、原 SVG 文件名（十六进制编码）和 OpenMoji 标题。
+
+meal / 1F35B / curry rice
+coffee / 2615 / hot beverage
+card / 1F4B3 / credit card
+wallet / 1F45B / purse
+coin / 1FA99 / coin
+bill / 1F4B4 / yen banknote
+receipt / 1F9FE / receipt
+book / 1F4D7 / green book
+books / 1F4DA / books
+bag / 1F392 / backpack
+notebook / 1F4D3 / notebook
+pencil / 270F / pencil
+phone / 1F4F1 / mobile phone
+laptop / 1F4BB / laptop
+ticket / 1F3AB / ticket
+chart / 1F4C8 / chart increasing
+down / 1F4C9 / chart decreasing
+bars / 1F4CA / bar chart
+magnifier / 1F50D / magnifying glass tilted left
+calendar / 1F4C5 / calendar
+clock / 1F552 / three o’clock
+key / 1F511 / key
+puzzle / 1F9E9 / puzzle piece
+seedling / 1F331 / seedling
+basket / 1F9FA / basket
+bank / 1F3E6 / bank
+shield / 1F6E1 / shield
+scale / 2696 / balance scale
+envelope / 2709 / envelope
+calculator / 1F9EE / abacus
+lightbulb / 1F4A1 / light bulb
+scissors / 2702 / scissors
+folder / 1F4C2 / open file folder
+check / 2714 / check mark
+warning / 26A0 / warning
+tool / 1F527 / wrench
+print / 1F5A8 / printer
+tag / 1F3F7 / label

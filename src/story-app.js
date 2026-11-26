@@ -1,13 +1,5 @@
 const storyRoot = document.getElementById('content');
 const progressKey = 'first-share-stories-v2';
-const scenePictures = [
-  [['食堂', '餐费预算', '¥100'], ['新学期的菜单', '每份套餐', '¥18'], ['印明信片', '今天拿出', '¥100'], ['下课咖啡', '小股东', '1 股']],
-  [['校园账本', '现在的存款', '¥8,000'], ['模拟订单', '一手', '100 股'], ['维修报价', '今天要付', '¥600']],
-  [['下课咖啡', '公司总股数', '10 万股'], ['咖啡店账本', '剩余现金', '¥12 万'], ['交易小票', '买一股花了', '¥10'], ['下课咖啡', '同一笔分红', '¥0.60']],
-  [['旧教材摊', '最接近的报价', '¥20 / 22'], ['旧教材摊', '卖家要价', '¥22'], ['虚构行情', '最新成交', '¥10.01'], ['持仓小票', '当天可卖', '0 股']],
-  [['群聊消息', '发来一个', '开户链接'], ['券商 App', '界面入口', '开户'], ['券商 App', '界面入口', '行情'], ['交易回执', '界面入口', '当日委托']],
-];
-const artProps = { canteen: 'meal', wallet: 'coin', time: 'clock', coffee: 'coffee', market: 'book', phone: 'phone', receipt: 'receipt' };
 
 function loadProgress() {
   try { return JSON.parse(localStorage.getItem(progressKey)) ?? {}; }
@@ -40,17 +32,6 @@ function chapterHeading(index, label, count = 0, step = 0) {
   return `<header class="story-heading"><div><p class="day-display" aria-hidden="true">Day ${dayNumber(index)}<span class="dot">.</span></p><h1>${label}</h1></div>${tracker}</header>`;
 }
 
-function pictureHTML(index, current, scene) {
-  const [locationLabel, amountLabel, amount] = scenePictures[index][current];
-  const prop = artProps[scene.art];
-  const propHTML = prop === 'coin' ? '¥' : `<span class="prop-${prop}"></span>`;
-  return `<figure class="story-art" data-art="${scene.art}" aria-label="${locationLabel}，${amountLabel} ${amount}">
-    <span class="art-caption">${locationLabel}</span><span class="art-shape one" aria-hidden="true">✦</span><span class="art-shape two" aria-hidden="true">✳</span>
-    <div class="art-objects" aria-hidden="true"><div class="visual-card"><span>${amountLabel}</span><b class="${/[\u3400-\u9fff]/.test(amount) ? 'mixed' : ''}">${amount}</b></div><div class="visual-prop">${propHTML}</div></div>
-    <span class="art-status" aria-hidden="true" hidden></span><span class="art-index" aria-hidden="true">${dayNumber(index)} / ${String(current + 1).padStart(2, '0')}</span>
-  </figure>`;
-}
-
 function renderStory(index, direction = 0) {
   const story = STORIES[index];
   const state = progress[index];
@@ -59,7 +40,7 @@ function renderStory(index, direction = 0) {
   const last = current === story.scenes.length - 1;
   const nextLabel = last ? '进入模拟练习' : scene.next ?? '下一幕';
   storyRoot.innerHTML = `${chapterHeading(index, story.title, story.scenes.length, current)}
-    <section class="story-stage arrive${direction < 0 ? ' reverse' : ''}" aria-labelledby="scene-title">${pictureHTML(index, current, scene)}<div class="story-copy">
+    <section class="story-stage arrive${direction < 0 ? ' reverse' : ''}" aria-labelledby="scene-title"><div class="story-art story-panel">${campusIllustration(scene.art)}</div><div class="story-copy">
       <h2 class="scene-title" id="scene-title" tabindex="-1">${scene.title}</h2><p class="scene-text">${scene.text}</p>
       <div class="choices" role="group" aria-label="选择你的行动">${scene.choices.map((choice, number) => `<button class="choice" type="button" data-choice="${number}" aria-pressed="false"><span class="choice-key" aria-hidden="true">${'ABC'[number]}</span><span>${choice.label}</span><span aria-hidden="true">↗</span></button>`).join('')}</div>
       <p class="feedback" role="status" hidden></p>
@@ -68,7 +49,6 @@ function renderStory(index, direction = 0) {
 
   const buttons = [...storyRoot.querySelectorAll('[data-choice]')];
   const art = storyRoot.querySelector('.story-art');
-  const stamp = storyRoot.querySelector('.art-status');
   const feedback = storyRoot.querySelector('.feedback');
   const next = storyRoot.querySelector('.scene-next');
 
@@ -78,14 +58,9 @@ function renderStory(index, direction = 0) {
     feedback.hidden = false;
     feedback.textContent = choice.feedback;
     next.hidden = false;
-    stamp.hidden = !choice.value;
-    stamp.textContent = choice.value ?? '';
+    art.innerHTML = campusIllustration({ ...scene.art, detail: choice.value, props: choice.props });
     if (animate) {
-      art.classList.remove('changed');
-      stamp.classList.remove('toss');
-      void art.offsetWidth;
-      art.classList.add('changed');
-      stamp.classList.add('toss');
+      art.firstElementChild.classList.add('choice-reveal');
     }
   }
 
@@ -143,10 +118,12 @@ function renderStoryList() {
   const groups = STRATEGY_GROUPS.map(group => `<li><a href="#strategy/${group.lessons[0].slug}"><span>${group.title}</span><small>${group.lessons.map(lesson => lesson.summary).join(' · ')}</small></a></li>`).join('');
   storyRoot.innerHTML = `<header class="story-heading"><h1>课程目录</h1></header>
     <div class="course-map">
-      <section class="course-track"><header><p>第一阶段 <span>${doneDays} / ${STORIES.length} 天</span></p><h2>认识股票</h2></header>
+      <section class="course-track"><header><div><p>第一阶段 <span>${doneDays} / ${STORIES.length} 天</span></p><h2>认识股票</h2></div>
+        ${campusIllustration({place: 'canteen', action: 'trade', props: ['meal', 'card'], caption: '小满和阿禾从食堂的一顿午饭开始记账。'})}</header>
         <ul class="course-chapters">${chapters}</ul>
         <a class="course-continue" href="#day/${Math.max(0, todayIndex()) + 1}">${doneDays === STORIES.length ? '重温校园故事' : doneDays ? '继续校园故事' : '开始校园故事'} <span aria-hidden="true">→</span></a></section>
-      <section class="course-track strategy-track"><header><p>第二阶段 <span>${study.completed} / ${study.total} 课</span></p><h2>选股与交易</h2></header>
+      <section class="course-track strategy-track"><header><div><p>第二阶段 <span>${study.completed} / ${study.total} 课</span></p><h2>选股与交易</h2></div>
+        ${campusIllustration({place: 'cafe', action: 'read', props: ['notebook', 'coffee'], caption: '跟两位同学翻开咖啡店的账本，练习看公司、读行情。'})}</header>
         <ul class="course-groups">${groups}</ul>
         <a class="course-continue" href="#strategy">查看第二阶段课程 <span aria-hidden="true">→</span></a></section>
     </div>`;
@@ -169,7 +146,8 @@ function renderResources() {
   storyRoot.innerHTML = `<section class="resources"><h1>延伸资料</h1>
     <article class="resource-card"><a href="https://b23.tv/9HJ7SOJ" target="_blank" rel="noopener noreferrer">《投资是怎样赚钱的？》有知有行 · 孟岩 ↗</a></article>
     <article class="resource-card"><a href="https://www.csrc.gov.cn/" target="_blank" rel="noopener noreferrer">中国证监会 · 查询证券公司名录 ↗</a></article>
-    <article class="resource-card"><a href="https://www.sse.com.cn/lawandrules/sselawsrules/trade/" target="_blank" rel="noopener noreferrer">上海证券交易所 · 交易规则 ↗</a></article></section>`;
+    <article class="resource-card"><a href="https://www.sse.com.cn/lawandrules/sselawsrules/trade/" target="_blank" rel="noopener noreferrer">上海证券交易所 · 交易规则 ↗</a></article>
+    <article class="resource-card"><a href="./assets/CAMPUS-ART-CREDITS.txt">校园插画与贴纸的来源及授权</a></article></section>`;
 }
 
 function showPage(focus = false) {

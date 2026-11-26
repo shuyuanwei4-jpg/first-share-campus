@@ -15,7 +15,8 @@
 .strategy-main-link:hover { background: #2644c8; }
 .strategy-groups { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem 2rem; }
 .strategy-group { border-top: 2px solid var(--ink); }
-.strategy-group header { padding: 1rem 0 .75rem; }
+.strategy-group header { display: flex; align-items: center; gap: .8rem; padding: 1rem 0 .75rem; }
+.strategy-group header > svg { width: 3.35rem; height: 3.35rem; flex: none; }
 .strategy-group header p, .strategy-group small { font-size: var(--type-ui, .9375rem); color: var(--muted); }
 .strategy-group a { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .65rem .35rem .65rem 0; border-top: 1px solid #c1c1b8; }
 .strategy-group a:hover { background: #edf2db; }
@@ -23,9 +24,14 @@
 .strategy-group small { margin-top: .18rem; }
 .strategy-status { white-space: nowrap; }
 .strategy-lesson-heading { margin: .4rem 0 1.4rem; }
-.strategy-lesson-layout { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); gap: clamp(1.3rem,4vw,3rem); align-items: start; border-top: 2px solid var(--line); padding-top: 1.2rem; }
-.strategy-reading { display: grid; gap: 1rem; font-size: var(--type-body,1.0625rem); }
-.strategy-reading p + p { color: #393936; }
+.strategy-story-panel { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: clamp(1.2rem,3.5vw,2.7rem); align-items: center; }
+.strategy-story-panel > figure { margin: 0; }
+.strategy-lesson-layout { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); gap: clamp(1.3rem,4vw,3rem); align-items: start; margin-top: 1.65rem; }
+.strategy-reading { display: grid; gap: .85rem; font-size: var(--type-body,1.0625rem); }
+.strategy-reading .strategy-idea { color: #393936; font-size: var(--type-ui,.9375rem); }
+.strategy-dialogue { margin: 0; border-left: 3px solid var(--blue); padding-left: .8rem; }
+.strategy-dialogue strong { color: var(--blue); font-size: var(--type-caption,.8125rem); }
+.strategy-dialogue p { font-weight: 600; }
 .strategy-lab { min-width: 0; border: 1.5px solid var(--line); border-radius: 0 20px 0 0; padding: clamp(.85rem,2vw,1.35rem); background: var(--panel); }
 .strategy-lab > p, .strategy-note { margin-top: .35rem; font-size: var(--type-ui, .9375rem); color: var(--muted); }
 .strategy-options { display: flex; flex-wrap: wrap; gap: .35rem; margin: .9rem 0; }
@@ -34,6 +40,12 @@
 .strategy-options button[aria-pressed="true"] { background: var(--lime); border-color: var(--ink); }
 .strategy-result { min-width: 0; }
 .strategy-result.strategy-changing { animation: strategy-reveal .22s ease-out both; }
+.strategy-observation { display: flex; align-items: center; gap: .65rem; margin-top: .75rem; padding: .55rem .65rem; background: #eff2e6; }
+.strategy-observation > svg, .strategy-feedback > svg { width: 2.5rem; height: 2.5rem; flex: none; }
+.strategy-observation p { font-size: var(--type-ui,.9375rem); }
+.strategy-slips { display: grid; grid-template-columns: repeat(5,1fr); gap: .35rem; }
+.strategy-slips span { text-align: center; background: var(--paper); color: var(--ink); padding: .3rem .1rem; border: 1px solid #949387; border-radius: 0 7px 0 0; font-size: var(--type-ui,.9375rem); font-variant-numeric: tabular-nums; }
+.strategy-slips .stock-slip { color: #fff; background: var(--blue); border-color: var(--blue); }
 .strategy-ticket { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .85rem; padding: .8rem .85rem; border-left: 4px solid var(--blue); background: #f0f2ff; }
 .strategy-ticket strong { font-size: var(--type-heading, 1.375rem); font-variant-numeric: tabular-nums; }
 .strategy-ticket span { font-size: var(--type-ui, .9375rem); }
@@ -57,13 +69,15 @@
 .strategy-guide { stroke: #81857e; stroke-width: .7; stroke-dasharray: 2 4; }
 .strategy-price-line { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
 .strategy-changing .strategy-price-line { stroke-dasharray: 1; animation: strategy-trace .42s ease-out both; }
-.strategy-quiz { margin-top: 1.5rem; max-width: 50rem; padding: 1rem 0; border-top: 2px solid var(--ink); }
+.strategy-quiz { padding: 1rem 0; border-top: 2px solid var(--ink); }
 .strategy-quiz h2 { font-size: var(--type-body,1.0625rem); }
 .strategy-answers { display: grid; gap: .45rem; margin-top: .75rem; }
 .strategy-answers button { border-radius: 0 10px 0 0; text-align: left; }
 .strategy-answers button:hover, .strategy-options button:hover { border-color: var(--blue); }
 .strategy-answers button[aria-pressed="true"] { background: #e9edff; border-color: var(--blue); }
-.strategy-feedback:not(:empty) { padding: .4rem .7rem; margin-top: .65rem; border-left: 3px solid var(--blue); font-size: var(--type-ui,.9375rem); }
+.strategy-feedback:not(:empty) { display: flex; align-items: start; gap: .55rem; padding: .75rem .65rem; margin-top: .65rem; background: #f0f2ff; font-size: var(--type-ui,.9375rem); }
+.strategy-feedback p + p { margin-top: .4rem; }
+.strategy-feedback small { display: block; margin-top: .3rem; color: var(--muted); font-size: var(--type-caption,.8125rem); }
 .strategy-next, .strategy-sources { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: center; margin-top: 1rem; font-size: var(--type-ui,.9375rem); }
 .strategy-next a:not(.strategy-main-link), .strategy-sources a { text-decoration: underline; text-underline-offset: .18em; }
 .strategy-sources { color: var(--muted); font-size: var(--type-caption,.8125rem); }
@@ -71,9 +85,9 @@
 @keyframes strategy-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes strategy-reveal { from { opacity: .72; } to { opacity: 1; } }
 @media(max-width: 760px) {
-  .strategy-lesson-layout { grid-template-columns: 1fr; gap: 1rem; }
+  .strategy-story-panel, .strategy-lesson-layout { grid-template-columns: 1fr; gap: 1rem; }
   .strategy-lesson-heading { margin-bottom: .85rem; }
-  .strategy-quiz { margin-top: 1.1rem; }
+  .strategy-lesson-layout { margin-top: 1.1rem; }
 }
 @media(max-width: 600px) {
   .strategy-index-heading { display: grid; gap: .7rem; }

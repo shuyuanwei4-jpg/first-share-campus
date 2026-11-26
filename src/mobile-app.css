@@ -8,7 +8,6 @@
   font-weight: 600;
   letter-spacing: normal;
 }
-.visual-card b.mixed { font-family: var(--cn-display); font-weight: 600; }
 .desktop-nav { margin-left: auto; }
 .mobile-dock { display: none; }
 .install-trigger, .install-close { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 0 12px 0 0; padding: 4px 10px; background: var(--paper); color: var(--ink); font-size: var(--type-caption); font-weight: 600; }
@@ -45,11 +44,6 @@
   .story-stage.arrive { animation: swipe-in .31s var(--ease) both; }
   .story-stage.reverse { --slide: -14px; }
   .story-art { overflow: hidden; border: 2px solid var(--ink); border-radius: 0 38px 0 0; min-height: clamp(155px, 28svh, 270px); touch-action: pan-y pinch-zoom; }
-  .story-art[data-art='canteen'] .visual-prop { bottom: 7%; }
-  .art-objects { width: min(75%, 310px); height: clamp(138px, 22svh, 214px); }
-  .art-index { display: none; }
-  .art-caption { padding: 4px 7px; font-size: var(--type-caption); }
-  .art-status { bottom: 8px; }
   .story-copy { padding: 13px 0 0; }
   .scene-title { font-size: var(--type-heading); margin-bottom: 5px; }
   .scene-text { margin-bottom: 11px; font-size: var(--type-body); line-height: 1.6; }

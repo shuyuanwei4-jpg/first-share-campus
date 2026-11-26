@@ -50,7 +50,10 @@ function securityLab(index) {
 function fundLab(index) {
   const percent = [100, 40, 10][index];
   const loss = 1000 * (percent / 100) * 0.1;
-  return `${allocationBar(percent, '校园零售股 ' + percent + '%', '其余持仓 ' + (100 - percent) + '%')}
+  const slips = Array.from({length: 10}, (_, i) =>
+    '<span class="' + (i < percent / 10 ? 'stock-slip' : '') + '">' + (i < percent / 10 ? '90' : '100') + '</span>').join('');
+  return `<div class="strategy-slips" role="img" aria-label="下跌后，${percent / 10} 张零售股纸片各值 90 元，其余 ${10 - percent / 10} 张各值 100 元。">${slips}</div>
+    <div class="strategy-legend"><span><i></i>零售股 · 每张剩 90 元</span><span>其他持仓 · 每张仍值 100 元</span></div>
     ${strategyLedger([['组合损失', `1,000 × ${percent}% × 10% ＝ ${loss} 元`], ['期末市值', `${1000 - loss} 元`]])}
     <p class="strategy-note">这是单一持仓下跌的简化情景，未计费用。若多个持仓一起跌，整个组合也会受到影响。</p>`;
 }
@@ -144,7 +147,15 @@ const strategyLabs = {
 };
 
 function strategyLabHTML(lesson, index) {
-  return strategyLabs[lesson.slug](index);
+  const [sticker, observation] = lesson.notes[index];
+  return strategyLabs[lesson.slug](index) + `<div class="strategy-observation">${campusSticker(sticker)}<p>${observation}</p></div>`;
+}
+
+function strategyFeedback(lesson, answer) {
+  const correct = answer === lesson.correct;
+  const sticker = correct ? lesson.scene.props[0] : 'magnifier';
+  const text = lesson.choices[answer][1];
+  return `${campusSticker(sticker)}<div><p>${text}</p>${correct ? `<p>${lesson.ending}</p>` : ''}<small>${correct ? '本课已完成' : '可以再选一次'}</small></div>`;
 }
 
 function renderStrategy(root, slug) {
@@ -155,9 +166,9 @@ function renderStrategy(root, slug) {
       : '<a class="strategy-main-link" href="#practice">去模拟盘练习 <span aria-hidden="true">→</span></a>';
     root.innerHTML = `<section class="strategy">
       <a class="strategy-back" href="#stories">← 全部课程</a>
-      <header class="strategy-index-heading"><div><p class="strategy-meta">第二阶段</p><h1>选股与交易基础</h1><p>从一张证券凭证出发，读懂公司的生意和行情，写出自己的第一份模拟交易计划。</p></div>
+      <header class="strategy-index-heading"><div><p class="strategy-meta">第二阶段</p><h1>选股与交易基础</h1><p>跟小满和阿禾走进下课咖啡，从开分店的第一张凭证，一直读到两人写下的交易笔记。</p></div>
       <div class="strategy-continue"><span>已完成 ${progress.completed} / ${progress.total} 课</span>${action}</div></header>
-      <div class="strategy-groups">${STRATEGY_GROUPS.map(item => `<section class="strategy-group"><header><h2>${item.title}</h2><p>${item.description}</p></header>
+      <div class="strategy-groups">${STRATEGY_GROUPS.map(item => `<section class="strategy-group"><header>${campusSticker(item.sticker)}<div><h2>${item.title}</h2><p>${item.description}</p></div></header>
         ${item.lessons.map(lesson => `<a href="#strategy/${lesson.slug}"><span><strong>${lesson.title}</strong><small>${lesson.summary}</small></span><span class="strategy-status">${strategyCompleted.has(lesson.slug) ? '已完成' : '<span aria-hidden="true">↗</span>'}</span></a>`).join('')}
         </section>`).join('')}</div></section>`;
     return;
@@ -176,16 +187,17 @@ function renderStrategy(root, slug) {
   root.innerHTML = `<article class="strategy">
     <a class="strategy-back" href="#strategy">← 选股与交易基础</a>
     <header class="strategy-lesson-heading"><p class="strategy-meta">${group.title} · 第 ${index + 1} / ${strategyLessons.length} 课</p><h1>${lesson.title}</h1></header>
-    <div class="strategy-lesson-layout"><div class="strategy-reading"><p class="strategy-lead">${lesson.lead}</p><p>${lesson.idea}</p></div>
+    <div class="strategy-story-panel">${campusIllustration(lesson.scene)}<div class="strategy-reading"><p class="strategy-lead">${lesson.lead}</p>
+      <blockquote class="strategy-dialogue"><strong>${lesson.speaker}</strong><p>“${lesson.line}”</p></blockquote><p class="strategy-idea">${lesson.idea}</p></div></div>
+    <div class="strategy-lesson-layout">
       <section class="strategy-lab" aria-labelledby="strategy-lab-title"><h2 id="strategy-lab-title">${lesson.lab}</h2><p>${lesson.instruction}</p>
         <div class="strategy-options" role="group" aria-label="${lesson.lab}">${lesson.options.map((opt, i) => `<button type="button" data-lab-option="${i}" aria-pressed="${i === 0}">${opt}</button>`).join('')}</div>
         <div class="strategy-result" aria-live="polite" aria-atomic="true">${strategyLabHTML(lesson, 0)}</div></section>
-    </div>
-    <section class="strategy-quiz" aria-labelledby="strategy-question"><p class="strategy-meta">课后练习</p><h2 id="strategy-question">${lesson.question}</h2>
+    <section class="strategy-quiz" aria-labelledby="strategy-question"><p class="strategy-meta">接下来，你会怎么选？</p><h2 id="strategy-question">${lesson.question}</h2>
       <div class="strategy-answers">${lesson.choices.map(([title], i) => `<button type="button" aria-pressed="${done && i === lesson.correct}" data-strategy-answer="${i}">${title}</button>`).join('')}</div>
-      <p class="strategy-feedback" role="status">${done ? '本课已完成。' + lesson.choices[lesson.correct][1] : ''}</p>
+      <div class="strategy-feedback" role="status">${done ? strategyFeedback(lesson, lesson.correct) : ''}</div>
       <div class="strategy-next"${done ? '' : ' hidden'}>${nextAction}<a href="#strategy">回到课程目录</a></div>
-    </section>${resources.length ? `<div class="strategy-sources"><span>延伸阅读</span>${resources.join('')}</div>` : ''}</article>`;
+    </section></div>${resources.length ? `<div class="strategy-sources"><span>延伸阅读</span>${resources.join('')}</div>` : ''}</article>`;
 
   const options = root.querySelectorAll('[data-lab-option]');
   const result = root.querySelector('.strategy-result');
@@ -205,6 +217,6 @@ function renderStrategy(root, slug) {
       completeStrategyLesson(slug);
       root.querySelector('.strategy-next').hidden = false;
     }
-    root.querySelector('.strategy-feedback').textContent = lesson.choices[i][1] + (correct ? ' 本课已完成。' : ' 可以再选一次。');
+    root.querySelector('.strategy-feedback').innerHTML = strategyFeedback(lesson, i);
   }));
 }
