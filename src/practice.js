@@ -2,7 +2,6 @@ const PRACTICE_STEPS = {
   money: [{
     title: '给一周的午饭发餐票',
     description: '小满给饭卡充了 100 元，阿禾负责发餐票。一票换一顿，现在每顿 18 元。他们最多能拿几张票？',
-    art: { place: 'canteen', props: ['ticket','meal','card'], detail: '饭卡里有 ¥100', action: 'trade', caption: '小满把空餐盘放到窗口，等阿禾数餐票。' },
     figure: () => `<div class="practice-price-comparison"><div><span>原来的饭价</span><strong>¥15<small> / 顿</small></strong></div><div><span>现在的饭价</span><strong>¥18<small> / 顿</small></strong></div></div>`,
     actions: ['5 顿', '6 顿'], correct: 0,
     hint: '涨价后，6 顿要 ¥108。再算一次。',
@@ -10,8 +9,6 @@ const PRACTICE_STEPS = {
   }, {
     title: '一张不换咖啡的凭证',
     description: '离开食堂时，阿禾指着校门口的小店：“刚才餐票换饭，这张凭证能换来什么？”用模拟账户按卖价买下虚构公司的一手股票，看看持仓。',
-    art: { place: 'cafe', props: ['coffee','ticket','laptop'], detail: '试买 100 股', action: 'trade', caption: '杯子在吧台，新的股数会记在持仓里。' },
-    resultArt: { props: ['ticket','check','coffee'], detail: '持仓增加 100 股' },
     figure: account => `<dl class="practice-ledger"><div><dt>每股卖价</dt><dd>${simMoney(account.quote.ask)}</dd></div><div><dt>这次买入</dt><dd>100 股</dd></div><div><dt>${account.shares ? '你已持有' : '虚拟资金'}</dt><dd>${account.shares ? '100 股' : simMoney(account.available)}</dd></div></dl>`,
     actions: ['模拟买入 100 股'], correct: 0,
     next: account => {
@@ -22,8 +19,6 @@ const PRACTICE_STEPS = {
   budget: [{
     title: '只用第三个信封下单',
     description: '回到宿舍，小满请阿禾把 8,000 元分装好，再核对一张 100 股的模拟买单。封好生活费和应急金，剩下的钱够吗？',
-    art: { place: 'dorm', props: ['envelope','receipt','calculator'], detail: '手上有 ¥8,000', action: 'think', caption: '两只信封已经写好用途，第三只还敞着。' },
-    resultArt: { props: ['shield','envelope','coin'], detail: '可用 ¥700，差 ¥305' },
     figure: () => `<dl class="practice-ledger"><div><dt>必要开支</dt><dd>¥4,800</dd></div><div><dt>突发开支备用</dt><dd>¥2,500</dd></div><div><dt>100 股 × ¥10 + ¥5 费用</dt><dd>¥1,005</dd></div></dl>`,
     actions: ['够，现在下单', '差 ¥305，先练模拟'], correct: 1,
     hint: '¥8,000 减掉两笔只剩 ¥700，和订单金额比一比。',
@@ -32,8 +27,6 @@ const PRACTICE_STEPS = {
   ownership: [{
     title: '替学姐填一张分红小票',
     description: '下课咖啡决定分红。学姐让小满从 12 万元里拨出一半，让阿禾算每一股能分多少钱。小票上每股那一格该填多少？',
-    art: { place: 'cafe', props: ['receipt','coin','coffee'], detail: '共 10 万股', action: 'read', caption: '小票的金额要和账本里批准分出的现金对上。' },
-    resultArt: { props: ['coin','ticket','check'], detail: '每股分 ¥0.60' },
     figure: () => `<div class="practice-shares"><div class="practice-profit"><span>分给股东 ¥60,000</span><span>公司留存 ¥60,000</span></div><p>分红金额由全部 <strong>100,000</strong> 股平分</p></div>`,
     actions: ['¥1.20 / 股', '¥0.60 / 股'], correct: 1,
     hint: '只有一半现金用来分红。拿 ¥60,000 除以总股数。',
@@ -42,7 +35,6 @@ const PRACTICE_STEPS = {
   quote: [{
     title: '便签上的 10 元上限',
     description: '小满在便签上写下“买 100 股，每股最多 10 元”。阿禾打开模拟盘，卖一比便签上的数字高。请把两人约好的价格填进委托单。',
-    art: { place: 'desk', props: ['tag','pencil','laptop'], detail: '每股最多付 ¥10.00', action: 'point', caption: '报价可以变，两人写下的最高愿付价先留在便签上。' },
     figure: account => practiceQuote(account),
     actions: ['报 ¥10.00', '报 ¥10.02'], correct: 0,
     hint: '¥10.02 超出了你的上限。按你愿付的最高价下单。',
@@ -53,8 +45,6 @@ const PRACTICE_STEPS = {
   }, {
     title: '五分钟后，再看那张单',
     description: '两人把便签留在屏幕边。小满没有加价，阿禾让模拟时间走五分钟。新卖价能让这笔等待中的买单成交吗？',
-    art: { place: 'desk', props: ['clock','receipt','tag'], detail: '委托等待成交', action: 'read', caption: '回报出来后，他们可以对照便签核实实际花了多少。' },
-    resultArt: { props: ['receipt','check','coin'], detail: '100 股按 ¥9.99 成交' },
     figure: account => practiceQuote(account),
     actions: ['推进一笔行情'], correct: 0,
     next: account => {
@@ -66,7 +56,6 @@ const PRACTICE_STEPS = {
   broker: [{
     title: '替小满找对下载入口',
     description: '周五收拾书包时，小满又收到了返现消息。阿禾想知道这家公司是不是持牌券商，手机上的 App 到底由谁发布。你会带他们去哪核实？',
-    art: { place: 'library', props: ['phone','magnifier','shield'], detail: '谁发布了这个 App？', action: 'read', caption: '群消息只给出二维码，页面上没写清发布者。' },
     figure: () => `<div class="practice-message"><span>班群消息</span><p>“扫我的二维码开户，有返现。”</p></div>`,
     actions: ['核验券商后，去官网找', '扫群里发的二维码'], correct: 0,
     hint: '群聊二维码的来源难核实。先查券商资质，再从官网找下载入口。',
@@ -74,8 +63,6 @@ const PRACTICE_STEPS = {
   }, {
     title: '这一声提示，是买到了吗？',
     description: '两人用模拟单走完流程。小满听见提示音，正要在周记写“买到 100 股”。阿禾抽出回单：“先念一下成交数量。”这行该怎么记？',
-    art: { place: 'desk', props: ['receipt','phone','notebook'], detail: '成交数量 0 股', action: 'point', caption: '“已报”两个字，印在委托状态那一栏。' },
-    resultArt: { props: ['clock','receipt','notebook'], detail: '已申报，尚未成交' },
     figure: () => `<dl class="practice-ledger"><div><dt>委托数量</dt><dd>100 股</dd></div><div><dt>成交数量</dt><dd>0 股</dd></div><div><dt>订单状态</dt><dd class="practice-order-mark">已报</dd></div></dl>`,
     actions: ['已经买到 100 股', '已提交，等成交'], correct: 1,
     hint: '成交数量还是 0 股。看看「已报」表示哪一步。',
@@ -114,10 +101,7 @@ function renderPractice(root, type, { onDone, onStory, onFull, nextLabel = '继�
     const storyButton = `<button class="practice-choice practice-primary" type="button" data-practice-nav="story">${nextLabel} <span aria-hidden="true">→</span></button>`;
     const fullButton = onFull
       ? '<button class="practice-choice" type="button" data-practice-nav="full">进入完整模拟盘</button>' : '';
-    const art = complete ? { ...step.art, ...step.resultArt } : step.art;
-    view.innerHTML = `<div class="practice-main illustrated-practice" data-practice-state="${result}">
-      <div class="practice-panel">${campusIllustration(art)}</div>
-      <div class="practice-work">
+    view.innerHTML = `<div class="practice-main" data-practice-state="${result}">
         <p class="practice-kicker">动手试一试${steps.length > 1 ? ` <span>${stepIndex + 1} / ${steps.length}</span>` : ''}</p>
         <h2 id="practice-title" tabindex="-1">${step.title}</h2>
         <p class="practice-description">${step.description}</p>
@@ -126,7 +110,6 @@ function renderPractice(root, type, { onDone, onStory, onFull, nextLabel = '继�
           ${feedback ? `<p class="practice-feedback${isHint ? ' practice-hint' : ''}">${feedback}</p>` : ''}
           <div class="practice-actions">${complete ? `${storyButton}${fullButton}` : choices}</div>
         </div>
-      </div>
     </div>`;
     if (focusTarget) view.querySelector(focusTarget)?.focus({ preventScroll: true });
   }

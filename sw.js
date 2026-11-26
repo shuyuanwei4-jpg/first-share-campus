@@ -1,7 +1,7 @@
 const appScope = new URL(self.registration.scope);
 const indexUrl = new URL('index.html', appScope).href;
 const cachePrefix = 'first-stock:' + appScope.pathname + ':';
-const cacheName = cachePrefix + 'v4';
+const cacheName = cachePrefix + 'v5';
 
 const appFiles = [
   'index.html',
@@ -13,8 +13,6 @@ const appFiles = [
   'assets/lucide-book-open.svg',
   'assets/lucide-map.svg',
   'assets/lucide-chart.svg',
-  'assets/campus-stickers.svg',
-  'assets/CAMPUS-ART-CREDITS.txt',
 ].map(path => new URL(path, appScope).href);
 
 self.addEventListener('install', event => {

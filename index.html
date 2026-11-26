@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f7f2">
-  <meta name="description" content="跟小满和阿禾走进食堂、书摊和咖啡店。用校园插画故事认识股票，动手练习选股、读图和买卖计划。">
+  <meta name="description" content="从五天校园故事认识股票，再用互动课程练习选股、读图和买卖计划，在模拟盘检验自己的判断。">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="第一股">
   <link rel="manifest" href="./app.webmanifest">
@@ -58,6 +58,44 @@ nav a[aria-current] { font-weight: 600; }
 .story-stage { display: grid; grid-template-columns: minmax(0, 1.11fr) minmax(0, 1fr); border: 2px solid var(--line); border-radius: 0 46px 0 0; isolation: isolate; overflow: hidden; background: #fff; }
 .story-stage.arrive { animation: page-in .42s var(--ease) both; }
 .story-art { position: relative; overflow: hidden; min-width: 0; min-height: 410px; margin: 0; display: grid; place-items: center; background-color: var(--art-color, var(--lime)); border-right: 2px solid var(--line); isolation: isolate; }
+.story-art::before { content: ''; z-index: -1; position: absolute; inset: 0; background-image: linear-gradient(#1112 1px, transparent 1px), linear-gradient(90deg, #1112 1px, transparent 1px); background-size: 28px 28px; mask-image: linear-gradient(130deg, #000, #0000 95%); }
+.story-art[data-art='wallet'], .story-art[data-art='phone'] { --art-color: #a7d7ea; }
+.story-art[data-art='time'], .story-art[data-art='market'] { --art-color: #8295fe; }
+.story-art[data-art='coffee'] { --art-color: #ff865d; }
+.story-art[data-art='receipt'] { --art-color: #eeb5d1; }
+.art-caption, .art-index { position: absolute; z-index: 2; padding: 4px 8px; font-size: var(--type-caption); font-weight: 600; white-space: nowrap; background: var(--paper); border: 1.5px solid var(--line); }
+.art-caption { left: 17px; top: 17px; }
+.art-index { right: 19px; bottom: 17px; font-family: var(--display); letter-spacing: .025em; }
+.art-shape { position: absolute; font: 35px/1 var(--display); }
+.art-shape.one { left: 15%; bottom: 20%; transform: rotate(-14deg); }
+.art-shape.two { top: 17%; right: 13%; transform: rotate(19deg); }
+.art-objects { position: relative; width: min(75%, 350px); height: 226px; display: grid; place-items: center; }
+.art-objects > * { grid-area: 1 / 1; }
+.visual-card { position: relative; width: 75%; min-height: 123px; display: grid; align-content: center; gap: 5px; padding: 13px 13px 12px; border: 2px solid var(--line); border-radius: 0 23px 0 0; background: var(--paper); box-shadow: 7px 7px 0 var(--ink); transform: translate(-9%, -11%) rotate(-10deg); }
+.visual-card::before { content: ''; position: absolute; inset: 5px; border: 1px solid #1114; border-radius: inherit; pointer-events: none; }
+.visual-card span { position: relative; font-size: var(--type-ui); font-weight: 600; }
+.visual-card b { position: relative; display: block; font: 400 var(--type-title)/1.1 var(--display); letter-spacing: -.015em; }
+.visual-card b.mixed { font: 600 var(--type-title)/1.2 var(--cn-display); letter-spacing: normal; }
+.visual-prop { position: relative; justify-self: end; align-self: end; width: 104px; height: 104px; right: 2%; bottom: 7%; display: grid; place-items: center; border: 2px solid var(--line); background: var(--prop, #ff6b35); border-radius: 50%; box-shadow: 5px 5px 0 var(--ink); transform: rotate(12deg); font: 40px/1 var(--display); }
+.visual-prop::before { content: ''; position: absolute; inset: 7px; border: 1px dashed var(--ink); border-radius: inherit; }
+.art-status { z-index: 3; position: absolute; left: 50%; bottom: 3%; min-width: 96px; max-width: calc(100% - 10px); padding: 7px 12px; border: 2px solid var(--line); background: var(--blue); color: white; box-shadow: 3px 3px 0 var(--ink); font-size: var(--type-ui); font-weight: 600; text-align: center; transform: translateX(-50%) rotate(-4deg); white-space: nowrap; }
+.art-status.toss { animation: stamp .6s cubic-bezier(.18, 1.6, .4, 1) both; }
+.story-art.changed .visual-prop { animation: prop-toss .65s var(--ease) both; }
+.story-art.changed::after { content: ''; position: absolute; z-index: 2; inset: -20%; pointer-events: none; background: linear-gradient(105deg, transparent 39%, #fff5 48%, transparent 58%); animation: light-sweep .72s var(--ease) both; }
+.prop-meal { width: 64px; height: 41px; position: relative; display: grid; place-items: center; border: 2px solid var(--ink); border-radius: 50%; background: #fff; transform: rotate(-7deg); }
+.prop-meal::before { content: ''; width: 49px; height: 29px; border: 1.5px solid var(--ink); border-radius: 50%; background: radial-gradient(circle at 33% 50%, #f7eddc 0 23%, transparent 25%), radial-gradient(circle at 65% 36%, #ffcf41 0 26%, transparent 28%), radial-gradient(circle at 63% 67%, #b9f227 0 23%, transparent 25%); }
+.prop-coffee { position: relative; width: 44px; height: 50px; border: 2px solid var(--ink); border-radius: 4px 4px 15px 15px; background: #f7f7f2; }
+.prop-coffee::before { content: ''; position: absolute; top: 8px; left: 100%; width: 15px; height: 20px; border: 2px solid var(--ink); border-left: 0; border-radius: 0 9px 9px 0; }
+.prop-coffee::after { content: ''; position: absolute; top: 20px; left: 12px; width: 14px; height: 14px; background: var(--lime); border: 1.5px solid var(--ink); border-radius: 50%; }
+.prop-clock { width: 56px; aspect-ratio: 1; position: relative; background: var(--paper); border: 2px solid var(--ink); border-radius: 50%; }
+.prop-clock::before { content: ''; position: absolute; top: 10px; left: 25px; width: 15px; height: 17px; border-bottom: 3px solid var(--ink); border-left: 3px solid var(--ink); border-radius: 1px; }
+.prop-phone { position: relative; width: 36px; height: 61px; border: 2px solid var(--ink); border-radius: 7px; background: var(--paper); }
+.prop-phone::before { content: ''; position: absolute; inset: 11px 5px; background: repeating-linear-gradient(to bottom, var(--blue) 0 3px, transparent 3px 8px); }
+.prop-phone::after { content: ''; position: absolute; left: 11px; bottom: 3px; width: 10px; height: 2px; background: var(--ink); }
+.prop-book { position: relative; width: 49px; height: 38px; border: 2px solid var(--ink); box-shadow: inset 5px 0 #111; background: var(--lime); transform: rotate(-17deg); }
+.prop-book::before { content: ''; position: absolute; left: 14px; right: 6px; top: 8px; height: 12px; border-block: 2px solid var(--ink); }
+.prop-receipt { position: relative; width: 37px; height: 55px; border: 2px solid var(--ink); background: var(--paper); }
+.prop-receipt::before { content: ''; position: absolute; inset: 7px 6px; background: repeating-linear-gradient(to bottom, #111 0 2px, transparent 2px 7px); }
 .story-copy { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: clamp(20px, 3.25vw, 47px); }
 .scene-title { margin: 0 0 9px; font-size: var(--type-heading); line-height: 1.3; letter-spacing: normal; font-weight: 600; }
 .scene-text { margin: 0 0 16px; max-width: 28em; color: #272723; font-size: var(--type-body); line-height: 1.6; }
@@ -79,11 +117,7 @@ nav a[aria-current] { font-weight: 600; }
 .under-stage span { margin-left: auto; font-size: var(--type-caption); color: var(--muted); }
 .course-map { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
 .course-track { display: flex; flex-direction: column; min-width: 0; overflow: hidden; background: var(--panel); border: 2px solid var(--ink); border-radius: 0 28px 0 0; }
-.course-track header { display: flex; flex-direction: column; background: var(--lime); border-bottom: 2px solid var(--ink); }
-.course-track header > div { padding: 16px 24px; }
-.course-track header .campus-illustration { color: var(--ink); background: var(--panel); margin: 0; }
-.course-track header .campus-panel { border-block-start: 1px solid var(--ink); }
-.course-track header .campus-caption { padding: 8px 24px; font-size: var(--type-ui); line-height: 1.5; }
+.course-track header { padding: 20px 24px; background: var(--lime); border-bottom: 2px solid var(--ink); }
 .strategy-track header { background: var(--blue); color: white; }
 .course-track header p { display: flex; justify-content: space-between; align-items: baseline; margin: 0 0 8px; font-size: var(--type-ui); }
 .course-track header p span { font-size: var(--type-caption); font-variant-numeric: tabular-nums; }
@@ -100,8 +134,7 @@ nav a[aria-current] { font-weight: 600; }
 .course-continue:hover { background: var(--paper); }
 @media (max-width: 760px) {
   .course-map { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .course-track header > div { padding: 12px 16px; }
-  .course-track header .campus-caption { padding-inline: 16px; }
+  .course-track header { padding: 16px; }
   .course-track ul { padding-inline: 16px; }
   .course-continue { padding-inline: 16px; }
   .course-chapters a { grid-template-columns: 3rem minmax(0, 1fr); }
@@ -128,6 +161,9 @@ nav a[aria-current] { font-weight: 600; }
   .choice:active, .btn:active { transform: none; box-shadow: none; }
 }
 @keyframes page-in { from { opacity: .65; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+@keyframes stamp { from { opacity: 0; transform: translate(-50%, 12px) scale(.65) rotate(15deg); } to { opacity: 1; transform: translate(-50%, 0) scale(1) rotate(-4deg); } }
+@keyframes prop-toss { 0%,100% { transform: rotate(12deg); } 52% { transform: translateY(-20px) rotate(30deg); } }
+@keyframes light-sweep { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 @media (max-width: 720px) {
   #content, .top-inner, .site-footer { width: calc(100% - 32px); }
   #content { padding: 24px 0 25px; }
@@ -143,6 +179,15 @@ nav a[aria-current] { font-weight: 600; }
   .segments i { height: 5px; width: 16px; }
   .story-stage { grid-template-columns: minmax(0, 1fr); border-radius: 0 31px 0 0; }
   .story-art { min-height: 195px; border-right: 0; border-bottom: 2px solid var(--line); }
+  .art-caption { left: 9px; top: 8px; font-size: var(--type-caption); }
+  .art-index { right: 8px; bottom: 7px; font-size: var(--type-caption); }
+  .art-objects { height: 170px; width: min(67%, 252px); }
+  .visual-card { min-height: 88px; gap: 3px; box-shadow: 5px 5px var(--ink); }
+  .visual-card b { font-size: var(--type-title); }
+  .visual-card b.mixed { font-size: var(--type-title); }
+  .visual-prop { width: 78px; height: 78px; bottom: 8%; font-size: 31px; }
+  .prop-meal, .prop-coffee, .prop-book, .prop-clock, .prop-phone, .prop-receipt { scale: .75; }
+  .art-shape { font-size: 23px; }
   .story-copy { padding: 14px 13px; }
   .scene-title { font-size: var(--type-heading); margin-bottom: 5px; }
   .scene-text { margin-bottom: 10px; font-size: var(--type-ui); }
@@ -259,6 +304,7 @@ nav a[aria-current] { font-weight: 600; }
   font-weight: 600;
   letter-spacing: normal;
 }
+.visual-card b.mixed { font-family: var(--cn-display); font-weight: 600; }
 .desktop-nav { margin-left: auto; }
 .mobile-dock { display: none; }
 .install-trigger, .install-close { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 0 12px 0 0; padding: 4px 10px; background: var(--paper); color: var(--ink); font-size: var(--type-caption); font-weight: 600; }
@@ -295,6 +341,11 @@ nav a[aria-current] { font-weight: 600; }
   .story-stage.arrive { animation: swipe-in .31s var(--ease) both; }
   .story-stage.reverse { --slide: -14px; }
   .story-art { overflow: hidden; border: 2px solid var(--ink); border-radius: 0 38px 0 0; min-height: clamp(155px, 28svh, 270px); touch-action: pan-y pinch-zoom; }
+  .story-art[data-art='canteen'] .visual-prop { bottom: 7%; }
+  .art-objects { width: min(75%, 310px); height: clamp(138px, 22svh, 214px); }
+  .art-index { display: none; }
+  .art-caption { padding: 4px 7px; font-size: var(--type-caption); }
+  .art-status { bottom: 8px; }
   .story-copy { padding: 13px 0 0; }
   .scene-title { font-size: var(--type-heading); margin-bottom: 5px; }
   .scene-text { margin-bottom: 11px; font-size: var(--type-body); line-height: 1.6; }
@@ -576,24 +627,6 @@ nav a[aria-current] { font-weight: 600; }
   #content .sim-market-actions .sim-btn { flex: 1 1 auto; }
 }
 
-.campus-illustration { display: block; min-width: 0; width: 100%; margin: 0; color: var(--ink); }
-.campus-panel { position: relative; overflow: hidden; isolation: isolate; background: #ffedbc; }
-.campus-drawing { display: block; width: 100%; height: auto; aspect-ratio: 12 / 7; font-family: var(--cn-display); }
-.campus-illustration .campus-cutout, .campus-sticker use {
-  filter: drop-shadow(2px 0 0 #fffaf0) drop-shadow(-2px 0 0 #fffaf0) drop-shadow(0 2px 0 #fffaf0) drop-shadow(0 -2px 0 #fffaf0) drop-shadow(1px 2px 0 #373b364a);
-}
-.campus-detail {
-  position: absolute; bottom: 4.3%; left: 50%; transform: translateX(-50%) rotate(-1.5deg);
-  display: block; width: max-content; max-width: 90%; padding: .2em .85em; background: #fffae9;
-  border: 1px solid #374540; box-shadow: 2px 2px 0 #373b3633; color: #233836;
-  font: 600 var(--type-ui, .9375rem)/1.4 var(--body); letter-spacing: .015em; text-align: center; overflow-wrap: anywhere;
-}
-.campus-caption { padding: .65rem .9rem; background: #fffaf0; color: #384641; font-size: var(--type-ui); line-height: 1.55; }
-.campus-sticker { display: inline-block; width: 2.4rem; height: 2.4rem; vertical-align: middle; overflow: visible; flex: none; }
-@media (max-width: 480px) {
-  .campus-detail { font-size: var(--type-caption, .8125rem); }
-}
-
 .strategy { max-width: 1020px; margin-inline: auto; }
 .strategy h1, .strategy h2, .strategy p { margin: 0; }
 .strategy h1, .strategy h2, .strategy strong, .strategy dt, .strategy button { font-weight: 600; }
@@ -611,8 +644,7 @@ nav a[aria-current] { font-weight: 600; }
 .strategy-main-link:hover { background: #2644c8; }
 .strategy-groups { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem 2rem; }
 .strategy-group { border-top: 2px solid var(--ink); }
-.strategy-group header { display: flex; align-items: center; gap: .8rem; padding: 1rem 0 .75rem; }
-.strategy-group header > svg { width: 3.35rem; height: 3.35rem; flex: none; }
+.strategy-group header { padding: 1rem 0 .75rem; }
 .strategy-group header p, .strategy-group small { font-size: var(--type-ui, .9375rem); color: var(--muted); }
 .strategy-group a { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .65rem .35rem .65rem 0; border-top: 1px solid #c1c1b8; }
 .strategy-group a:hover { background: #edf2db; }
@@ -620,14 +652,9 @@ nav a[aria-current] { font-weight: 600; }
 .strategy-group small { margin-top: .18rem; }
 .strategy-status { white-space: nowrap; }
 .strategy-lesson-heading { margin: .4rem 0 1.4rem; }
-.strategy-story-panel { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: clamp(1.2rem,3.5vw,2.7rem); align-items: center; }
-.strategy-story-panel > figure { margin: 0; }
-.strategy-lesson-layout { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); gap: clamp(1.3rem,4vw,3rem); align-items: start; margin-top: 1.65rem; }
-.strategy-reading { display: grid; gap: .85rem; font-size: var(--type-body,1.0625rem); }
-.strategy-reading .strategy-idea { color: #393936; font-size: var(--type-ui,.9375rem); }
-.strategy-dialogue { margin: 0; border-left: 3px solid var(--blue); padding-left: .8rem; }
-.strategy-dialogue strong { color: var(--blue); font-size: var(--type-caption,.8125rem); }
-.strategy-dialogue p { font-weight: 600; }
+.strategy-lesson-layout { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); gap: clamp(1.3rem,4vw,3rem); align-items: start; border-top: 2px solid var(--line); padding-top: 1.2rem; }
+.strategy-reading { display: grid; gap: 1rem; font-size: var(--type-body,1.0625rem); }
+.strategy-reading p + p { color: #393936; }
 .strategy-lab { min-width: 0; border: 1.5px solid var(--line); border-radius: 0 20px 0 0; padding: clamp(.85rem,2vw,1.35rem); background: var(--panel); }
 .strategy-lab > p, .strategy-note { margin-top: .35rem; font-size: var(--type-ui, .9375rem); color: var(--muted); }
 .strategy-options { display: flex; flex-wrap: wrap; gap: .35rem; margin: .9rem 0; }
@@ -636,12 +663,6 @@ nav a[aria-current] { font-weight: 600; }
 .strategy-options button[aria-pressed="true"] { background: var(--lime); border-color: var(--ink); }
 .strategy-result { min-width: 0; }
 .strategy-result.strategy-changing { animation: strategy-reveal .22s ease-out both; }
-.strategy-observation { display: flex; align-items: center; gap: .65rem; margin-top: .75rem; padding: .55rem .65rem; background: #eff2e6; }
-.strategy-observation > svg, .strategy-feedback > svg { width: 2.5rem; height: 2.5rem; flex: none; }
-.strategy-observation p { font-size: var(--type-ui,.9375rem); }
-.strategy-slips { display: grid; grid-template-columns: repeat(5,1fr); gap: .35rem; }
-.strategy-slips span { text-align: center; background: var(--paper); color: var(--ink); padding: .3rem .1rem; border: 1px solid #949387; border-radius: 0 7px 0 0; font-size: var(--type-ui,.9375rem); font-variant-numeric: tabular-nums; }
-.strategy-slips .stock-slip { color: #fff; background: var(--blue); border-color: var(--blue); }
 .strategy-ticket { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .85rem; padding: .8rem .85rem; border-left: 4px solid var(--blue); background: #f0f2ff; }
 .strategy-ticket strong { font-size: var(--type-heading, 1.375rem); font-variant-numeric: tabular-nums; }
 .strategy-ticket span { font-size: var(--type-ui, .9375rem); }
@@ -665,15 +686,13 @@ nav a[aria-current] { font-weight: 600; }
 .strategy-guide { stroke: #81857e; stroke-width: .7; stroke-dasharray: 2 4; }
 .strategy-price-line { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
 .strategy-changing .strategy-price-line { stroke-dasharray: 1; animation: strategy-trace .42s ease-out both; }
-.strategy-quiz { padding: 1rem 0; border-top: 2px solid var(--ink); }
+.strategy-quiz { margin-top: 1.5rem; max-width: 50rem; padding: 1rem 0; border-top: 2px solid var(--ink); }
 .strategy-quiz h2 { font-size: var(--type-body,1.0625rem); }
 .strategy-answers { display: grid; gap: .45rem; margin-top: .75rem; }
 .strategy-answers button { border-radius: 0 10px 0 0; text-align: left; }
 .strategy-answers button:hover, .strategy-options button:hover { border-color: var(--blue); }
 .strategy-answers button[aria-pressed="true"] { background: #e9edff; border-color: var(--blue); }
-.strategy-feedback:not(:empty) { display: flex; align-items: start; gap: .55rem; padding: .75rem .65rem; margin-top: .65rem; background: #f0f2ff; font-size: var(--type-ui,.9375rem); }
-.strategy-feedback p + p { margin-top: .4rem; }
-.strategy-feedback small { display: block; margin-top: .3rem; color: var(--muted); font-size: var(--type-caption,.8125rem); }
+.strategy-feedback:not(:empty) { padding: .4rem .7rem; margin-top: .65rem; border-left: 3px solid var(--blue); font-size: var(--type-ui,.9375rem); }
 .strategy-next, .strategy-sources { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: center; margin-top: 1rem; font-size: var(--type-ui,.9375rem); }
 .strategy-next a:not(.strategy-main-link), .strategy-sources a { text-decoration: underline; text-underline-offset: .18em; }
 .strategy-sources { color: var(--muted); font-size: var(--type-caption,.8125rem); }
@@ -681,9 +700,9 @@ nav a[aria-current] { font-weight: 600; }
 @keyframes strategy-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes strategy-reveal { from { opacity: .72; } to { opacity: 1; } }
 @media(max-width: 760px) {
-  .strategy-story-panel, .strategy-lesson-layout { grid-template-columns: 1fr; gap: 1rem; }
+  .strategy-lesson-layout { grid-template-columns: 1fr; gap: 1rem; }
   .strategy-lesson-heading { margin-bottom: .85rem; }
-  .strategy-lesson-layout { margin-top: 1.1rem; }
+  .strategy-quiz { margin-top: 1.1rem; }
 }
 @media(max-width: 600px) {
   .strategy-index-heading { display: grid; gap: .7rem; }
@@ -808,48 +827,6 @@ body:has(.sim-tour[open])::after { content: ''; flex: none; height: 70dvh; }
 @media (prefers-reduced-motion: no-preference) {
   .sim-tour-track i { transition: width .18s ease-out; }
 }
-
-.story-art.story-panel {
-  min-height: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  background: var(--paper);
-}
-.story-panel .campus-illustration, .practice-panel .campus-illustration { width: 100%; margin: 0; }
-.story-panel .campus-illustration { flex: 1; }
-.story-copy .scene-text { max-width: 30em; }
-.practice:has(.illustrated-practice) { width: 100%; }
-.practice .illustrated-practice {
-  display: grid;
-  grid-template-columns: minmax(0, 1.03fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(20px, 4vw, 54px);
-}
-.practice-panel {
-  min-width: 0;
-  overflow: hidden;
-  border: 2px solid var(--line);
-  border-radius: 0 32px 0 0;
-}
-.practice-work { min-width: 0; }
-.practice-work .practice-figure { margin-block: 16px; }
-@media (prefers-reduced-motion: no-preference) {
-  .story-panel .choice-reveal .campus-cutout {
-    animation: settle-sticker .22s var(--ease);
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  @keyframes settle-sticker {
-    from { opacity: .65; scale: .95; }
-    to { opacity: 1; scale: 1; }
-  }
-}
-@media (max-width: 720px) {
-  #content .practice .illustrated-practice { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; min-height: 0; }
-  .practice-panel { border-radius: 0 28px 0 0; }
-  #content .practice-work .practice-dock { position: static; }
-}
 </style>
 </head>
 <body>
@@ -872,233 +849,7 @@ body:has(.sim-tour[open])::after { content: ''; flex: none; height: 70dvh; }
     <button class="btn primary install-confirm" type="button" hidden>安装第一股</button>
   </div></dialog>
   <noscript>请启用 JavaScript，继续校园故事。</noscript>
-  <script>// Keep the scene geometry separate from the OpenMoji objects used in the exercises.
-const campusPlaces = { canteen: '食堂', dorm: '宿舍', cafe: '下课咖啡', market: '二手书摊', desk: '自习桌', library: '图书馆' };
-const campusObjects = {
-  meal: '套餐', coffee: '咖啡', card: '饭卡', wallet: '钱包', coin: '硬币', bill: '纸币', receipt: '小票',
-  book: '书', books: '书堆', bag: '书包', notebook: '笔记本', pencil: '铅笔', phone: '手机', laptop: '电脑',
-  ticket: '票券', chart: '上涨折线', down: '下跌折线', bars: '柱状图', magnifier: '放大镜', calendar: '日历',
-  clock: '时钟', key: '钥匙', puzzle: '拼图', seedling: '幼苗', basket: '篮子', bank: '银行',
-  shield: '盾牌', scale: '天平', envelope: '信封', calculator: '算盘', lightbulb: '灯泡',
-  scissors: '剪刀', folder: '文件夹', check: '勾号', warning: '提醒', tool: '扳手', print: '打印机', tag: '价签',
-};
-const campusSprite = './assets/campus-stickers.svg#sticker-';
-const campusInk = '#28343b';
-const campusSkin = '#ffd3ae';
-
-function campusEscape(value) {
-  return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
-}
-
-function campusSticker(key) {
-  if (!Object.hasOwn(campusObjects, key)) return '';
-  return `<svg class="campus-sticker" viewBox="0 0 72 72" aria-hidden="true" focusable="false"><use href="${campusSprite}${key}"/></svg>`;
-}
-
-function campusBunting() {
-  return `<path d="M252 13q112 57 245-2" fill="none"/>
-    <path d="m277 24 6 18 13-13z" fill="#f5ad5d"/><path d="m312 33 9 17 12-14z" fill="#2e897b"/>
-    <path d="m355 37 11 16 10-16z" fill="#f48369"/><path d="m401 34 12 12 7-17z" fill="#f8cd59"/>
-    <path d="m448 24 13 9 4-17z" fill="#7a89cf"/>`;
-}
-
-function campusBooks(x, y, scale = 1) {
-  return `<g transform="translate(${x} ${y}) scale(${scale})"><path d="m2 0 54-3 1 9-54 3q-4-3-1-9z" fill="#ee906c"/><path d="m10 0 44-2v4L9 5" fill="#fff5d9" stroke-width="1.2"/>
-    <path d="m-3-8 49-5 2 8-50 6q-4-4-1-9z" fill="#558b85"/><path d="m4-8 39-4 1 3L5-4" fill="#fff4dc" stroke-width="1.2"/>
-    <path d="m9-18 43 2-1 8-44-2z" fill="#ffcc5c"/><path d="m16-16 32 1v4l-33-1" fill="#fff4dc" stroke-width="1.2"/></g>`;
-}
-
-function campusPlant(x, y, size) {
-  return `<g transform="translate(${x} ${y}) scale(${size})"><path d="M-3-15q-3-16-17-24-9 17 14 24m7-4q1-19 14-27 10 16-12 27" fill="#51876b"/>
-    <path d="M0-10q-5-19 0-40 10 12 0 33m-1 8 10-19m-12 15-11-15" fill="#96b56e"/>
-    <path d="m-16-11 5 24h23l5-24z" fill="#d57a5e"/><path d="M-18-13h37v6h-37z" fill="#f6a07d"/></g>`;
-}
-
-const campusRooms = {
-  canteen: {
-    wall:'#ffedbc', table:'#87bba4', front:'#43897e', actors:[42,72,1.03,450,78,.96],
-    backdrop() { return `
-      <path d="M0 91h480v95H0z" fill="#d4e9ce" stroke="none"/>
-      <path d="M0 108h480M0 138h480M0 168h480M21 92v16m35-16v16m35-16v16m35-16v16m35-16v16m35-16v16m35-16v16m35-16v16m35-16v16m35-16v16m35-16v16m35-16v16" fill="none" stroke="#a2c3ac" />
-      <path d="M24 6h135v57H24z" fill="#377978"/><path d="M30 12h123v45H30z" stroke="#e5edcb" fill="none" stroke-width="1.2"/>
-      <text x="43" y="35" fill="#fff6d7" stroke="none" font-size="16" font-weight="600">今日套餐</text>
-      <path d="M43 46h42m12 0h15m9 0h17" stroke="#d2e4c9" stroke-width="2"/>
-      <path d="M193 3h269v84H193z" fill="#c1d9cc"/><path d="M201 9h253v70H201z" fill="#eff5de"/>
-      <path d="M209 68h236v8H209z" fill="#699e91"/><path d="M227 60q1-12 22-13 13 0 18 13z" fill="#fbbd74"/>
-      <path d="M224 61h47l-6 6h-36z" fill="#fff6d6"/><circle cx="247" cy="45" r="3" fill="#ed8a65"/>
-      <path d="M287 47h46v19h-46z" fill="#90b5b2"/><path d="M284 46q3-8 26-8t27 8z" fill="#c5d7cf"/><path d="M309 37v-4h7v4m22 14h8m-69 0h8" fill="none"/>
-      <path d="M375 11v24q9 9 0 15-9-6 0-15m21-24v18m-6 0h12v15h-12z" fill="#ead6a3"/>`; },
-    foreground() { return `<path d="m-13 221 56-8 22 20-59 11z" fill="#ffedcd"/><path d="m-5 223 43-5 13 13-44 7z" fill="#dc8a69"/>
-      <path d="m409 224 31-7m-27 13 31-7" stroke="#ffefbd" stroke-width="3"/>`; },
-  },
-  dorm: {
-    wall:'#e8e2f3',table:'#f5c08b',front:'#c68b6a',actors:[23,80,1.02,445,83,.91],
-    backdrop() { return `
-      <path d="M0 25h190v94H0z" fill="#c7cee6"/><path d="M0 39q28-17 53 0t46-5 39 2 47 0v26H0z" fill="#a5afda"/>
-      <path d="M0 59h201v11H0z" fill="#ecd4ab"/><path d="M10 22h7v140h-7zm171 0h8v132h-8z" fill="#a78165"/>
-      <path d="M142 66v64m23-64v64m-23-50h23m-23 16h23m-23 17h23" fill="none" stroke="#806e68" stroke-width="4"/>
-      <path d="M244 3h167v93H244z" fill="#fff1da"/><path d="M251 10h153v79H251z" fill="#9acfd8"/>
-      <circle cx="365" cy="31" r="12" fill="#fff2b9" stroke="none"/><path d="m252 83 21-14 17 5 24-22 28 23 30-8 31 13v9H252z" fill="#a9c4a9" stroke="none"/>
-      <path d="M325 9v80m-74-44h153" stroke="#fcf1da" stroke-width="5"/><path d="M223 0h36l-3 43-9 19-14 35h-12l10-54z" fill="#c1b8da"/>
-      <path d="m231 52 17 4m-7-41-7 33" stroke="#897fa9" fill="none"/>
-      ${campusPlant(438,111,.68)}`; },
-    foreground() { return `${campusBooks(8,230,.83)}<path d="m406 231 27-9 10 2-30 9-9 1z" fill="#e46748"/>`; },
-  },
-  cafe: {
-    wall:'#d6eadc',table:'#e9b993',front:'#c88b68',actors:[32,78,.99,453,76,1.00],
-    backdrop() { return `
-      <path d="M0-3h480v29H0z" fill="#fff1cf"/><path d="M0 20h480v12q-9 11-20 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-24 0-12 12-28 0z" fill="#ffc69c"/>
-      <path d="M18-2h22l-2 23H15zm48 0h22l-2 23H63zm48 0h22l-1 23h-24zm48 0h22l-1 23h-24zm48 0h22v23h-25zm48 0h22l1 23h-25zm48 0h22l2 23h-25zm48 0h22l3 23h-25zm48 0h22l4 23h-25zm48 0h22l5 23h-25z" stroke="none" fill="#eb876f"/>
-      <path d="M163 49h157v43H163z" fill="#236e66"/><path d="M168 54h147v33H168z" fill="none" stroke="#c5dfbc" stroke-width="1"/>
-      <text x="241" y="76" text-anchor="middle" font-size="19" font-weight="600" stroke="none" fill="#fff7de">下课咖啡</text>
-      <path d="M0 117h134v9H0z" fill="#ae826b"/><path d="M15 114V79q0-7 7-7h68q7 0 7 8v34z" fill="#e8876d"/>
-      <path d="M23 81h65v12H23z" fill="#f7ba92"/><circle cx="33" cy="87" r="3" fill="#fff6d5"/><path d="M39 99h34v14H39z" fill="#334f4d"/><path d="M47 103h15v9H47z" fill="#fff5db"/>
-      <path d="M349 89h113v6H349z" fill="#b38c75"/><path d="M361 66h18v23h-18zm25-5h22v28h-22zm30 10h16v18h-16z" fill="#f1c781"/>
-      <path d="M360 67h20m5-5h24m5 10h20"/>`; },
-    foreground() { return `<path d="m-6 216 66-1-13 31h-53z" fill="#f8dcb7"/><path d="m1 220 52-1m-54 7 51-1m-45-11-6 26m16-25-7 27m18-27-7 27" fill="none" stroke="#d0a584" stroke-width="1.4"/>
-      <path d="m413 220 31-2 3 13-31 2z" fill="#fff3d3"/><path d="m418 224 19-1m-18 5 14-1" stroke="#967d69" stroke-width="1.4"/>`; },
-  },
-  market: {
-    wall:'#d3ebed',table:'#fbd49d',front:'#d59868',actors:[37,79,.98,455,71,1.03],
-    backdrop() { return `
-      <path d="M0 82h480v67H0z" fill="#b3ceaa" stroke="none"/><path d="M233 85V52h51v33m46-1V43h54v42m29 0V40h34v43" fill="#f3dcbe" stroke="#a1b4ab" stroke-width="1.4"/>
-      <path d="M242 60h8v9h-8zm13 0h8v9h-8zm83-6h8v9h-8zm15 0h8v9h-8zm68-4h9v9h-9z" fill="#9fbcc0" stroke="none"/>
-      <path d="M23 19h181l27 35H0z" fill="#ffeece"/><path d="M44 19h24L57 54H26zm52 0h24l-1 35H85zm52 0h23l12 35h-32zm50 0h6l27 35h-19z" fill="#65998c" stroke="none"/>
-      <path d="M0 54h232v11H0z" fill="#f7ce82"/><path d="M15 65h6v91h-6zm195 0h6v86h-6z" fill="#b88661"/>
-      <path d="m55 70 79-2 1 25-78 2z" fill="#fff3d9"/><text x="96" y="87" text-anchor="middle" font-size="13" stroke="none" fill="#344944" font-weight="600">校园书摊</text>
-      ${campusBunting()}${campusPlant(464,128,.9)}`; },
-    foreground() { return `${campusBooks(3,231,1.02)}${campusBooks(406,221,.9)}`; },
-  },
-  desk: {
-    wall:'#dce4f5',table:'#bdd7c9',front:'#83aea4',actors:[25,83,1.00,451,80,.97],
-    backdrop() { return `
-      <path d="M21-4h220v104H21z" fill="#e5ebd8"/><path d="M28 1h206v92H28z" fill="#a8cddd"/>
-      <path d="M36 91V66h25V49h28v42m14 0V59h28V39h23v52m21 0V65h35v26" fill="#93b4c2" stroke="none"/>
-      <path d="M31 31q15-14 25-3 8-12 22 1m78-15q8-8 15-2 6-9 16 0" fill="none" stroke="#f7efdb" stroke-width="3"/>
-      <path d="M130 0v92M28 44h206" stroke="#f1efdd" stroke-width="5"/><path d="M15 101h231v7H15z" fill="#c9b5a1"/>
-      <path d="M313 16h105v63H313z" fill="#a5acbd"/><path d="m323 25 32 3-4 35-32-3z" fill="#f9efd0"/><path d="m371 37 30-4 4 28-31 3z" fill="#f1b99c"/>
-      <path d="m328 38 17 2m-17 7 13 2m49-1 13-1" fill="none" stroke="#9a927e" stroke-width="1.3"/>
-      <circle cx="338" cy="28" r="2.6" fill="#cb6c61"/>${campusPlant(453,134,1.15)}`; },
-    foreground() { return `<path d="m5 225 29-8 26 12-29 9z" fill="#fff3d5"/><path d="m19 226 16-4m-8 8 15-4" stroke="#b2a792" stroke-width="1.2"/>${campusBooks(411,228,.7)}`; },
-  },
-  library: {
-    wall:'#f1dfd7',table:'#c5cef0',front:'#8e9cbc',actors:[33,78,1.04,445,84,.95],
-    backdrop() { return `
-      <path d="M-8 1h197v141H-8zm317 0h187v141H309z" fill="#bb927b"/>
-      <path d="M-2 8h183v120H-2zm318 0h168v120H316z" fill="#ead5b7"/>
-      ${[0, 323].map(offset => `<g transform="translate(${offset} 0)">
-        <path d="M3 21h14v36H3zm40-7h12v43H43zm48 11h10v32H91zm42-10h13v42h-13z" fill="#819f99"/>
-        <path d="M21 15h13v42H21zm42 13 9-3 13 30-9 3zm42-8h13v37h-13zm46 1h13v36h-13z" fill="#e29b80"/>
-        <path d="M6 27h8m10-5h7m16 5h4m44 6h5m8-5h7m21-6h6" stroke="#fcf2d8" fill="none" stroke-width="2"/>
-        <path d="M-3 58h183v7H-3z" fill="#b58e73"/><path d="M4 85h16v36H4zm36-7h12v43H40zm46-2h14v45H86zm33 3h10v42h-10z" fill="#96b1b0"/>
-        <path d="M22 75h14v46H22zm34 10h15v36H56zm80-11 13-3 12 46-13 4z" fill="#eabb72"/></g>`).join('')}
-      <path d="M219 57q17-11 34-3m-29 8 12 9 11-15" fill="none" stroke="#bda39a"/><circle cx="236" cy="54" r="22" fill="#bcd6cf"/>
-      <path d="m222 41 10 3 4 9-6 5 2 9m13-27-3 12 9 6m-28 20q20 8 35-12m-18 17v8m-13 1h25" fill="none" stroke="#688c81" stroke-width="3"/>`; },
-    foreground() { return `${campusBooks(5,227,.89)}<path d="m413 224 21-7 12 8-26 8z" fill="#fff2d5"/><path d="m419 224 12-4m-8 7 11-4" stroke="#a3978a" stroke-width="1.2"/>`; },
-  },
-};
-
-// Each character faces the object in the middle of the counter. Mirroring the
-// second figure lets the same four hand poses work on either side of the table.
-function campusStudent(student, x, y, scale, action) {
-  const man = student === 'man';
-  const shirt = man ? '#3d948b' : '#ffc464';
-  const hair = man ? '#9d5442' : '#34464e';
-  const sleeve = man ? '#a8cfac' : '#fff0c0';
-  const poses = {
-    trade: ['M86 89q8 6 18 20l27-11 5 9-31 17q-6 3-11-2L74 104z', 'M129 98l10-6q6-2 4 2l-4 3 9-1q5 1 1 4l-8 5-7 2z'],
-    point: ['M88 90q10 9 17 13l24-22 7 6-25 31q-5 6-12 2L76 104z', 'M128 84l7-10 12-4q5-1 3 2l-8 5 6 1q2 2-1 4l-11 7z'],
-    read: ['M87 92l16 18 21-3 4 9-25 7q-5 2-10-3l-19-17z', 'M123 108l10-5q6-2 4 1l-3 3 9-1q5 0 2 4l-10 5-9 1z'],
-    think: ['M88 92l13 12-9-24 9-3 15 34q2 6-5 9l-8 3q-5 1-9-3l-21-19z', 'M91 81l-10-5-1-5q1-4 4-1l3 3-2-9q-.8-5 2-3l8 9 6 9z'],
-  };
-  const [arm, hand] = poses[action];
-  const backHair = man
-    ? '<path d="M35 25q-15-12-22-3-8 8-4 22 2 9-2 14 15 1 23-13l4-10z" fill="'+hair+'"/><path d="m29 24 7 4-5 10-6-4z" fill="#efad57"/>'
-    : '<path d="M33 26q-7-8 2-16 6-8 15-5 8-10 20-6 13-4 22 6 12 0 15 13 5 8 0 17l-9 14-53-7z" fill="'+hair+'"/>';
-  const fringe = man
-    ? '<path d="M32 43Q22 28 31 14 44-5 65-1 88-1 100 22 88 20 78 13q-7 18-20 20 2-6 1-10-6 12-14 16l-2 10-5 1z" fill="'+hair+'"/><path d="M35 19q7-10 17-13m15 3q9 2 14 8" fill="none" stroke="#c58063"/>'
-    : '<path d="M32 44q-10-12-5-22 3-5 10-6 1-10 13-10 6-8 16-4 8-6 16 1 9-2 13 7 9 1 9 13-12 2-21-3-2 7-8 11l-3-10q-6 8-16 9l-5-4-4 18-8 5z" fill="'+hair+'"/><path d="M40 18q4-8 14-6m7-5 10 2m14 2 7 7" fill="none" stroke="#60727a"/>';
-  return `<g transform="translate(${x} ${y}) scale(${man ? scale : -scale} ${scale})" stroke-width="2.2">
-    ${backHair}
-    <path d="M15 157l3-30q2-38 15-48l20-9 17 1 18 13q8 10 12 36l2 38z" fill="${shirt}"/>
-    ${man ? '<path d="m25 100 10-17 10-7-3 25-13 29-10-1z" fill="#254e58"/><path d="m16 118 14 2-1 31H8q-3-18 8-33z" fill="#e89973"/><path d="m12 137 15 2" fill="none"/>'
-    : '<path d="m41 79 14-6 16-1 12 9-22 21z" fill="#fff0bf"/><path d="m37 100 34 12m-37-3 43 15m-45-4 46 15m-48-5 46 16" stroke="#db865d" fill="none" stroke-width="3"/>'}
-    <path d="m50 60-1 14q7 10 19 5l6-8-4-16z" fill="${campusSkin}"/>
-    <path d="M34 39q-2-17 14-28 17-10 31-2 16 8 19 26l3 9 5 6q1 4-6 4-2 15-15 19-18 4-32-8-10-9-11-20z" fill="${campusSkin}"/>
-    ${fringe}
-    <path d="M47 43q-9-9-12-1-2 8 9 12" fill="${campusSkin}"/><path d="M38 44q2-3 5 2" fill="none" stroke="#b78067" stroke-width="1.5"/>
-    <path d="m80 35 7-1m6 2 4 2" fill="none" stroke-width="1.8"/>
-    <path d="m91 43 2 5-3 1" stroke="#a47462" stroke-width="1.2" fill="none"/>
-    <ellipse cx="85" cy="42" rx="1.8" ry="2.7" fill="${campusInk}" stroke="none"/><ellipse cx="97" cy="43" rx="1.2" ry="2.3" fill="${campusInk}" stroke="none"/>
-    ${man ? '<ellipse cx="74" cy="50" rx="6" ry="2.7" fill="#edaf96" stroke="none"/>'
-      : '<path d="M68 38l11 3m-.5-2 11 1 .2 6q-1 4-6 4-6-.8-6-6zm12 3 4 .5m0-3 8 1v5q-1 4-5 3-3 0-4-4z" fill="none" stroke-width="1.6"/>'}
-    <path d="${action === 'think' ? 'M83 59q4-2 8-1' : 'M81 58q6 5 12-1'}" fill="none" stroke-width="1.7"/>
-    <path d="m49 74 8 9 14-6" fill="none"/><path d="${arm}" fill="${shirt}"/><path d="${hand}" fill="${campusSkin}"/>
-    <path d="m78 88-6 14 9 8" fill="none" stroke="${sleeve}" stroke-width="2.3"/>
-    <path d="m38 104-4 25 14 9-6 8-22-12q-4-3-3-8l4-24" fill="${shirt}"/>
-    <path d="m46 137 10 4q6 3 2 5l-5-1 2 5q-2 2-6-1l-8-6z" fill="${campusSkin}"/>
-    </g>`;
-}
-
-function campusPlacedSticker(key, x, y, size, angle) {
-  return `<g class="campus-cutout" transform="rotate(${angle} ${x+size/2} ${y+size/2})"><use x="${x}" y="${y}" width="${size}" height="${size}" href="${campusSprite}${key}"/></g>`;
-}
-
-function campusFocusObject(key, action) {
-  if (!key) return '';
-  if (action === 'think') {
-    return `<g fill="#fffaf0" stroke="${campusInk}" stroke-width="1.7"><circle cx="160" cy="135" r="3"/><ellipse cx="174" cy="127" rx="5" ry="4"/>
-      <path d="M186 117q-11-12-1-23 3-19 21-19 12-13 28-7 21-8 31 8 19 1 21 18 12 13 1 25-1 20-20 21-12 10-28 4-19 7-31-5-19 0-22-22z"/></g>
-      ${campusPlacedSticker(key,196,67,79,-4)}`;
-  }
-  if (action === 'read') {
-    return `<g stroke="${campusInk}" stroke-width="1.8" stroke-linejoin="round">
-      <path d="m172 177 54 1 15 6 14-8 42-5-11 52-43 7-23-5-55 1z" fill="#659487"/>
-      <path d="M178 169q31-5 63 10 25-18 54-14l-14 48q-22-1-44 10-32-11-65-6z" fill="#fff3d6"/>
-      <path d="m241 179-4 43m16-35 27-8m-27 15 23-7" fill="none" stroke="#baa681" stroke-width="1.5"/></g>
-      ${campusPlacedSticker(key,191,132,94,-7)}`;
-  }
-  if (action === 'point') {
-    return `<g stroke="${campusInk}" stroke-width="1.7" stroke-linejoin="round"><path d="m199 129 80-5 7 93-80 5z" fill="#fff6d8"/>
-      <path d="m217 124 39-3 2 12-39 3z" fill="#e3bd7e"/><path d="m217 208 54-4" stroke="#b7a992" fill="none"/></g>
-      ${campusPlacedSticker(key,196,131,87,-5)}`;
-  }
-  return campusPlacedSticker(key,185,133,100,-5);
-}
-
-function campusIllustration({ place = 'desk', props = [], detail = '', caption = '', action = 'read' } = {}) {
-  if (!Object.hasOwn(campusRooms, place)) place = 'desk';
-  if (!['read', 'point', 'trade', 'think'].includes(action)) action = 'read';
-  const room = campusRooms[place];
-  const keys = props.filter(key => Object.hasOwn(campusObjects, key)).slice(0, 3);
-  const [x1,y1,scale1,x2,y2,scale2] = room.actors;
-  const propNames = keys.map(key => campusObjects[key]).join('、');
-  const alt = `小满和阿禾在${campusPlaces[place]}${propNames ? '，桌前摆着'+propNames : ''}。`;
-  const companionPose = { read:'point', point:'read', trade:'trade', think:'point' }[action];
-  return `<figure class="campus-illustration" data-place="${place}">
-    <div class="campus-panel">
-      <svg class="campus-drawing" viewBox="0 0 480 280" role="img" aria-label="${campusEscape(alt)}" focusable="false" xmlns="http://www.w3.org/2000/svg">
-        <rect width="480" height="280" fill="${room.wall}"/>
-        <g stroke="${campusInk}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
-          ${room.backdrop()}
-          ${campusStudent('man',x1,y1,scale1,action)}
-          ${campusStudent('he',x2,y2,scale2,companionPose)}
-          <path d="M-5 212q122-6 258-4t232-1v77H-5z" fill="${room.front}"/>
-          <path d="M-5 212q122-6 258-4t232-1v33q-160 6-288 3T-5 248z" fill="${room.table}"/>
-          ${room.foreground()}
-          <path d="M79 230q19-2 33-1m190 5 15-1m41-18 27-1" fill="none" stroke="${campusInk}" opacity=".25" stroke-width="1.5"/>
-        </g>
-        ${keys[1] ? campusPlacedSticker(keys[1],123,181,67,-11) : ''}
-        ${keys[2] ? campusPlacedSticker(keys[2],289,177,61,9) : ''}
-        ${campusFocusObject(keys[0],action)}
-      </svg>
-      ${detail ? `<span class="campus-detail">${campusEscape(detail)}</span>` : ''}
-    </div>
-    ${caption ? `<figcaption class="campus-caption">${campusEscape(caption)}</figcaption>` : ''}
-  </figure>`;
-}
-
-const STORIES = [
+  <script>const STORIES = [
   {
     title: '一百块能换来什么',
     label: '认识钱',
@@ -1107,41 +858,41 @@ const STORIES = [
       {
         title: '午饭要不要加杯咖啡？',
         text: '周一中午，小满端着空餐盘，饭卡里刚好有 100 元。身后的室友阿禾指指价目牌：“套餐 15 元，咖啡 10 元。”帮小满点餐，看看明天还能用多少钱。',
-        art: { place: 'canteen', action: 'trade', props: ['card', 'meal', 'coffee'], detail: '饭卡余额 ¥100', caption: '食堂窗口还有最后一份番茄炒蛋。' },
+        art: 'canteen',
         choices: [
-          { label: '拿一份套餐', feedback: '收银机响了一声，扣了 15 元。小满端走一份午饭，卡里还留着 85 元。', value: '饭卡还剩 ¥85', props: ['meal', 'card'] },
-          { label: '套餐再加一杯咖啡', feedback: '托盘上多了杯咖啡，小票也多了一行。15 加 10 共花 25 元，卡里还剩 75 元。', value: '饭卡还剩 ¥75', props: ['coffee', 'meal', 'card'] },
+          { label: '拿一份套餐', feedback: '收银机响了一声，扣了 15 元。小满端走一份午饭，卡里还留着 85 元。', value: '饭卡还剩 ¥85' },
+          { label: '套餐再加一杯咖啡', feedback: '托盘上多了杯咖啡，小票也多了一行。15 加 10 共花 25 元，卡里还剩 75 元。', value: '饭卡还剩 ¥75' },
         ],
         next: '翻出旧菜单',
       },
       {
         title: '两张菜单，一样的 100 元',
         text: '坐下来，阿禾翻出上学期的菜单照片：“那时套餐一份 15 元。”两人把旧价签盖上，试算每份涨到 18 元时，整整 100 元最多能买几份。',
-        art: { place: 'canteen', action: 'point', props: ['tag', 'meal', 'calculator'], detail: '¥15 换成 ¥18', caption: '旧菜单的照片上，还印着上学期的日期。' },
+        art: 'wallet',
         choices: [
-          { label: '够买 5 份', feedback: '阿禾摆出五张餐票，共 90 元，剩下 10 元买不了第六份。从能吃六顿变成五顿，同一百元的购买力变小了。', value: '5 顿，还剩 ¥10', props: ['meal', 'ticket', 'coin'] },
-          { label: '仍然够 6 份', feedback: '小满在第六张餐票旁写下 18 × 6＝108。差 8 元买不了第六份，最多只能拿走五份。', value: '第六顿差 ¥8', props: ['calculator', 'ticket', 'bill'] },
+          { label: '够买 5 份', feedback: '阿禾摆出五张餐票，共 90 元，剩下 10 元买不了第六份。从能吃六顿变成五顿，同一百元的购买力变小了。', value: '5 顿，还剩 ¥10' },
+          { label: '仍然够 6 份', feedback: '小满在第六张餐票旁写下 18 × 6＝108。差 8 元买不了第六份，最多只能拿走五份。', value: '第六顿差 ¥8' },
         ],
         next: '去明信片摊',
       },
       {
         title: '一张还没卖出去的明信片',
         text: '回宿舍路上，阿禾拿出自己画的校门明信片。“印一批还缺 100 元。卖得好，下学期分你 120 元；卖不动，可能只拿回 60 元。”小满想起下周还要吃饭。你会怎么接话？',
-        art: { place: 'market', action: 'think', props: ['print', 'bill', 'calendar'], detail: '印刷费 ¥100', caption: '第一张试印样张背面，写着印厂的报价。' },
+        art: 'time',
         choices: [
-          { label: '先留足下周饭钱', feedback: '小满把饭卡塞回口袋。饭钱下周就要花，明信片却要下学期才回款。两笔钱赶不上同一顿饭。', value: '下周要用 ¥100', props: ['card', 'calendar', 'meal'] },
-          { label: '问清成本、销量和结款时间', feedback: '阿禾翻到印厂报价那一页。卖出多少张能回本，多久能结款，决定了这 100 元要等多久、能拿回多少。', value: '下学期约 ¥60～120', props: ['notebook', 'print', 'clock'] },
-          { label: '先把赚到的 20 元记进账本', feedback: '阿禾把还没卖出的那摞样张推过来。这次可能赚 20 元，也可能亏 40 元，小满把“收入”一栏先留空了。', value: '卖不动可能亏 ¥40', props: ['print', 'down', 'notebook'] },
+          { label: '先留足下周饭钱', feedback: '小满把饭卡塞回口袋。饭钱下周就要花，明信片却要下学期才回款。两笔钱赶不上同一顿饭。', value: '下周要用 ¥100' },
+          { label: '问清成本、销量和结款时间', feedback: '阿禾翻到印厂报价那一页。卖出多少张能回本，多久能结款，决定了这 100 元要等多久、能拿回多少。', value: '下学期约 ¥60～120' },
+          { label: '先把赚到的 20 元记进账本', feedback: '阿禾把还没卖出的那摞样张推过来。这次可能赚 20 元，也可能亏 40 元，小满把“收入”一栏先留空了。', value: '卖不动可能亏 ¥40' },
         ],
         next: '路过下课咖啡',
       },
       {
         title: '一杯咖啡，还是一小份店？',
         text: '两人在校门口停下来。虚构的「下课咖啡」准备开分店，学姐拿出一张股东凭证：“如果出钱认一股，你就拥有这家店的一小部分。”小满看着正在冒热气的咖啡机，先问哪件事？',
-        art: { place: 'cafe', action: 'point', props: ['ticket', 'coffee', 'notebook'], detail: '一股咖啡店', caption: '吧台上同时放着饮品价目表和认股说明。' },
+        art: 'coffee',
         choices: [
-          { label: '一杯能赚多少？客人少了会怎样？', feedback: '学姐掏出进货单。卖咖啡收的钱要先付豆子、工资和房租，剩下多少才关系到股东能分享什么。经营不顺，出的钱也可能亏掉。', value: '先算一杯的成本', props: ['coffee', 'receipt', 'calculator'] },
-          { label: '明天这张凭证能卖多少钱？', feedback: '学姐摊开手：“明天谁愿意出多少，我也不知道。”小满先抄下房租和豆价，打算回来看这门生意。', value: '明天的出价未知', props: ['tag', 'coffee', 'book'] },
+          { label: '一杯能赚多少？客人少了会怎样？', feedback: '学姐掏出进货单。卖咖啡收的钱要先付豆子、工资和房租，剩下多少才关系到股东能分享什么。经营不顺，出的钱也可能亏掉。', value: '先算一杯的成本' },
+          { label: '明天这张凭证能卖多少钱？', feedback: '学姐摊开手：“明天谁愿意出多少，我也不知道。”小满先抄下房租和豆价，打算回来看这门生意。', value: '明天的出价未知' },
         ],
       },
     ],
@@ -1154,31 +905,31 @@ const STORIES = [
       {
         title: '三个信封分 8,000 元',
         text: '周二晚，小满把存款写在宿舍白板上。阿禾拿来三个信封，第一个留 4,800 元付必要开支，第二个留 2,500 元应急。第三个信封能放多少？',
-        art: { place: 'dorm', action: 'point', props: ['envelope', 'bill', 'notebook'], detail: '存款 ¥8,000', caption: '第一个信封里夹着房租、餐费和考试报名清单。' },
+        art: 'wallet',
         choices: [
-          { label: '放进去 700 元', feedback: '从 8,000 元里先拿走 4,800 元，再拿走 2,500 元。第三个信封里能放 700 元，这部分钱才暂时没有用途。', value: '第三封 ¥700', props: ['envelope', 'coin', 'calculator'] },
-          { label: '放进去 3,200 元', feedback: '小满才放好第一个信封，阿禾把“应急”那只递过来。3,200 元还得再留 2,500 元，第三封只剩 700 元。', value: '还要留 ¥2,500', props: ['shield', 'envelope', 'bill'] },
+          { label: '放进去 700 元', feedback: '从 8,000 元里先拿走 4,800 元，再拿走 2,500 元。第三个信封里能放 700 元，这部分钱才暂时没有用途。', value: '第三封 ¥700' },
+          { label: '放进去 3,200 元', feedback: '小满才放好第一个信封，阿禾把“应急”那只递过来。3,200 元还得再留 2,500 元，第三封只剩 700 元。', value: '还要留 ¥2,500' },
         ],
         next: '试填一张订单',
       },
       {
         title: '订单还差 305 元',
         text: '阿禾打开模拟盘，把一只沪深主板普通 A 股的价格按每股 10 元算。普通买单一手是 100 股，这笔示例佣金还要 5 元。小满面前只有第三个信封里的 700 元。',
-        art: { place: 'desk', action: 'think', props: ['receipt', 'coin', 'envelope'], detail: '每手 100 股', caption: '阿禾把空白买单放在应急信封旁边。' },
+        art: 'receipt',
         choices: [
-          { label: '把买 100 股的钱算清楚', feedback: '10 × 100＋5＝1,005 元。小满数完信封里的 700 元，发现还差 305 元。', value: '价款加费用 ¥1,005', props: ['calculator', 'receipt', 'coin'] },
-          { label: '从应急信封借 305 元', feedback: '阿禾在信封上划掉 2,500，改成 2,195。这样够下单，可下一次急用钱，手边就少了 305 元。', value: '应急金剩 ¥2,195', props: ['envelope', 'bill', 'warning'] },
-          { label: '收好信封，只用虚拟钱试', feedback: '小满没有拆信封，在模拟盘填了一手。这里能练挂单、成交和撤单，真实账户里的 700 元仍可随时用。', value: '实际投入 ¥0', props: ['laptop', 'envelope', 'shield'] },
+          { label: '把买 100 股的钱算清楚', feedback: '10 × 100＋5＝1,005 元。小满数完信封里的 700 元，发现还差 305 元。', value: '价款加费用 ¥1,005' },
+          { label: '从应急信封借 305 元', feedback: '阿禾在信封上划掉 2,500，改成 2,195。这样够下单，可下一次急用钱，手边就少了 305 元。', value: '应急金剩 ¥2,195' },
+          { label: '收好信封，只用虚拟钱试', feedback: '小满没有拆信封，在模拟盘填了一手。这里能练挂单、成交和撤单，真实账户里的 700 元仍可随时用。', value: '实际投入 ¥0' },
         ],
         next: '接一通维修电话',
       },
       {
         title: '维修点来电，今天取机',
         text: '小满的电脑黑屏了，维修点报了 600 元，取机时付款。阿禾提议把两种安排各演一遍，从完整的 2,500 元应急金付，或把钱全放在股票里。',
-        art: { place: 'dorm', action: 'trade', props: ['laptop', 'tool', 'receipt'], detail: '维修报价 ¥600', caption: '明早的作业还在那台电脑里。' },
+        art: 'receipt',
         choices: [
-          { label: '拆开应急信封，当天付款', feedback: '小满付了 600 元，电脑拿回来了，信封里还有 1,900 元。这笔钱一直能取用，修电脑不用看股价。', value: '应急金还剩 ¥1,900', props: ['tool', 'laptop', 'envelope'] },
-          { label: '等卖出股票，再取钱维修', feedback: '阿禾翻翻日历。得等开市、卖单成交、资金可以转出。如果急着卖的时候股价跌了，拿回来的钱还会变少。', value: '取款时间待定', props: ['clock', 'chart', 'tool'] },
+          { label: '拆开应急信封，当天付款', feedback: '小满付了 600 元，电脑拿回来了，信封里还有 1,900 元。这笔钱一直能取用，修电脑不用看股价。', value: '应急金还剩 ¥1,900' },
+          { label: '等卖出股票，再取钱维修', feedback: '阿禾翻翻日历。得等开市、卖单成交、资金可以转出。如果急着卖的时候股价跌了，拿回来的钱还会变少。', value: '取款时间待定' },
         ],
       },
     ],
@@ -1191,41 +942,41 @@ const STORIES = [
       {
         title: '吧台上，两张很像的券',
         text: '周三，小满和阿禾回到下课咖啡。学姐在吧台上摊开一张咖啡券和一张股东凭证：“店里一共 10 万股。你们想先翻开哪张？”',
-        art: { place: 'cafe', action: 'read', props: ['ticket', 'coffee', 'card'], detail: '总股数 10 万股', caption: '两张纸差不多大，一张可以当场兑饮品。' },
+        art: 'coffee',
         choices: [
-          { label: '翻开咖啡券', feedback: '小满交出券，换来一杯热咖啡。券上的承诺到这里就兑现了，店里今后赚多少钱，和这张券无关。', value: '咖啡券 → 一杯饮品', props: ['coffee', 'ticket'] },
-          { label: '翻开股东凭证', feedback: '阿禾把自己的那一股圈出来。十万股里的这一股对应十万分之一股权，店的经营好坏会影响它的价值。', value: '股权占 1 / 100,000', props: ['ticket', 'notebook', 'coffee'] },
+          { label: '翻开咖啡券', feedback: '小满交出券，换来一杯热咖啡。券上的承诺到这里就兑现了，店里今后赚多少钱，和这张券无关。', value: '咖啡券 → 一杯饮品' },
+          { label: '翻开股东凭证', feedback: '阿禾把自己的那一股圈出来。十万股里的这一股对应十万分之一股权，店的经营好坏会影响它的价值。', value: '股权占 1 / 100,000' },
         ],
         next: '去柜台后翻账本',
       },
       {
         title: '年末的 12 万元怎么用？',
         text: '学姐拿出教学账本。全年卖饮品收进 100 万元，付过房租、工资、豆子、税和设备款，还剩 12 万元现金。假设公司具备分红条件，请你们替股东想想这笔钱的用处。',
-        art: { place: 'cafe', action: 'think', props: ['notebook', 'bill', 'coffee'], detail: '剩余现金 ¥120,000', caption: '学姐用红笔圈出账本里的最后一行。' },
+        art: 'coffee',
         choices: [
-          { label: '拿一半分给股东', feedback: '用来分的 6 万元摊到 10 万股，每股分 0.60 元。小满数了数，店里还留着另外 6 万元。', value: '每股分 ¥0.60', props: ['coin', 'ticket', 'notebook'] },
-          { label: '把钱留下，试着开新店', feedback: '阿禾把钱挪进“新店”一栏。这次股东收不到现金。新店赚钱可能提高股权价值，亏损也得由公司承担。', value: '本次分红 ¥0', props: ['seedling', 'coffee', 'bill'] },
-          { label: '先还一笔快到期的债', feedback: '学姐取来借款合同。把到期款支付后，账上能分或能再投资的现金会相应减少。', value: '现金先用于还债', props: ['receipt', 'bank', 'calendar'] },
+          { label: '拿一半分给股东', feedback: '用来分的 6 万元摊到 10 万股，每股分 0.60 元。小满数了数，店里还留着另外 6 万元。', value: '每股分 ¥0.60' },
+          { label: '把钱留下，试着开新店', feedback: '阿禾把钱挪进“新店”一栏。这次股东收不到现金。新店赚钱可能提高股权价值，亏损也得由公司承担。', value: '本次分红 ¥0' },
+          { label: '先还一笔快到期的债', feedback: '学姐取来借款合同。把到期款支付后，账上能分或能再投资的现金会相应减少。', value: '现金先用于还债' },
         ],
         next: '算一股的总回报',
       },
       {
         title: '收到了分红，钱袋却变轻了',
         text: '阿禾画了一个持股小实验。小满花 10 元买入一股，收到 0.60 元现金分红，最后以 9 元卖出。先忽略税费，把卖出的钱和分红都放回钱包，一共赚了还是亏了？',
-        art: { place: 'desk', action: 'trade', props: ['wallet', 'ticket', 'coin'], detail: '买 ¥10，卖 ¥9', caption: '桌上有一张卖出回单，也有一张分红凭条。' },
+        art: 'receipt',
         choices: [
-          { label: '钱包里少了 0.40 元', feedback: '阿禾把卖出的 9 元和分红的 0.60 元合起来。一共收回 9.60 元，比起点的 10 元少 0.40 元。', value: '净亏 ¥0.40', props: ['wallet', 'down', 'coin'] },
-          { label: '收到分红，赚了 0.60 元', feedback: '小满把被压住的卖出回单抽出来。股价少的 1 元，也要一起算进去。收到 9.60 元，实际亏 0.40 元。', value: '总共收回 ¥9.60', props: ['receipt', 'coin', 'calculator'] },
+          { label: '钱包里少了 0.40 元', feedback: '阿禾把卖出的 9 元和分红的 0.60 元合起来。一共收回 9.60 元，比起点的 10 元少 0.40 元。', value: '净亏 ¥0.40' },
+          { label: '收到分红，赚了 0.60 元', feedback: '小满把被压住的卖出回单抽出来。股价少的 1 元，也要一起算进去。收到 9.60 元，实际亏 0.40 元。', value: '总共收回 ¥9.60' },
         ],
         next: '换两张买入价签',
       },
       {
         title: '两张价签，同一笔分红',
         text: '小满给同一股贴上 10 元和 20 元两张假设买价。阿禾给两边各放 0.60 元分红：“只看这一年的这笔分红，哪边占买价的比例更大？”',
-        art: { place: 'cafe', action: 'point', props: ['tag', 'coin', 'scale'], detail: '每股都分 ¥0.60', caption: '一张分红凭条，分别放到两张买入小票旁边。' },
+        art: 'market',
         choices: [
-          { label: '10 元买入是 6%，20 元买入是 3%', feedback: '0.60 ÷ 10＝6%，0.60 ÷ 20＝3%。股息率要用分红除以买价。以后分多少、能卖多少钱，还会变化。', value: '两份股息率 6% / 3%', props: ['scale', 'coin', 'tag'] },
-          { label: '同样分 0.60 元，两边比例一样', feedback: '阿禾让小满再看一眼分母。20 元那边付的钱是两倍，0.60 元只占它的 3%，10 元那边则是 6%。', value: '买价翻倍，比例减半', props: ['calculator', 'tag', 'coin'] },
+          { label: '10 元买入是 6%，20 元买入是 3%', feedback: '0.60 ÷ 10＝6%，0.60 ÷ 20＝3%。股息率要用分红除以买价。以后分多少、能卖多少钱，还会变化。', value: '两份股息率 6% / 3%' },
+          { label: '同样分 0.60 元，两边比例一样', feedback: '阿禾让小满再看一眼分母。20 元那边付的钱是两倍，0.60 元只占它的 3%，10 元那边则是 6%。', value: '买价翻倍，比例减半' },
         ],
       },
     ],
@@ -1238,40 +989,40 @@ const STORIES = [
       {
         title: '旧书摊上的四张价签',
         text: '周四午休，小满和阿禾逛旧书摊。同一本教材，两位买家举着 19 元和 20 元的牌子，卖家则贴着 22 元和 24 元。想让第一本书成交，该先看哪两张？',
-        art: { place: 'market', action: 'point', props: ['books', 'tag', 'bill'], detail: '买 19 / 20　卖 22 / 24', caption: '同版的教材摞在一起，四个价钱都用铅笔写着。' },
+        art: 'market',
         choices: [
-          { label: '愿付 20 元的买家和肯收 22 元的卖家', feedback: '小满把这两张牌移到一起，还差 2 元。股票里，把当前最高的买价叫“买一”，最低的卖价叫“卖一”。', value: '买一 ¥20 / 卖一 ¥22', props: ['tag', 'book', 'scale'] },
-          { label: '愿付 19 元的买家和要 24 元的卖家', feedback: '这两人差 5 元。阿禾又找出出价 20 元的人和要价 22 元的人，他们之间只差 2 元，更可能先谈拢。', value: '这两张相差 ¥5', props: ['calculator', 'tag', 'books'] },
+          { label: '愿付 20 元的买家和肯收 22 元的卖家', feedback: '小满把这两张牌移到一起，还差 2 元。股票里，把当前最高的买价叫“买一”，最低的卖价叫“卖一”。', value: '买一 ¥20 / 卖一 ¥22' },
+          { label: '愿付 19 元的买家和要 24 元的卖家', feedback: '这两人差 5 元。阿禾又找出出价 20 元的人和要价 22 元的人，他们之间只差 2 元，更可能先谈拢。', value: '这两张相差 ¥5' },
         ],
         next: '在价签上写出价',
       },
       {
         title: '小满给教材留个价',
         text: '22 元的教材还摆在摊位上。阿禾递来一张空白价签：“写下你最多肯付的钱，我来当卖家。”你替小满填多少？',
-        art: { place: 'market', action: 'trade', props: ['pencil', 'tag', 'book'], detail: '卖家要价 ¥22', caption: '卖家说，价钱合适的话，这本书现在就能拿走。' },
+        art: 'market',
         choices: [
-          { label: '最多愿付 21 元', feedback: '卖家摇摇头，小满的标签留在摊位上。可以等有人降到 21 元，也可以拿走标签，撤回出价。', value: '¥21，暂未成交', props: ['clock', 'tag', 'book'] },
-          { label: '最多愿付 23 元', feedback: '卖家已经挂出 22 元的报价。小满付 22 元就能拿书，写下的 23 元是愿意接受的最高价。', value: '实际成交 ¥22', props: ['book', 'receipt', 'bill'] },
+          { label: '最多愿付 21 元', feedback: '卖家摇摇头，小满的标签留在摊位上。可以等有人降到 21 元，也可以拿走标签，撤回出价。', value: '¥21，暂未成交' },
+          { label: '最多愿付 23 元', feedback: '卖家已经挂出 22 元的报价。小满付 22 元就能拿书，写下的 23 元是愿意接受的最高价。', value: '实际成交 ¥22' },
         ],
         next: '把书摊换成模拟盘',
       },
       {
         title: '把书摊的价签搬进模拟盘',
         text: '回到自习桌，阿禾打开下课咖啡的虚构行情。最新成交 10.01 元，买一 10.00 元，卖一 10.02 元。“假设卖一有足够的股数，你想怎么买 100 股？”',
-        art: { place: 'desk', action: 'point', props: ['laptop', 'tag', 'receipt'], detail: '卖一 ¥10.02', caption: '屏幕中间的最新价，来自上一笔已经完成的交易。' },
+        art: 'market',
         choices: [
-          { label: '按 10.00 元挂单', feedback: '小满的价格还够不到卖一。买单先等待，等出现不高于 10.00 元的卖单，才有机会成交。', value: '¥10.00，等待卖家', props: ['clock', 'receipt', 'laptop'] },
-          { label: '最多愿付 10.05 元', feedback: '在这个简化例子中，卖一的 100 股仍报 10.02 元，买单按 10.02 元成交。10.05 元只设定了上限。', value: '模拟成交 ¥10.02', props: ['receipt', 'check', 'coin'] },
+          { label: '按 10.00 元挂单', feedback: '小满的价格还够不到卖一。买单先等待，等出现不高于 10.00 元的卖单，才有机会成交。', value: '¥10.00，等待卖家' },
+          { label: '最多愿付 10.05 元', feedback: '在这个简化例子中，卖一的 100 股仍报 10.02 元，买单按 10.02 元成交。10.05 元只设定了上限。', value: '模拟成交 ¥10.02' },
         ],
         next: '看持仓里的两个数字',
       },
       {
         title: '持有 100 股，可卖却是 0',
         text: '阿禾给小满看另一笔已经成交的普通 A 股买单。当天下午，持仓栏写着 100 股，可卖栏写着 0 股。“这两行能同时成立吗？”小满翻开交易日历。',
-        art: { place: 'desk', action: 'read', props: ['calendar', 'receipt', 'laptop'], detail: '持有 100 / 可卖 0', caption: '持仓栏和可卖栏，用的是同一个账户。' },
+        art: 'receipt',
         choices: [
-          { label: '在下一交易日再看可卖数量', feedback: '两行都对。这是普通 A 股的 T+1 卖出规则。如果周五买入，遇到周末，就等下一次开市。', value: '下一交易日才可卖', props: ['calendar', 'check', 'receipt'] },
-          { label: '今天再按一次卖出', feedback: '屏幕仍显示可卖 0 股。今天新买的这一手已在持仓里，要到下一交易日才能卖。', value: '今天可卖 0 股', props: ['clock', 'phone', 'receipt'] },
+          { label: '在下一交易日再看可卖数量', feedback: '两行都对。这是普通 A 股的 T+1 卖出规则。如果周五买入，遇到周末，就等下一次开市。', value: '下一交易日才可卖' },
+          { label: '今天再按一次卖出', feedback: '屏幕仍显示可卖 0 股。今天新买的这一手已在持仓里，要到下一交易日才能卖。', value: '今天可卖 0 股' },
         ],
       },
     ],
@@ -1284,40 +1035,40 @@ const STORIES = [
       {
         title: '班群里那张“开户返现”的图',
         text: '周五早上，小满在班群看见一张二维码。发图的人说：“下我的 App，再扫我的收款码转钱，有返现。”阿禾把手指从转账键移开：“我们先核实谁在收钱。”',
-        art: { place: 'dorm', action: 'think', props: ['phone', 'warning', 'card'], detail: '群聊里的收款码', caption: '二维码旁印着一个人的名字。' },
+        art: 'phone',
         choices: [
-          { label: '去证监会查名录，再找券商官网', feedback: '小满核对持牌券商全称，从官网进入官方应用商店，再核对开发者。资金划转也应在官方渠道核验。', value: '核对官网与开发者', props: ['magnifier', 'shield', 'phone'] },
-          { label: '先扫私人收款码试转 1 元', feedback: '阿禾指给小满看收款人。这笔钱会进私人账户。两人关掉页面，去查券商官方的本人银行卡银证转账流程。', value: '私人账户，停止转款', props: ['warning', 'card', 'shield'] },
+          { label: '去证监会查名录，再找券商官网', feedback: '小满核对持牌券商全称，从官网进入官方应用商店，再核对开发者。资金划转也应在官方渠道核验。', value: '核对官网与开发者' },
+          { label: '先扫私人收款码试转 1 元', feedback: '阿禾指给小满看收款人。这笔钱会进私人账户。两人关掉页面，去查券商官方的本人银行卡银证转账流程。', value: '私人账户，停止转款' },
         ],
         next: '看官方开户页',
       },
       {
         title: '开户页底下那行小字',
         text: '阿禾找到持牌券商的官网，和小满看官方 App 的开户说明。本人证件和支持的银行卡、身份核验、风险测评、协议都有各自的步骤。小满的手停在“阅读费用说明”上。',
-        art: { place: 'library', action: 'read', props: ['phone', 'card', 'magnifier'], detail: '开户与交易收费', caption: '阿禾翻到协议里的收费表，小满暂时把银行卡收了起来。' },
+        art: 'phone',
         choices: [
-          { label: '翻开收费表，看看一笔单花多少钱', feedback: '用模拟例子算，1,000 元一笔、最低佣金 5 元，光佣金就占 0.5%。再看卖出税费等项目，真实收费以券商公示为准。', value: '¥5 ÷ ¥1,000＝0.5%', props: ['calculator', 'receipt', 'magnifier'] },
-          { label: '先把开户页收起来，继续用模拟盘', feedback: '小满把开户说明收藏起来。等日后确认需要并了解风险，再按券商要求办理，现在用虚拟资金也能练。', value: '今天继续用虚拟资金', props: ['laptop', 'notebook', 'shield'] },
+          { label: '翻开收费表，看看一笔单花多少钱', feedback: '用模拟例子算，1,000 元一笔、最低佣金 5 元，光佣金就占 0.5%。再看卖出税费等项目，真实收费以券商公示为准。', value: '¥5 ÷ ¥1,000＝0.5%' },
+          { label: '先把开户页收起来，继续用模拟盘', feedback: '小满把开户说明收藏起来。等日后确认需要并了解风险，再按券商要求办理，现在用虚拟资金也能练。', value: '今天继续用虚拟资金' },
         ],
         next: '在行情里找一家公司',
       },
       {
         title: '搜索结果里有两个相似的名字',
         text: '小满回到模拟盘，练习正式 App 里的路径。阿禾递来写有公司名字、市场和代码的便签。搜索结果看起来很像，你会怎样替小满选对证券？',
-        art: { place: 'desk', action: 'point', props: ['phone', 'notebook', 'magnifier'], detail: '下课咖啡 SIM001', caption: 'SIM001 是这门课给虚构公司编的练习代码。' },
+        art: 'phone',
         choices: [
-          { label: '让市场和代码都对上，再进买入页', feedback: '小满先对清市场和证券代码，再检查买入页的限价、股数、预计费用和可用资金。确认前还能返回核对。', value: '核对市场、代码和订单', props: ['magnifier', 'receipt', 'check'] },
-          { label: '点名字排在前面的那一家', feedback: '阿禾把便签放到结果旁，一个字很像，两串代码却不同。两人对上市场和代码，再继续操作。', value: '同名近似，代码不同', props: ['tag', 'magnifier', 'phone'] },
+          { label: '让市场和代码都对上，再进买入页', feedback: '小满先对清市场和证券代码，再检查买入页的限价、股数、预计费用和可用资金。确认前还能返回核对。', value: '核对市场、代码和订单' },
+          { label: '点名字排在前面的那一家', feedback: '阿禾把便签放到结果旁，一个字很像，两串代码却不同。两人对上市场和代码，再继续操作。', value: '同名近似，代码不同' },
         ],
         next: '找回刚刚的委托',
       },
       {
         title: '叮一声之后，订单去哪了？',
         text: '小满按下模拟委托的提交键，手机叮了一声。“已经买到了吗？”阿禾想知道实际成交几股、什么价，还有几股在排队。你带他们去哪里找？',
-        art: { place: 'desk', action: 'read', props: ['phone', 'receipt', 'notebook'], detail: '已报：委托已提交', caption: '两人准备把真正发生的那笔成交抄进周记。' },
+        art: 'receipt',
         choices: [
-          { label: '先看当日委托，再翻当日成交', feedback: '小满在委托页看到剩余数量，成交页看到实际价格和股数，最后去持仓页核对可卖数量。未成交的部分可按规则撤单。', value: '委托 → 成交 → 持仓', props: ['receipt', 'notebook', 'check'] },
-          { label: '回行情页，照抄最新价', feedback: '行情上的数字是市场最近一笔交易。小满要写自己的周记，还得翻“当日成交”看自己那笔实际价格与数量。', value: '查自己的成交回报', props: ['magnifier', 'receipt', 'phone'] },
+          { label: '先看当日委托，再翻当日成交', feedback: '小满在委托页看到剩余数量，成交页看到实际价格和股数，最后去持仓页核对可卖数量。未成交的部分可按规则撤单。', value: '委托 → 成交 → 持仓' },
+          { label: '回行情页，照抄最新价', feedback: '行情上的数字是市场最近一笔交易。小满要写自己的周记，还得翻“当日成交”看自己那笔实际价格与数量。', value: '查自己的成交回报' },
         ],
       },
     ],
@@ -2127,7 +1878,6 @@ function setupSimulatorTour(root) {
   money: [{
     title: '给一周的午饭发餐票',
     description: '小满给饭卡充了 100 元，阿禾负责发餐票。一票换一顿，现在每顿 18 元。他们最多能拿几张票？',
-    art: { place: 'canteen', props: ['ticket','meal','card'], detail: '饭卡里有 ¥100', action: 'trade', caption: '小满把空餐盘放到窗口，等阿禾数餐票。' },
     figure: () => `<div class="practice-price-comparison"><div><span>原来的饭价</span><strong>¥15<small> / 顿</small></strong></div><div><span>现在的饭价</span><strong>¥18<small> / 顿</small></strong></div></div>`,
     actions: ['5 顿', '6 顿'], correct: 0,
     hint: '涨价后，6 顿要 ¥108。再算一次。',
@@ -2135,8 +1885,6 @@ function setupSimulatorTour(root) {
   }, {
     title: '一张不换咖啡的凭证',
     description: '离开食堂时，阿禾指着校门口的小店：“刚才餐票换饭，这张凭证能换来什么？”用模拟账户按卖价买下虚构公司的一手股票，看看持仓。',
-    art: { place: 'cafe', props: ['coffee','ticket','laptop'], detail: '试买 100 股', action: 'trade', caption: '杯子在吧台，新的股数会记在持仓里。' },
-    resultArt: { props: ['ticket','check','coffee'], detail: '持仓增加 100 股' },
     figure: account => `<dl class="practice-ledger"><div><dt>每股卖价</dt><dd>${simMoney(account.quote.ask)}</dd></div><div><dt>这次买入</dt><dd>100 股</dd></div><div><dt>${account.shares ? '你已持有' : '虚拟资金'}</dt><dd>${account.shares ? '100 股' : simMoney(account.available)}</dd></div></dl>`,
     actions: ['模拟买入 100 股'], correct: 0,
     next: account => {
@@ -2147,8 +1895,6 @@ function setupSimulatorTour(root) {
   budget: [{
     title: '只用第三个信封下单',
     description: '回到宿舍，小满请阿禾把 8,000 元分装好，再核对一张 100 股的模拟买单。封好生活费和应急金，剩下的钱够吗？',
-    art: { place: 'dorm', props: ['envelope','receipt','calculator'], detail: '手上有 ¥8,000', action: 'think', caption: '两只信封已经写好用途，第三只还敞着。' },
-    resultArt: { props: ['shield','envelope','coin'], detail: '可用 ¥700，差 ¥305' },
     figure: () => `<dl class="practice-ledger"><div><dt>必要开支</dt><dd>¥4,800</dd></div><div><dt>突发开支备用</dt><dd>¥2,500</dd></div><div><dt>100 股 × ¥10 + ¥5 费用</dt><dd>¥1,005</dd></div></dl>`,
     actions: ['够，现在下单', '差 ¥305，先练模拟'], correct: 1,
     hint: '¥8,000 减掉两笔只剩 ¥700，和订单金额比一比。',
@@ -2157,8 +1903,6 @@ function setupSimulatorTour(root) {
   ownership: [{
     title: '替学姐填一张分红小票',
     description: '下课咖啡决定分红。学姐让小满从 12 万元里拨出一半，让阿禾算每一股能分多少钱。小票上每股那一格该填多少？',
-    art: { place: 'cafe', props: ['receipt','coin','coffee'], detail: '共 10 万股', action: 'read', caption: '小票的金额要和账本里批准分出的现金对上。' },
-    resultArt: { props: ['coin','ticket','check'], detail: '每股分 ¥0.60' },
     figure: () => `<div class="practice-shares"><div class="practice-profit"><span>分给股东 ¥60,000</span><span>公司留存 ¥60,000</span></div><p>分红金额由全部 <strong>100,000</strong> 股平分</p></div>`,
     actions: ['¥1.20 / 股', '¥0.60 / 股'], correct: 1,
     hint: '只有一半现金用来分红。拿 ¥60,000 除以总股数。',
@@ -2167,7 +1911,6 @@ function setupSimulatorTour(root) {
   quote: [{
     title: '便签上的 10 元上限',
     description: '小满在便签上写下“买 100 股，每股最多 10 元”。阿禾打开模拟盘，卖一比便签上的数字高。请把两人约好的价格填进委托单。',
-    art: { place: 'desk', props: ['tag','pencil','laptop'], detail: '每股最多付 ¥10.00', action: 'point', caption: '报价可以变，两人写下的最高愿付价先留在便签上。' },
     figure: account => practiceQuote(account),
     actions: ['报 ¥10.00', '报 ¥10.02'], correct: 0,
     hint: '¥10.02 超出了你的上限。按你愿付的最高价下单。',
@@ -2178,8 +1921,6 @@ function setupSimulatorTour(root) {
   }, {
     title: '五分钟后，再看那张单',
     description: '两人把便签留在屏幕边。小满没有加价，阿禾让模拟时间走五分钟。新卖价能让这笔等待中的买单成交吗？',
-    art: { place: 'desk', props: ['clock','receipt','tag'], detail: '委托等待成交', action: 'read', caption: '回报出来后，他们可以对照便签核实实际花了多少。' },
-    resultArt: { props: ['receipt','check','coin'], detail: '100 股按 ¥9.99 成交' },
     figure: account => practiceQuote(account),
     actions: ['推进一笔行情'], correct: 0,
     next: account => {
@@ -2191,7 +1932,6 @@ function setupSimulatorTour(root) {
   broker: [{
     title: '替小满找对下载入口',
     description: '周五收拾书包时，小满又收到了返现消息。阿禾想知道这家公司是不是持牌券商，手机上的 App 到底由谁发布。你会带他们去哪核实？',
-    art: { place: 'library', props: ['phone','magnifier','shield'], detail: '谁发布了这个 App？', action: 'read', caption: '群消息只给出二维码，页面上没写清发布者。' },
     figure: () => `<div class="practice-message"><span>班群消息</span><p>“扫我的二维码开户，有返现。”</p></div>`,
     actions: ['核验券商后，去官网找', '扫群里发的二维码'], correct: 0,
     hint: '群聊二维码的来源难核实。先查券商资质，再从官网找下载入口。',
@@ -2199,8 +1939,6 @@ function setupSimulatorTour(root) {
   }, {
     title: '这一声提示，是买到了吗？',
     description: '两人用模拟单走完流程。小满听见提示音，正要在周记写“买到 100 股”。阿禾抽出回单：“先念一下成交数量。”这行该怎么记？',
-    art: { place: 'desk', props: ['receipt','phone','notebook'], detail: '成交数量 0 股', action: 'point', caption: '“已报”两个字，印在委托状态那一栏。' },
-    resultArt: { props: ['clock','receipt','notebook'], detail: '已申报，尚未成交' },
     figure: () => `<dl class="practice-ledger"><div><dt>委托数量</dt><dd>100 股</dd></div><div><dt>成交数量</dt><dd>0 股</dd></div><div><dt>订单状态</dt><dd class="practice-order-mark">已报</dd></div></dl>`,
     actions: ['已经买到 100 股', '已提交，等成交'], correct: 1,
     hint: '成交数量还是 0 股。看看「已报」表示哪一步。',
@@ -2239,10 +1977,7 @@ function renderPractice(root, type, { onDone, onStory, onFull, nextLabel = '继�
     const storyButton = `<button class="practice-choice practice-primary" type="button" data-practice-nav="story">${nextLabel} <span aria-hidden="true">→</span></button>`;
     const fullButton = onFull
       ? '<button class="practice-choice" type="button" data-practice-nav="full">进入完整模拟盘</button>' : '';
-    const art = complete ? { ...step.art, ...step.resultArt } : step.art;
-    view.innerHTML = `<div class="practice-main illustrated-practice" data-practice-state="${result}">
-      <div class="practice-panel">${campusIllustration(art)}</div>
-      <div class="practice-work">
+    view.innerHTML = `<div class="practice-main" data-practice-state="${result}">
         <p class="practice-kicker">动手试一试${steps.length > 1 ? ` <span>${stepIndex + 1} / ${steps.length}</span>` : ''}</p>
         <h2 id="practice-title" tabindex="-1">${step.title}</h2>
         <p class="practice-description">${step.description}</p>
@@ -2251,7 +1986,6 @@ function renderPractice(root, type, { onDone, onStory, onFull, nextLabel = '继�
           ${feedback ? `<p class="practice-feedback${isHint ? ' practice-hint' : ''}">${feedback}</p>` : ''}
           <div class="practice-actions">${complete ? `${storyButton}${fullButton}` : choices}</div>
         </div>
-      </div>
     </div>`;
     if (focusTarget) view.querySelector(focusTarget)?.focus({ preventScroll: true });
   }
@@ -2296,18 +2030,16 @@ function renderPractice(root, type, { onDone, onStory, onFull, nextLabel = '继�
 
 const STRATEGY_GROUPS = [
   {
-    title: '投资品种', sticker: 'basket', description: '拿起凭证，拆开基金里的篮子。', lessons: [
+    title: '投资品种', description: '拿起凭证，拆开基金里的篮子。', lessons: [
       {
         slug: 'securities', title: '同样出钱，手里多了什么？', summary: '股票、国债与基金份额',
-        scene: { place: 'cafe', props: ['receipt', 'coffee', 'ticket'], detail: '出资入股，还是借钱给店主？', action: 'trade' },
-        lead: '下课咖啡想开第二家店。小满在一张纸上写“我出钱，占一小份店”；阿禾在另一张写“我借钱给店，到期还我”。两人交换纸条，发现即使拿出同样多的钱，想找店主兑现的事也不同。',
-        speaker: '阿禾', line: '要是店主今年把利润全用来买咖啡机，我拿着哪张纸，还能按约定收利息？',
+        lead: '下课咖啡想开第二家店。小满在一张纸上写“我出钱，占一小份店”；阿禾在另一张写“我借钱给店，到期还我”。两人交换纸条，发现即使拿出同样多的钱，想找店主兑现的事也不同。阿禾说：“要是店主今年把利润全用来买咖啡机，我拿着哪张纸，还能按约定收利息？”',
         idea: '股票记录的是股东权益。债券记录的是债权，由国家发行的债券叫国债。基金份额让你按份分享一篮子投资的收益、承担风险。这几种凭证，都属于证券。',
         lab: '替小满分清三张凭证', instruction: '点开凭证，看它让持有人向谁主张什么权利。', options: ['公司股票', '国债', '基金份额'],
         notes: [
-          ['coffee', '股东看公司的生意。卖出第二杯咖啡时，利润仍留在公司账上，需等分红方案落定。'],
-          ['bank', '把借款人换成国家，国债就容易理解了。小满会先翻发行条款，找票息和到期日。'],
-          ['basket', '阿禾在纸袋上写“基金”。袋里能装股票和债券；拿一份基金，就间接持有其中的一小份。'],
+          '股东看公司的生意。卖出第二杯咖啡时，利润仍留在公司账上，需等分红方案落定。',
+          '把借款人换成国家，国债就容易理解了。小满会先翻发行条款，找票息和到期日。',
+          '阿禾在纸袋上写“基金”。袋里能装股票和债券；拿一份基金，就间接持有其中的一小份。',
         ],
         ending: '小满把“预计分红”那一栏先留空，等公司公布方案再填。',
         question: '到了年底，店里果然赚了钱。小满手里是股票，她该怎样填预算表里的“分红”？',
@@ -2319,15 +2051,13 @@ const STRATEGY_GROUPS = [
       },
       {
         slug: 'funds', title: '一份基金里装着什么？', summary: '持仓、净值与分散风险',
-        scene: { place: 'library', props: ['basket', 'books'], detail: '10 张纸片，合计 1,000 元', action: 'read' },
-        lead: '图书馆里，小满把十张各值 100 元的纸片放进篮子。蓝纸代表校园零售股，白纸代表其他持仓。阿禾抽出四张换成蓝纸，在篮子旁写下“这家公司跌了 10%”。',
-        speaker: '小满', line: '我拿的是整个篮子的一份。究竟有几张蓝纸，决定了这一下会有多疼。',
+        lead: '图书馆里，小满把十张各值 100 元的纸片放进篮子。蓝纸代表校园零售股，白纸代表其他持仓。阿禾抽出四张换成蓝纸，在篮子旁写下“这家公司跌了 10%”。小满说：“我拿的是整个篮子的一份。究竟有几张蓝纸，决定了这一下会有多疼。”',
         idea: '基金管理人按基金合同把大家的钱投成一个组合。基金净资产除以总份额，就是每份的单位净值。股票基金、债券基金、混合基金和货币市场基金装进篮子的资产不同，承担的风险也不同。',
-        lab: '换一换篮子里的蓝纸', instruction: '每次保持总投入 1,000 元。让零售股跌 10%，其余持仓价格不变，看篮子一共少了多少。', options: ['10 张蓝纸 · 100%', '4 张蓝纸 · 40%', '1 张蓝纸 · 10%'],
+        lab: '换一换篮子里的蓝纸', instruction: '总投入固定为 1,000 元。蓝色条段表示零售股的起始占比，每张蓝纸对应 10%。换一组持仓，看看零售股跌 10%、其他持仓不动时，篮子少了多少。', options: ['10 张蓝纸 · 100%', '4 张蓝纸 · 40%', '1 张蓝纸 · 10%'],
         notes: [
-          ['basket', '十张都要各减 10 元，合计少 100 元。把篮子装满同一家公司的股票，波动也聚在一起。'],
-          ['coin', '四张蓝纸各少 10 元，六张白纸不动。小满数出 40 元损失，相当于整个篮子的 4%。'],
-          ['receipt', '只有一张少 10 元，全篮损失 1%。若其他九张也跟着跌，结果还会变。'],
+          '十张都要各减 10 元，合计少 100 元。把篮子装满同一家公司的股票，波动也聚在一起。',
+          '四张蓝纸各少 10 元，六张白纸不动。小满数出 40 元损失，相当于整个篮子的 4%。',
+          '只有一张少 10 元，全篮损失 1%。若其他九张也跟着跌，结果还会变。',
         ],
         ending: '阿禾把两份持仓报告并排摊开，在相同的公司名称旁画上圈。',
         question: '小满看中两只名字里都有“成长”的基金。阿禾担心两个篮子装着同样的股票，要翻哪一页？',
@@ -2339,19 +2069,17 @@ const STRATEGY_GROUPS = [
     ],
   },
   {
-    title: '选股入门', sticker: 'magnifier', description: '算第一笔订单，翻两家咖啡店的账本。', lessons: [
+    title: '选股入门', description: '算第一笔订单，翻两家咖啡店的账本。', lessons: [
       {
         slug: 'boards', title: '多少钱才能买这只股票？', summary: '板块权限与一笔买单',
-        scene: { place: 'desk', props: ['key', 'wallet'], detail: '一份权限，两笔账', action: 'point' },
-        lead: '自习桌上摆着两张 20 元的模拟报价单。小满数出 2,000 元练习资金，准备各试一次。阿禾翻到科创板那页，把一把钥匙贴在“权限”旁，又在“买一笔”旁贴上钱包。',
-        speaker: '阿禾', line: '钥匙看账户够不够资格。钱包看这次要付多少钱。我们先算哪一个？',
+        lead: '自习桌上摆着两张 20 元的模拟报价单。小满数出 2,000 元练习资金，准备各试一次。阿禾翻到科创板那页，把一把钥匙贴在“权限”旁，又在“买一笔”旁贴上钱包。阿禾说：“钥匙看账户够不够资格。钱包看这次要付多少钱。我们先算哪一个？”',
         idea: '先核对板块的开通条件，再用股价乘以最小买入数量。这里按境内普通个人新申请权限计算。日均资产看申请前 20 个交易日的证券账户和资金账户，并剔除融资融券融入的资金和证券。交易经验从参与证券交易算起。',
         lab: '给不同板块试一试钥匙', instruction: '按每股 20 元、普通竞价买入测算。表中价款未计费用，具体资格由券商按现行规则核验。', options: ['沪深主板', '创业板', '科创板', '北交所'],
         notes: [
-          ['wallet', '普通主板 A 股的这笔价款是 2,000 元。小满给交易费用另留了一格。'],
-          ['key', '创业板的 10 万元是开通权限时核验的日均资产；买这 100 股仍按 2,000 元算价款。'],
-          ['ticket', '科创板的最小买单是 200 股。即使权限已开，2,000 元也只够付这笔价款的一半。'],
-          ['bank', '北交所和科创板的新申请一般都要看 50 万元日均资产，普通竞价最小买入数量却不同。'],
+          '普通主板 A 股的这笔价款是 2,000 元。小满给交易费用另留了一格。',
+          '创业板的 10 万元是开通权限时核验的日均资产；买这 100 股仍按 2,000 元算价款。',
+          '科创板的最小买单是 200 股。即使权限已开，2,000 元也只够付这笔价款的一半。',
+          '北交所和科创板的新申请一般都要看 50 万元日均资产，普通竞价最小买入数量却不同。',
         ],
         ending: '两张小纸条上终于各有一个数：开通创业板看 10 万元日均资产，这笔价款是 2,000 元。',
         question: '学长小周有 3 年交易经验，近 20 个交易日日均资产 12 万元，可用现金 3,000 元。按表里的条件，阿禾能替他圈出哪一笔？',
@@ -2363,15 +2091,13 @@ const STRATEGY_GROUPS = [
       },
       {
         slug: 'screen', title: '给两家咖啡公司做初筛', summary: '成长、价值与股息策略',
-        scene: { place: 'cafe', props: ['coffee', 'notebook', 'magnifier'], detail: '甲店和乙店的两本账', action: 'read' },
-        lead: '小满在两家咖啡店各坐了半天。乙店总在排队，门口还贴着新店开业的海报。她先把乙店写进候选名单。阿禾带来两份同一财年的账本，乙店明明赚得更多，收回来的现金却少得多。',
-        speaker: '小满', line: '排队的人我数得清。已经卖出去、钱还没收回来的咖啡，到哪一栏去找？',
+        lead: '小满在两家咖啡店各坐了半天。乙店总在排队，门口还贴着新店开业的海报。她先把乙店写进候选名单。阿禾带来两份同一财年的账本，乙店明明赚得更多，收回来的现金却少得多。小满说：“排队的人我数得清。已经卖出去、钱还没收回来的咖啡，到哪一栏去找？”',
         idea: '照着一把尺子比较同业。看成长，查营收增长后能收回多少钱；看价值，查这个股价买到多少持续盈利；看红利，查现金能否支撑以后的分红。同一家公司可以同时符合几种风格。',
         lab: '给两本账贴上三种书签', instruction: '翻看两家虚构连锁店的同年数据。每次选一个问题，比较表中同一行。', options: ['增长与回款', '价格与盈利', '分红与现金'],
         notes: [
-          ['receipt', '小满在乙店的 900 万元净利润和 140 万元经营现金净流入之间画了一个问号。'],
-          ['tag', '阿禾把两张价签放在每股收益旁。两家每股都赚 1 元，市场给的价格却相差 8 元。'],
-          ['coin', '两店都分 0.60 元。阿禾用不同股价作分母算出不同股息率，又翻回现金流量表。'],
+          '小满在乙店的 900 万元净利润和 140 万元经营现金净流入之间画了一个问号。',
+          '阿禾把两张价签放在每股收益旁。两家每股都赚 1 元，市场给的价格却相差 8 元。',
+          '两店都分 0.60 元。阿禾用不同股价作分母算出不同股息率，又翻回现金流量表。',
         ],
         ending: '小满留下乙店做进一步研究，在候选名单上添了一行“去查它的应收账款”。',
         question: '小满发现乙店市盈率较低，经营现金净流入又明显低于净利润。她该往研究笔记里写哪条待办？',
@@ -2383,17 +2109,15 @@ const STRATEGY_GROUPS = [
     ],
   },
   {
-    title: '行情读图', sticker: 'chart', description: '揭开走势图上的便签，用四个价格画 K 线。', lessons: [
+    title: '行情读图', description: '揭开走势图上的便签，用四个价格画 K 线。', lessons: [
       {
         slug: 'trend', title: '同一只股票，为什么看出两个方向？', summary: '收盘价、时间窗口与成交量',
-        scene: { place: 'library', props: ['calendar', 'chart', 'notebook'], detail: '同一张图，两种看法', action: 'point' },
-        lead: '小满在图书馆抄下连续 20 天的收盘价，连成一条线。阿禾用一张便签遮住前 15 天，只剩末尾一小段。“咦，我们看的这只股票在往下走呀。”小满把便签揭了起来。',
-        speaker: '小满', line: '我们的终点一样。你从第 16 天看，我从第 1 天看，起点值多少钱？',
+        lead: '小满在图书馆抄下连续 20 天的收盘价，连成一条线。阿禾用一张便签遮住前 15 天，只剩末尾一小段。“咦，我们看的这只股票在往下走呀。”小满把便签揭了起来。小满说：“我们的终点一样。你从第 16 天看，我从第 1 天看，起点值多少钱？”',
         idea: '沿横轴从左往右读，每个点是一日收盘价。先找起点和终点，再找中间的高点和低点。下方的柱子记录当天成交股数。柱高说明成交更活跃，单靠它还推不出次日涨跌。',
         lab: '揭开图上的便签', instruction: '同一段虚构行情，蓝线和量柱共用时间轴。切换窗口时，价格刻度保持不变。', options: ['只看最后 5 日', '展开全部 20 日'],
         notes: [
-          ['calendar', '阿禾露出的五天从 11.90 元走到 11.40 元。中间有一天小幅回升，终点仍低于起点。'],
-          ['chart', '揭开便签，起点变成 10 元，终点还是 11.40 元。小满把“近 20 日”补到了观察前面。'],
+          '阿禾露出的五天从 11.90 元走到 11.40 元。中间有一天小幅回升，终点仍低于起点。',
+          '揭开便签，起点变成 10 元，终点还是 11.40 元。小满把“近 20 日”补到了观察前面。',
         ],
         ending: '两人在同一张图上写了两句都有时间范围的观察，然后把“明天会怎样”留给新证据。',
         question: '把便签揭开再盖上以后，小满和阿禾怎样给这张图写图注？',
@@ -2404,15 +2128,13 @@ const STRATEGY_GROUPS = [
       },
       {
         slug: 'candles', title: '一根 K 线里藏着哪四个价格？', summary: '开高低收与日线影线',
-        scene: { place: 'desk', props: ['pencil', 'bars'], detail: '一根线，四个价', action: 'read' },
-        lead: '阿禾念出第二个交易日的行情。20 元开盘，盘中到过 22 元，也到过 19.80 元，收盘时是 20.40 元。四个数挤在一小格里，小满把它们画成了一根 K 线。',
-        speaker: '阿禾', line: '把开盘到收盘的那一截涂实，再把当天去过的最高、最低处用细线接起来。',
+        lead: '阿禾念出第二个交易日的行情。20 元开盘，盘中到过 22 元，也到过 19.80 元，收盘时是 20.40 元。四个数挤在一小格里，小满把它们画成了一根 K 线。阿禾说：“把开盘到收盘的那一截涂实，再把当天去过的最高、最低处用细线接起来。”',
         idea: '粗的身体叫实体，两端是开盘和收盘。上下的细线叫影线，尖端指向最高和最低。这里按 A 股常见配色，当天收高于开画红，收低于开画绿。算当天涨跌，还得去找昨天的收盘价。',
         lab: '翻小满的三页行情手稿', instruction: '点一天，高亮当天的 K 线。读出实体和影线两端的价格，再对照下方记录。', options: ['第 1 日', '第 2 日', '第 3 日'],
         notes: [
-          ['pencil', '第 1 日从 20.60 元收低到 20.50 元，实体很短。上影线还记着盘中到过的 21.20 元。'],
-          ['bars', '小满刚画的是这一页：盘中最高 22 元，收盘回到 20.40 元，长上影线把这段差距留下了。'],
-          ['calendar', '阿禾翻回昨天的记录。今天从 19.80 元收高到 20.10 元，昨天收盘却是 20.40 元。'],
+          '第 1 日从 20.60 元收低到 20.50 元，实体很短。上影线还记着盘中到过的 21.20 元。',
+          '小满刚画的是这一页：盘中最高 22 元，收盘回到 20.40 元，长上影线把这段差距留下了。',
+          '阿禾翻回昨天的记录。今天从 19.80 元收高到 20.10 元，昨天收盘却是 20.40 元。',
         ],
         ending: '小满在第 3 日的红色实体旁补上一行小字：“今天收得比开盘高，仍低于昨天收盘。”',
         question: '小满的最后一页开 19.80 元、收 20.10 元，上一页收 20.40 元。阿禾该怎样读？',
@@ -2424,18 +2146,16 @@ const STRATEGY_GROUPS = [
     ],
   },
   {
-    title: '买卖计划', sticker: 'notebook', description: '替小满试填订单，再把决定记进交易笔记。', lessons: [
+    title: '买卖计划', description: '替小满试填订单，再把决定记进交易笔记。', lessons: [
       {
         slug: 'entry', title: '点击买入前，先算下跌的代价', summary: '买入依据、限价与仓位',
-        scene: { place: 'dorm', props: ['calculator', 'wallet', 'notebook'], detail: '这次练习能承受多少？', action: 'think' },
-        lead: '熄灯前，小满在宿舍看到校园咖啡的模拟报价刚好 20 元。她把手伸向买入键。阿禾从笔记本里抽出她上周写的纸条：“新店回款改善、每股最多付 20 元。”第一项旁还是空的。',
-        speaker: '小满', line: '我还有 10,000 元虚拟资金。就算条件都满足，跌到 17 元时，我只愿为这笔练习承受 300 元的损失。',
+        lead: '熄灯前，小满在宿舍看到校园咖啡的模拟报价刚好 20 元。她把手伸向买入键。阿禾从笔记本里抽出她上周写的纸条：“新店回款改善、每股最多付 20 元。”第一项旁还是空的。小满说：“我还有 10,000 元虚拟资金。就算条件都满足，跌到 17 元时，我只愿为这笔练习承受 300 元的损失。”',
         idea: '把买入理由、愿付价格和股数分别写下。用股数乘以每股可能下跌的金额，看看会少多少钱。限价买单写的是最高愿付价，实际成交还要有愿意卖给你的对手方。',
         lab: '替她试填订单草稿', instruction: '假设按 20 元买入后跌到了 17 元。选一笔数量，看这次波动会不会超出 300 元预算。', options: ['先观察', '买 100 股', '买 300 股'],
         notes: [
-          ['notebook', '小满先把报告发布日期记下来。留在账上的现金，明天还可以重新安排。'],
-          ['wallet', '100 股每股少 3 元，正好用完 300 元的情景预算。算出的数量只是计划的一半，还要核实回款。'],
-          ['calculator', '她划掉了 300 股的草稿。这个情景会损失 900 元，占整个练习账户的 9%。'],
+          '小满先把报告发布日期记下来。留在账上的现金，明天还可以重新安排。',
+          '100 股每股少 3 元，正好用完 300 元的情景预算。算出的数量只是计划的一半，还要核实回款。',
+          '她划掉了 300 股的草稿。这个情景会损失 900 元，占整个练习账户的 9%。',
         ],
         ending: '小满给“核对新店回款”画了个待办框，把模拟订单留在草稿里。',
         question: '小满查到新店回款仍未改善，报价恰好 20 元。按她自己写的两项条件，今晚该怎么做？',
@@ -2446,15 +2166,13 @@ const STRATEGY_GROUPS = [
       },
       {
         slug: 'exit', title: '什么时候该重新作决定？', summary: '卖出理由与交易复盘',
-        scene: { place: 'cafe', props: ['envelope', 'notebook', 'coffee'], detail: '笔记本里的卖出条件', action: 'read' },
-        lead: '几周后，新店回款改善，两人按计划用虚拟资金买了一笔。起初校园咖啡占账户 20%。今天再回店里，阿禾带来三张消息卡，想试试哪一种变化会让他们重新估价。',
-        speaker: '阿禾', line: '翻回买入那页。你写过“大客户解约就重估，仓位超过 30% 就检查集中度”。现在触发了哪条？',
+        lead: '几周后，新店回款改善，两人按计划用虚拟资金买了一笔。起初校园咖啡占账户 20%。今天再回店里，阿禾带来三张消息卡，想试试哪一种变化会让他们重新估价。阿禾说：“翻回买入那页。你写过“大客户解约就重估，仓位超过 30% 就检查集中度”。现在触发了哪条？”',
         idea: '先把新事实和原计划摆在一起，再决定持有、减仓或退出。公司生意、估值、资金用途与仓位都值得复核。急跌、跌停或买家不足时，想卖出的价格和数量也可能无法成交。',
         lab: '拆开三张消息卡', instruction: '把每张卡当作单独的模拟情景。读完事实，在旧笔记里找一找有没有对应的卖出条件。', options: ['客户解约', '仓位升高', '单日下跌'],
         notes: [
-          ['envelope', '阿禾在公告上圈出“四成收入”。当初押注的稳定续单出了变化，需要重算未来收入。'],
-          ['scale', '小满把原先写的 30% 和现在的 34% 并排贴好，准备估算减仓后这只股票的占比。'],
-          ['magnifier', '跌了 3% 是已经观察到的事实。店里是否少了订单，还要去查公告和账本。'],
+          '阿禾在公告上圈出“四成收入”。当初押注的稳定续单出了变化，需要重算未来收入。',
+          '小满把原先写的 30% 和现在的 34% 并排贴好，准备估算减仓后这只股票的占比。',
+          '跌了 3% 是已经观察到的事实。店里是否少了订单，还要去查公告和账本。',
         ],
         ending: '两人合上笔记本，留下了当时的依据、下单时的仓位和真实成交结果。下次复盘可以从这里接着读。',
         question: '小满因持仓超出计划而减仓。隔天股价继续上涨，她和阿禾该怎样评价昨天的决定？',
@@ -2519,10 +2237,7 @@ function securityLab(index) {
 function fundLab(index) {
   const percent = [100, 40, 10][index];
   const loss = 1000 * (percent / 100) * 0.1;
-  const slips = Array.from({length: 10}, (_, i) =>
-    '<span class="' + (i < percent / 10 ? 'stock-slip' : '') + '">' + (i < percent / 10 ? '90' : '100') + '</span>').join('');
-  return `<div class="strategy-slips" role="img" aria-label="下跌后，${percent / 10} 张零售股纸片各值 90 元，其余 ${10 - percent / 10} 张各值 100 元。">${slips}</div>
-    <div class="strategy-legend"><span><i></i>零售股 · 每张剩 90 元</span><span>其他持仓 · 每张仍值 100 元</span></div>
+  return `${allocationBar(percent, '校园零售股 ' + percent + '%', '其余持仓 ' + (100 - percent) + '%')}
     ${strategyLedger([['组合损失', `1,000 × ${percent}% × 10% ＝ ${loss} 元`], ['期末市值', `${1000 - loss} 元`]])}
     <p class="strategy-note">这是单一持仓下跌的简化情景，未计费用。若多个持仓一起跌，整个组合也会受到影响。</p>`;
 }
@@ -2616,15 +2331,7 @@ const strategyLabs = {
 };
 
 function strategyLabHTML(lesson, index) {
-  const [sticker, observation] = lesson.notes[index];
-  return strategyLabs[lesson.slug](index) + `<div class="strategy-observation">${campusSticker(sticker)}<p>${observation}</p></div>`;
-}
-
-function strategyFeedback(lesson, answer) {
-  const correct = answer === lesson.correct;
-  const sticker = correct ? lesson.scene.props[0] : 'magnifier';
-  const text = lesson.choices[answer][1];
-  return `${campusSticker(sticker)}<div><p>${text}</p>${correct ? `<p>${lesson.ending}</p>` : ''}<small>${correct ? '本课已完成' : '可以再选一次'}</small></div>`;
+  return strategyLabs[lesson.slug](index) + `<p class="strategy-note">${lesson.notes[index]}</p>`;
 }
 
 function renderStrategy(root, slug) {
@@ -2637,7 +2344,7 @@ function renderStrategy(root, slug) {
       <a class="strategy-back" href="#stories">← 全部课程</a>
       <header class="strategy-index-heading"><div><p class="strategy-meta">第二阶段</p><h1>选股与交易基础</h1><p>跟小满和阿禾走进下课咖啡，从开分店的第一张凭证，一直读到两人写下的交易笔记。</p></div>
       <div class="strategy-continue"><span>已完成 ${progress.completed} / ${progress.total} 课</span>${action}</div></header>
-      <div class="strategy-groups">${STRATEGY_GROUPS.map(item => `<section class="strategy-group"><header>${campusSticker(item.sticker)}<div><h2>${item.title}</h2><p>${item.description}</p></div></header>
+      <div class="strategy-groups">${STRATEGY_GROUPS.map(item => `<section class="strategy-group"><header><h2>${item.title}</h2><p>${item.description}</p></header>
         ${item.lessons.map(lesson => `<a href="#strategy/${lesson.slug}"><span><strong>${lesson.title}</strong><small>${lesson.summary}</small></span><span class="strategy-status">${strategyCompleted.has(lesson.slug) ? '已完成' : '<span aria-hidden="true">↗</span>'}</span></a>`).join('')}
         </section>`).join('')}</div></section>`;
     return;
@@ -2656,17 +2363,16 @@ function renderStrategy(root, slug) {
   root.innerHTML = `<article class="strategy">
     <a class="strategy-back" href="#strategy">← 选股与交易基础</a>
     <header class="strategy-lesson-heading"><p class="strategy-meta">${group.title} · 第 ${index + 1} / ${strategyLessons.length} 课</p><h1>${lesson.title}</h1></header>
-    <div class="strategy-story-panel">${campusIllustration(lesson.scene)}<div class="strategy-reading"><p class="strategy-lead">${lesson.lead}</p>
-      <blockquote class="strategy-dialogue"><strong>${lesson.speaker}</strong><p>“${lesson.line}”</p></blockquote><p class="strategy-idea">${lesson.idea}</p></div></div>
-    <div class="strategy-lesson-layout">
+    <div class="strategy-lesson-layout"><div class="strategy-reading"><p class="strategy-lead">${lesson.lead}</p><p>${lesson.idea}</p></div>
       <section class="strategy-lab" aria-labelledby="strategy-lab-title"><h2 id="strategy-lab-title">${lesson.lab}</h2><p>${lesson.instruction}</p>
         <div class="strategy-options" role="group" aria-label="${lesson.lab}">${lesson.options.map((opt, i) => `<button type="button" data-lab-option="${i}" aria-pressed="${i === 0}">${opt}</button>`).join('')}</div>
         <div class="strategy-result" aria-live="polite" aria-atomic="true">${strategyLabHTML(lesson, 0)}</div></section>
-    <section class="strategy-quiz" aria-labelledby="strategy-question"><p class="strategy-meta">接下来，你会怎么选？</p><h2 id="strategy-question">${lesson.question}</h2>
+    </div>
+    <section class="strategy-quiz" aria-labelledby="strategy-question"><p class="strategy-meta">课后练习</p><h2 id="strategy-question">${lesson.question}</h2>
       <div class="strategy-answers">${lesson.choices.map(([title], i) => `<button type="button" aria-pressed="${done && i === lesson.correct}" data-strategy-answer="${i}">${title}</button>`).join('')}</div>
-      <div class="strategy-feedback" role="status">${done ? strategyFeedback(lesson, lesson.correct) : ''}</div>
+      <p class="strategy-feedback" role="status">${done ? '本课已完成。' + lesson.choices[lesson.correct][1] + lesson.ending : ''}</p>
       <div class="strategy-next"${done ? '' : ' hidden'}>${nextAction}<a href="#strategy">回到课程目录</a></div>
-    </section></div>${resources.length ? `<div class="strategy-sources"><span>延伸阅读</span>${resources.join('')}</div>` : ''}</article>`;
+    </section>${resources.length ? `<div class="strategy-sources"><span>延伸阅读</span>${resources.join('')}</div>` : ''}</article>`;
 
   const options = root.querySelectorAll('[data-lab-option]');
   const result = root.querySelector('.strategy-result');
@@ -2686,12 +2392,20 @@ function renderStrategy(root, slug) {
       completeStrategyLesson(slug);
       root.querySelector('.strategy-next').hidden = false;
     }
-    root.querySelector('.strategy-feedback').innerHTML = strategyFeedback(lesson, i);
+    root.querySelector('.strategy-feedback').textContent = lesson.choices[i][1] + (correct ? lesson.ending + ' 本课已完成。' : ' 可以再选一次。');
   }));
 }
 </script>
   <script>const storyRoot = document.getElementById('content');
 const progressKey = 'first-share-stories-v2';
+const scenePictures = [
+  [['食堂', '餐费预算', '¥100'], ['新学期的菜单', '每份套餐', '¥18'], ['印明信片', '今天拿出', '¥100'], ['下课咖啡', '小股东', '1 股']],
+  [['校园账本', '现在的存款', '¥8,000'], ['模拟订单', '一手', '100 股'], ['维修报价', '今天要付', '¥600']],
+  [['下课咖啡', '公司总股数', '10 万股'], ['咖啡店账本', '剩余现金', '¥12 万'], ['交易小票', '买一股花了', '¥10'], ['下课咖啡', '同一笔分红', '¥0.60']],
+  [['旧教材摊', '最接近的报价', '¥20 / 22'], ['旧教材摊', '卖家要价', '¥22'], ['虚构行情', '最新成交', '¥10.01'], ['持仓小票', '当天可卖', '0 股']],
+  [['群聊消息', '发来一个', '开户链接'], ['券商 App', '界面入口', '开户'], ['券商 App', '界面入口', '行情'], ['交易回执', '界面入口', '当日委托']],
+];
+const artProps = { canteen: 'meal', wallet: 'coin', time: 'clock', coffee: 'coffee', market: 'book', phone: 'phone', receipt: 'receipt' };
 
 function loadProgress() {
   try { return JSON.parse(localStorage.getItem(progressKey)) ?? {}; }
@@ -2724,6 +2438,17 @@ function chapterHeading(index, label, count = 0, step = 0) {
   return `<header class="story-heading"><div><p class="day-display" aria-hidden="true">Day ${dayNumber(index)}<span class="dot">.</span></p><h1>${label}</h1></div>${tracker}</header>`;
 }
 
+function pictureHTML(index, current, scene) {
+  const [locationLabel, amountLabel, amount] = scenePictures[index][current];
+  const prop = artProps[scene.art];
+  const propHTML = prop === 'coin' ? '¥' : `<span class="prop-${prop}"></span>`;
+  return `<figure class="story-art" data-art="${scene.art}" aria-label="${locationLabel}，${amountLabel} ${amount}">
+    <span class="art-caption">${locationLabel}</span><span class="art-shape one" aria-hidden="true">✦</span><span class="art-shape two" aria-hidden="true">✳</span>
+    <div class="art-objects" aria-hidden="true"><div class="visual-card"><span>${amountLabel}</span><b class="${/[\u3400-\u9fff]/.test(amount) ? 'mixed' : ''}">${amount}</b></div><div class="visual-prop">${propHTML}</div></div>
+    <span class="art-status" aria-hidden="true" hidden></span><span class="art-index" aria-hidden="true">${dayNumber(index)} / ${String(current + 1).padStart(2, '0')}</span>
+  </figure>`;
+}
+
 function renderStory(index, direction = 0) {
   const story = STORIES[index];
   const state = progress[index];
@@ -2732,7 +2457,7 @@ function renderStory(index, direction = 0) {
   const last = current === story.scenes.length - 1;
   const nextLabel = last ? '进入模拟练习' : scene.next ?? '下一幕';
   storyRoot.innerHTML = `${chapterHeading(index, story.title, story.scenes.length, current)}
-    <section class="story-stage arrive${direction < 0 ? ' reverse' : ''}" aria-labelledby="scene-title"><div class="story-art story-panel">${campusIllustration(scene.art)}</div><div class="story-copy">
+    <section class="story-stage arrive${direction < 0 ? ' reverse' : ''}" aria-labelledby="scene-title">${pictureHTML(index, current, scene)}<div class="story-copy">
       <h2 class="scene-title" id="scene-title" tabindex="-1">${scene.title}</h2><p class="scene-text">${scene.text}</p>
       <div class="choices" role="group" aria-label="选择你的行动">${scene.choices.map((choice, number) => `<button class="choice" type="button" data-choice="${number}" aria-pressed="false"><span class="choice-key" aria-hidden="true">${'ABC'[number]}</span><span>${choice.label}</span><span aria-hidden="true">↗</span></button>`).join('')}</div>
       <p class="feedback" role="status" hidden></p>
@@ -2741,6 +2466,7 @@ function renderStory(index, direction = 0) {
 
   const buttons = [...storyRoot.querySelectorAll('[data-choice]')];
   const art = storyRoot.querySelector('.story-art');
+  const stamp = storyRoot.querySelector('.art-status');
   const feedback = storyRoot.querySelector('.feedback');
   const next = storyRoot.querySelector('.scene-next');
 
@@ -2750,9 +2476,14 @@ function renderStory(index, direction = 0) {
     feedback.hidden = false;
     feedback.textContent = choice.feedback;
     next.hidden = false;
-    art.innerHTML = campusIllustration({ ...scene.art, detail: choice.value, props: choice.props });
+    stamp.hidden = !choice.value;
+    stamp.textContent = choice.value ?? '';
     if (animate) {
-      art.firstElementChild.classList.add('choice-reveal');
+      art.classList.remove('changed');
+      stamp.classList.remove('toss');
+      void art.offsetWidth;
+      art.classList.add('changed');
+      stamp.classList.add('toss');
     }
   }
 
@@ -2810,12 +2541,10 @@ function renderStoryList() {
   const groups = STRATEGY_GROUPS.map(group => `<li><a href="#strategy/${group.lessons[0].slug}"><span>${group.title}</span><small>${group.lessons.map(lesson => lesson.summary).join(' · ')}</small></a></li>`).join('');
   storyRoot.innerHTML = `<header class="story-heading"><h1>课程目录</h1></header>
     <div class="course-map">
-      <section class="course-track"><header><div><p>第一阶段 <span>${doneDays} / ${STORIES.length} 天</span></p><h2>认识股票</h2></div>
-        ${campusIllustration({place: 'canteen', action: 'trade', props: ['meal', 'card'], caption: '小满和阿禾从食堂的一顿午饭开始记账。'})}</header>
+      <section class="course-track"><header><p>第一阶段 <span>${doneDays} / ${STORIES.length} 天</span></p><h2>认识股票</h2></header>
         <ul class="course-chapters">${chapters}</ul>
         <a class="course-continue" href="#day/${Math.max(0, todayIndex()) + 1}">${doneDays === STORIES.length ? '重温校园故事' : doneDays ? '继续校园故事' : '开始校园故事'} <span aria-hidden="true">→</span></a></section>
-      <section class="course-track strategy-track"><header><div><p>第二阶段 <span>${study.completed} / ${study.total} 课</span></p><h2>选股与交易</h2></div>
-        ${campusIllustration({place: 'cafe', action: 'read', props: ['notebook', 'coffee'], caption: '跟两位同学翻开咖啡店的账本，练习看公司、读行情。'})}</header>
+      <section class="course-track strategy-track"><header><p>第二阶段 <span>${study.completed} / ${study.total} 课</span></p><h2>选股与交易</h2></header>
         <ul class="course-groups">${groups}</ul>
         <a class="course-continue" href="#strategy">查看第二阶段课程 <span aria-hidden="true">→</span></a></section>
     </div>`;
@@ -2838,8 +2567,7 @@ function renderResources() {
   storyRoot.innerHTML = `<section class="resources"><h1>延伸资料</h1>
     <article class="resource-card"><a href="https://b23.tv/9HJ7SOJ" target="_blank" rel="noopener noreferrer">《投资是怎样赚钱的？》有知有行 · 孟岩 ↗</a></article>
     <article class="resource-card"><a href="https://www.csrc.gov.cn/" target="_blank" rel="noopener noreferrer">中国证监会 · 查询证券公司名录 ↗</a></article>
-    <article class="resource-card"><a href="https://www.sse.com.cn/lawandrules/sselawsrules/trade/" target="_blank" rel="noopener noreferrer">上海证券交易所 · 交易规则 ↗</a></article>
-    <article class="resource-card"><a href="./assets/CAMPUS-ART-CREDITS.txt">校园插画与贴纸的来源及授权</a></article></section>`;
+    <article class="resource-card"><a href="https://www.sse.com.cn/lawandrules/sselawsrules/trade/" target="_blank" rel="noopener noreferrer">上海证券交易所 · 交易规则 ↗</a></article></section>`;
 }
 
 function showPage(focus = false) {
